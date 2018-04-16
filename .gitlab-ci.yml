@@ -1,13 +1,12 @@
 image:
   name: antora/antora:1.0.0
   entrypoint: [/bin/sh, -c]
-job:
-  tags:
-    - antora
 cache:
   paths:
   - .cache/
 generate:
+  tags:
+    - antora
   stage: build
   # variables is not yet supported by gitlab.com
   #except:
