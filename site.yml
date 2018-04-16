@@ -1,7 +1,7 @@
 site:
   title: Cemosis Docs
   url: https://docs.cemosis.fr
-  start_page: stable@docs::index.adoc
+  #start_page: stable@docs::index.adoc
   keys:
     google_analytics: 'UA-65761593-2'
 content:
@@ -9,6 +9,9 @@ content:
   - url: https://prudhomm:b19655a097dd294bfda99ef447c342107d2b5e61@github.com/feelpp/ibat
     branches: master
     start_path: docs
+  - url: https://prudhomm:b19655a097dd294bfda99ef447c342107d2b5e61@github.com/feelpp/eye2brain
+    branches: develop
+    start_path: docs/eye2brain
 ui:
   bundle:
     url: https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/master/raw/build/ui-bundle.zip?job=bundle-stable
