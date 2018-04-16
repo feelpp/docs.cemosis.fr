@@ -6,7 +6,7 @@ cache:
   - .cache/
 generate:
   tags:
-    - antora
+    - antora=true
   stage: build
   # variables is not yet supported by gitlab.com
   #except:
