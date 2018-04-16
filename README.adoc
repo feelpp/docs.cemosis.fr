@@ -1,4 +1,14 @@
 = Cemosis Documentation Site
+// Settings:
+:hide-uri-scheme:
+ifdef::env-gitlab[:badges:]
+// Project URIs:
+:uri-project: https://cemosis.fr
+:uri-docs: https://docs.cemosis.fr
+
+ifdef::badges[]
+image:https://gitlab.math.unistra.fr/cemosis/docs.cemosis.fr/badges/master/pipeline.svg[CI status,116,20,link=https://gitlab.math.unistra.fr/cemosis/docs.cemosis.fr/pipelines]
+endif::[]
 
 This repository contains the playbook project for the Cemosis documentation site published at docs.cemosis.fr.
 
