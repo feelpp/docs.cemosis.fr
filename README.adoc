@@ -1,0 +1,8 @@
+= Cemosis Documentation Site
+
+This repository contains the playbook project for the Cemosis documentation site published at docs.cemosis.fr.
+
+== Documentation Structure
+
+The documentation components are pulled from Cemosis projects.
+The site uses the Antora Default UI to generate its UI (i.e., the web pages).
