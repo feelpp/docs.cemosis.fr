@@ -3,7 +3,7 @@ image:
   entrypoint: [/bin/sh, -c]
 job:
   tags:
-    - antora=true
+    - antora
 cache:
   paths:
   - .cache/
