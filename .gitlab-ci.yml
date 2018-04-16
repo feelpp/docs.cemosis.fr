@@ -1,6 +1,9 @@
 image:
   name: antora/antora:1.0.0
   entrypoint: [/bin/sh, -c]
+job:
+  tags:
+    - antora=true
 cache:
   paths:
   - .cache/
