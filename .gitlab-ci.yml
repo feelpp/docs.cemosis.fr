@@ -1,0 +1,20 @@
+image:
+  name: antora/antora:1.0.0
+  entrypoint: [/bin/sh, -c]
+cache:
+  paths:
+  - .cache/
+generate:
+  stage: build
+  # variables is not yet supported by gitlab.com
+  #except:
+  #  variables:
+  #  - $NETLIFY_SITE_ID
+  except:
+  - schedules
+  script:
+  - antora --url=https://gitlab.math.unistra.fr/$CI_PROJECT_PATH/-/jobs/$CI_JOB_ID/artifacts/browse/public --pull site.yml
+  artifacts:
+    expire_in: 1 week
+    paths:
+    - public/
