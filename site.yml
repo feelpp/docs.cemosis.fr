@@ -6,12 +6,18 @@ site:
     google_analytics: 'UA-65761593-2'
 content:
   sources:
-  - url: https://prudhomm:b19655a097dd294bfda99ef447c342107d2b5e61@github.com/feelpp/ibat
+  - url: https://prudhomm:$GITHUB_OAUTH@github.com/feelpp/ibat
     branches: master
     start_path: docs
-  - url: https://prudhomm:b19655a097dd294bfda99ef447c342107d2b5e61@github.com/feelpp/eye2brain
+  - url: https://prudhomm:$GITHUB_OAUTH@github.com/feelpp/eye2brain
     branches: develop
     start_path: docs/eye2brain
+  - url: https://prudhomm:$GITHUB_OAUTH@github.com/feelpp/hemotumpp
+    branches: master,develop
+    start_path: docs
+  - url: https://prudhomm:$GITHUB_OAUTH@github.com/feelpp/swimmer
+    branches: master,develop
+    start_path: docs
 ui:
   bundle:
     url: https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/master/raw/build/ui-bundle.zip?job=bundle-stable
