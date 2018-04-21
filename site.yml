@@ -6,17 +6,17 @@ site:
     google_analytics: 'UA-65761593-2'
 content:
   sources:
-  - url: git@github.com:feelpp/ibat.git
-    branches: master
-    start_path: docs
-  - url: git@github.com:feelpp/eye2brain.git
-    branches: develop
-    start_path: docs/eye2brain
-  - url: git@github.com:feelpp/hemotumpp.git
-    branches: [master,develop]
-    start_path: docs
+#  - url: git@github.com:feelpp/ibat.git
+#    branches: master
+#    start_path: docs
+  # - url: git@github.com:feelpp/eye2brain.git
+  #   branches: develop
+  #   start_path: docs/eye2brain
+  # - url: git@github.com:feelpp/hemotumpp.git
+  #   branches: [master,develop]
+  #   start_path: docs
   - url: git@github.com:feelpp/swimmer.git
-    branches: master,develop
+    branches: master
     start_path: docs
 ui:
   bundle:
