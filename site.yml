@@ -6,16 +6,16 @@ site:
     google_analytics: 'UA-65761593-2'
 content:
   sources:
-  - url: https://prudhomm:$GITHUB_OAUTH@github.com/feelpp/ibat
+  - url: git@github.com:feelpp/ibat.git
     branches: master
     start_path: docs
-  - url: https://prudhomm:$GITHUB_OAUTH@github.com/feelpp/eye2brain
+  - url: git@github.com:feelpp/eye2brain.git
     branches: develop
     start_path: docs/eye2brain
-  - url: https://prudhomm:$GITHUB_OAUTH@github.com/feelpp/hemotumpp
-    branches: master,develop
+  - url: git@github.com:feelpp/hemotumpp.git
+    branches: [master,develop]
     start_path: docs
-  - url: https://prudhomm:$GITHUB_OAUTH@github.com/feelpp/swimmer
+  - url: git@github.com:feelpp/swimmer.git
     branches: master,develop
     start_path: docs
 ui:
