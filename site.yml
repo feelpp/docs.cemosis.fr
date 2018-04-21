@@ -15,7 +15,7 @@ content:
   # - url: git@github.com:feelpp/hemotumpp.git
   #   branches: [master,develop]
   #   start_path: docs
-  - url: git@github.com:feelpp/swimmer.git
+  - url: https://github.com/feelpp/swimmer.git
     branches: master
     start_path: docs
 ui:
