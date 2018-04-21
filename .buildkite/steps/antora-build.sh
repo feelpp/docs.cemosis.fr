@@ -5,7 +5,7 @@ set -x
 
 BRANCH=${BRANCH:-${BUILDKITE_BRANCH:master}}
 echo "--- Building $PROJECT..."
-git clone git@github.com:feelpp/swimmer.git
+git clone git@github.com:feelpp/swimmer.git toto
 
 #antora --html-url-extension-style=indexify site.yml
 #ls -lrta
