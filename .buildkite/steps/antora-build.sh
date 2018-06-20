@@ -11,5 +11,5 @@ echo "running $NVM_BIN/antora..."
 $NVM_BIN/antora --pull --html-url-extension-style=indexify site.yml
 #ls -lrta
 echo "uploading artifact..."
-#tar  --exclude='*.png' --exclude="*.jpg" --exclude="*.jpeg" -c -z -f site.tar.gz build
+tar  -c -z -f site.tar.gz build
 buildkite-agent artifact upload site.tar.gz --job $BUILDKITE_JOB_ID
