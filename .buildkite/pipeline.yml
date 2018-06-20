@@ -12,11 +12,3 @@ steps:
    branches: master
    env:
        PROJECT: docs.cemosis.fr
- - wait
- - name: ':rocket: :book: fix :image:'
-   command: .buildkite/steps/build.sh
-   agents:
-     antora: true
-   branches: master
-   env:
-       PROJECT: docs.cemosis.fr
