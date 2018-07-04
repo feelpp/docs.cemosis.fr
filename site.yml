@@ -15,6 +15,9 @@ content:
   - url: git@github.com:feelpp/eye2brain.docs.git
     branches: master
     start_path: eye2brain
+  - url: https://github.com/feelpp/book.hifimagnet
+    branches: master
+    start_path: docs/docs
 ui:
   bundle:
     url: https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/master/raw/build/ui-bundle.zip?job=bundle-stable
@@ -32,3 +35,4 @@ asciidoc:
     stem: latexmath
     hemotumpp: Hemotum++
     eye2brain: Eye2Brain
+    hifimagnet: HiFiMagnet
