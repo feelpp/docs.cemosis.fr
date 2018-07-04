@@ -1,14 +1,14 @@
 site:
   title: Cemosis Docs
   url: https://docs.cemosis.fr
-  start_page: eye2brain::index.adoc
+  start_page: cemosis::index.adoc
   keys:
     google_analytics: 'UA-65761593-2'
 content:
   sources:
-#  - url: git@github.com:feelpp/ibat.git
-#    branches: master
-#    start_path: docs
+  - url: git@github.com:feelpp/docs.cemosis.fr.git
+    branches: master
+    start_path: cemosis
   # - url: git@github.com:feelpp/eye2brain.git
   #   branches: develop
   #   start_path: docs/eye2brain
