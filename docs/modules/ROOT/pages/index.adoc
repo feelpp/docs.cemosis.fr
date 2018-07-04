@@ -1,0 +1,25 @@
+= Cemosis Projects Documentation
+:page-feelpp_book_cover: true
+
+[.lead]
+Welcome to {feelpp} documentation! {feelpp} is an Open-Source {cpp} library which allows to solve a large range of partial differential equations using Galerkin methods, _e.g_ finite element method, spectral element method,  discontinuous Galerkin methods or reduced basis methods. {feelpp} enables parallel computing in a seamless way and allows to solve large scale systems up to tens of thousands of cores.
+
+
+|===
+| | xref:eye2brain:ROOT:index.adoc[Eye2brain]
+| | xref:hifimagnet:ROOT:index.adoc[Eye2brain]
+|===
+
+== Copyright and Licensing
+
+Copyright (C) 2011-2018 {feelpp} Consortium.
+Free use of this software is granted under the terms of the LGPL and GPL Licenses.
+
+See the {uri-license}[LICENSE] file for details.
+
+== Authors
+
+{feelpp} development is led by https://github.com/prudhomm[Christophe Prud'homme] and https://github.com/vincentchabannes[Vincent Chabannes].
+It has received contributions from {uri-contributors}[many other individuals].
+
+The project was initiated in 2006 by https://github.com/prudhomm[Christophe Prud'homme] and based initially on link:https://cmcsforge.epfl.ch/projects/lifev/[lifeV] and completely re-written since then.
