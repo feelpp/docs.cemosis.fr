@@ -15,6 +15,9 @@ content:
   - url: git@github.com:feelpp/eye2brain.docs.git
     branches: master
     start_path: eye2brain
+  - url: git@github.com:feelpp/hemotumpp.docs.git
+    branches: master
+    start_path: hemotumpp
   - url: https://github.com/feelpp/book.hifimagnet
     branches: master
     start_path: docs/docs

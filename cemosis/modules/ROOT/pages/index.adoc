@@ -7,6 +7,7 @@ Welcome to {cemosis} documentation! {cemosis} is a technological platform in mat
 [cols="1,3"]
 |===
 | image:eye2brain/main.jpg[width=200] | xref:eye2brain:ROOT:index.adoc[Eye2brain]
+| image:hemotumpp/main.png[width=200]| xref:hemotumpp:ROOT:index.adoc[HemoTum++]
 | image:swimmer/main.jpg[width=200]| xref:swimmer:ROOT:index.adoc[Swimmer]
 | | 
 | image:hifimagnet/main.jpg[width=200]| xref:hifimagnet:ROOT:index.adoc[Hifimagnet]
