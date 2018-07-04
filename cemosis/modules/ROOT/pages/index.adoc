@@ -6,8 +6,8 @@ Welcome to {feelpp} documentation! {feelpp} is an Open-Source {cpp} library whic
 
 
 |===
-| | xref:eye2brain:ROOT:index.adoc[Eye2brain]
-| | xref:hifimagnet:ROOT:index.adoc[Eye2brain]
+| image:eye2brain/main/jpg[width=200] | xref:eye2brain:ROOT:index.adoc[Eye2brain]
+| image:hifimagnet/main/jpg[width=200]| xref:hifimagnet:ROOT:index.adoc[Hifimagnet]
 |===
 
 == Copyright and Licensing
