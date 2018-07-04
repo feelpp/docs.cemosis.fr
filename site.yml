@@ -9,9 +9,9 @@ content:
   - url: git@github.com:feelpp/docs.cemosis.fr.git
     branches: master
     start_path: cemosis
-  # - url: git@github.com:feelpp/eye2brain.git
-  #   branches: develop
-  #   start_path: docs/eye2brain
+  - url: git@github.com:feelpp/swimmer.docs.git
+    branches: master
+    start_path: swimmer
   - url: git@github.com:feelpp/eye2brain.docs.git
     branches: master
     start_path: eye2brain

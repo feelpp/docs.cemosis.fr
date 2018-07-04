@@ -1,3 +1,5 @@
-* Cemosis Docs
+* Health
 ** xref:eye2brain:ROOT:index.adoc[Eye2brain]
+** xref:swimmer:ROOT:index.adoc[Swimmer]
+* Physics
 ** xref:hifimagnet:ROOT:index.adoc[Hifimagnet]
