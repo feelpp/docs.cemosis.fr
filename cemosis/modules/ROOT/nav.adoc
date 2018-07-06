@@ -1,5 +1,5 @@
 * Engineering
-** xref:ibar:ROOT:index.adoc[IBat]
+** xref:ibat:ROOT:index.adoc[IBat]
 * Health
 ** xref:eye2brain:ROOT:index.adoc[Eye2brain]
 ** xref:hemotumpp:ROOT:index.adoc[HemoTum++]
