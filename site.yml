@@ -18,6 +18,9 @@ content:
   - url: git@github.com:feelpp/hemotumpp.docs.git
     branches: master
     start_path: hemotumpp
+  - url: git@github.com:feelpp/ibat.docs.git
+    branches: master
+    start_path: ibat
   - url: https://github.com/feelpp/book.hifimagnet
     branches: master
     start_path: docs/docs
