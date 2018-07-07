@@ -2,7 +2,8 @@ steps:
  - name: ':antora: :book:'
    command: .buildkite/steps/antora-build.sh
    agents:
-       docker: true
+       docker-antora: true
+       antora: true
    env:
       PROJECT: docs.cemosis.fr
 #      BUILDKITE_DOCKER_COMPOSE_CONTAINER: "antora"
