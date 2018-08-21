@@ -24,7 +24,7 @@ content:
   - url: https://github.com/feelpp/book.hifimagnet
     branches: master
     start_path: 'docs/docs'
-  - url: https://github.com/feelpp/internships
+  - url: git@github.com:feelpp/internships.git
     branches: master
     start_path: '2018'
 ui:
