@@ -17,13 +17,16 @@ content:
     start_path: eye2brain
   - url: git@github.com:feelpp/hemotumpp.docs.git
     branches: master
-    start_path: hemotumpp
+    start_path: 'hemotumpp'
   - url: git@github.com:feelpp/ibat.docs.git
     branches: master
-    start_path: ibat
+    start_path: 'ibat'
   - url: https://github.com/feelpp/book.hifimagnet
     branches: master
-    start_path: docs/docs
+    start_path: 'docs/docs'
+  - url: https://github.com/feelpp/internships
+    branches: master
+    start_path: '2018'
 ui:
   bundle:
     url: https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/master/raw/build/ui-bundle.zip?job=bundle-stable

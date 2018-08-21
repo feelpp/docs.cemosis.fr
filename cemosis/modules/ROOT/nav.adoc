@@ -6,3 +6,5 @@
 ** xref:swimmer:ROOT:index.adoc[Swimmer]
 * Physics
 ** xref:hifimagnet:ROOT:index.adoc[Hifimagnet]
+* Internships
+** xref:2018:ROOT:index.adoc[Rapports 2018]
