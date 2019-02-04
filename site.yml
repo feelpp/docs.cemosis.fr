@@ -15,7 +15,7 @@ content:
   - url: git@github.com:feelpp/eye2brain.docs.git
     branches: master
     start_path: eye2brain
-  - url: git@github.com:feelpp/hemotumpp.docs.git
+  - url: https://github.com/feelpp/hemotumpp.docs.git
     branches: master
     start_path: 'hemotumpp'
   - url: git@github.com:feelpp/ibat.docs.git
