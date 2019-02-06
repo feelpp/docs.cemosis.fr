@@ -9,14 +9,14 @@ Welcome to {cemosis} documentation! {cemosis} is a technological platform in mat
 | image:eye2brain/main.jpg[width=200] | xref:eye2brain:ROOT:index.adoc[Eye2brain]
 | image:hemotumpp/main.png[width=200]| xref:hemotumpp:ROOT:index.adoc[HemoTum++]
 | image:ibat/main.jpg[width=200]| xref:ibat:ROOT:index.adoc[IBat]
-| image:swimmer/main.jpg[width=200]| xref:swimmer:ROOT:index.adoc[Swimmer]
+| image:swimmer/main.png[width=200]| xref:swimmer:ROOT:index.adoc[Swimmer]
 | | 
 | image:hifimagnet/main.jpg[width=200]| xref:hifimagnet:ROOT:index.adoc[Hifimagnet]
 |===
 
 == Copyright and Licensing
 
-Copyright (C) 2011-2018 {cemosis} Consortium.
+Copyright (C) 2011-2019 {cemosis} Consortium.
 
 == Authors
 
