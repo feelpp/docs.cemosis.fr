@@ -21,6 +21,9 @@ content:
   - url: https://github.com/feelpp/ibat.docs.git
     branches: master
     start_path: 'ibat'
+  - url: https://github.com/feelpp/holo3.docs.git
+    branches: master
+    start_path: 'holo3'
   - url: https://github.com/feelpp/book.hifimagnet
     branches: master
     start_path: 'docs/docs'
@@ -46,3 +49,4 @@ asciidoc:
     eye2brain: Eye2Brain
     omvs: Ocular Mathematical Virtual Simulator
     hifimagnet: HiFiMagnet
+    holo3: Holo3
