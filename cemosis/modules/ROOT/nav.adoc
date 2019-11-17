@@ -1,5 +1,6 @@
 * Engineering
 ** xref:ibat:ROOT:index.adoc[IBat]
+** xref:msqab:ROOT:index.adoc[MSQAB]
 ** xref:holo3:ROOT:index.adoc[Holo3]
 * Health
 ** xref:eye2brain:ROOT:index.adoc[Eye2brain]

@@ -11,16 +11,19 @@ content:
     start_path: cemosis
   - url: https://github.com/feelpp/swimmer.docs.git
     branches: master
-    start_path: swimmer
+    start_path: 'swimmer'
   - url: https://github.com/feelpp/eye2brain.docs.git
     branches: master
-    start_path: eye2brain
+    start_path: 'eye2brain'
   - url: https://github.com/feelpp/hemotumpp.docs.git
     branches: master
-    start_path: hemotumpp
+    start_path: 'hemotumpp'
   - url: https://github.com/feelpp/ibat.docs.git
     branches: master
     start_path: 'ibat'
+  - url: https://github.com/feelpp/msqab.docs.git
+    branches: master
+    start_path: 'msqab'
   - url: https://github.com/feelpp/holo3.docs.git
     branches: master
     start_path: 'holo3'
