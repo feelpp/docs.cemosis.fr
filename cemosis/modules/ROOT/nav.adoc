@@ -1,5 +1,6 @@
 * Engineering
 ** xref:ibat:ROOT:index.adoc[IBat]
+*** xref:hygrothermie:ROOT:index.adoc[Hygrothermie]
 ** xref:msqab:ROOT:index.adoc[MSQAB]
 ** xref:holo3:ROOT:index.adoc[Holo3]
 * Health
