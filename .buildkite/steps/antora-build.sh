@@ -8,7 +8,7 @@ echo "--- Building $PROJECT..."
 #git clone git@github.com:feelpp/swimmer.git toto
 
 echo "running $NVM_BIN/antora..."
-$NVM_BIN/antora --pull --html-url-extension-style=indexify site.yml
+$NVM_BIN/antora --fetch --html-url-extension-style=indexify site.yml
 #ls -lrta
 echo "uploading artifact..."
 tar  -c -z -f site.tar.gz build
