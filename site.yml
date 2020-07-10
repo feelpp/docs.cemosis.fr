@@ -60,3 +60,8 @@ asciidoc:
     hifimagnet: HiFiMagnet
     holo3: Holo3
     mqs: Maxwell Quasi-Static
+    plantuml-server-url: http://www.plantuml.com/plantuml
+  extensions:
+    - ./lib/remote-include-processor
+    - asciidoctor-kroki
+
