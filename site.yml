@@ -21,9 +21,6 @@ content:
   - url: https://github.com/feelpp/ibat.docs.git
     branches: master
     start_path: 'ibat'
-  - url: https://github.com/feelpp/hygrothermie.git
-    branches: [master,model]
-    start_path: 'docs'
   - url: https://github.com/feelpp/msqab.docs.git
     branches: master
     start_path: 'msqab'
