@@ -25,7 +25,7 @@ content:
     branches: master
     start_path: 'msqab'
   - url: https://github.com/feelpp/holo3.git
-    branches: [ master, doc* ]
+    branches: [master, doc*]
     start_path: 'docs/holo3'
   - url: https://github.com/feelpp/book.hifimagnet
     branches: master
