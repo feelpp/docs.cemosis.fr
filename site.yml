@@ -33,6 +33,9 @@ content:
   - url: https://github.com/feelpp/mqs
     branches: master
     start_path: 'docs/'    
+  - url: https://github.com/feelpp/csmi-m1-2020-feelpp.git
+    branches: master
+    start_path: 'docs'    
   - url: https://github.com/feelpp/internships.git
     branches: master
     start_path: '2018'

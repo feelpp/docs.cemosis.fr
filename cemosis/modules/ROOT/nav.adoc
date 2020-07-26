@@ -10,4 +10,6 @@
 ** xref:hifimagnet:ROOT:index.adoc[Hifimagnet]
 ** xref:mqs:ROOT:index.adoc[MQS]
 * Internships
+** Rapports 2020
+*** xref:feelpp-cfd:ROOT:index.adoc[Feel++ CFD]
 ** xref:2018:ROOT:index.adoc[Rapports 2018]
