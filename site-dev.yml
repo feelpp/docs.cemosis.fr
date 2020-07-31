@@ -1,6 +1,6 @@
 site:
   title: Feel++ // Docs
-  url: ./
+  url: http://docs.cemosis.fr
   start_page: stable@docs::index.adoc
 content:
   sources:
@@ -50,3 +50,8 @@ asciidoc:
     eye2brain: Eye2Brain
     omvs: Ocular Mathematical Virtual Simulator
     hifimagnet: HiFiMagnet
+    plantuml-server-url: http://www.plantuml.com/plantuml
+  extensions:
+    - ./lib/remote-include-processor
+    - asciidoctor-kroki
+
