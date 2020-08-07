@@ -5,6 +5,8 @@
 [.lead]
 Welcome to {cemosis} documentation! {cemosis} is a technological platform in mathematics.
 
+== Projects
+
 [cols="1,3"]
 |===
 | image:eye2brain/main.jpg[width=200] | xref:eye2brain:ROOT:index.adoc[Eye2brain]
@@ -15,22 +17,15 @@ Welcome to {cemosis} documentation! {cemosis} is a technological platform in mat
 | image:hifimagnet/main.jpg[width=200]| xref:hifimagnet:ROOT:index.adoc[Hifimagnet]
 |===
 
+== Doc Writer Documentation
 
-
-
-++++
-<a class="twitter-timeline" href="https://twitter.com/feelpp?ref_src=twsrc%5Etfw" data-limit="5">Tweets by feelpp</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-++++
-
-== Page attributes
-
-=== Adding pseudocode
+=== Adding pseudocodes to documentation
 
 The documentation embeds some algorithms written using `pseudocode.js` whose syntax is mostly compatible with latex package `algorithmic`.
 
 The documentation and in particular the grammar is https://github.com/SaswatPadhi/pseudocode.js#grammar[here].
 
-Here is the example of the pseudocode for the quicksort algorithm
+Here is the example of the pseudocode for the quicksort algorithm rendered by `pseudocode.js`
 ++++
 <pre id="quicksort" style="display:hidden;">
     % This quicksort algorithm is extracted from Chapter 7, Introduction to Algorithms (3rd edition)
@@ -66,17 +61,7 @@ In order to display it properly you have to add the following line at the top of
 :page-pseudocode: ["quicksort"]
 ----
 
-== Copyright and Licensing
-
-Copyright (C) 2011-2019 {cemosis} Consortium.
-
-== Authors
-
-{cemosis} development is led by https://github.com/prudhomm[Christophe Prud'homme] and https://github.com/vincentchabannes[Vincent Chabannes].
-It has received contributions from {uri-contributors}[many other individuals].
-
-Cemosis was initiated in 2013 by https://github.com/prudhomm[Christophe Prud'homme].
-
+Here is the original code
 ++++
 <pre id="code2" style="display:hidden;">
     % This quicksort algorithm is extracted from Chapter 7, Introduction to Algorithms (3rd edition)
@@ -106,3 +91,15 @@ Cemosis was initiated in 2013 by https://github.com/prudhomm[Christophe Prud'hom
     \end{algorithm}
     </pre>
 ++++
+
+== Copyright and Licensing
+
+Copyright (C) 2011-2019 {cemosis} Consortium.
+
+== Authors
+
+{cemosis} development is led by https://github.com/prudhomm[Christophe Prud'homme] and https://github.com/vincentchabannes[Vincent Chabannes].
+It has received contributions from {uri-contributors}[many other individuals].
+
+Cemosis was initiated in 2013 by https://github.com/prudhomm[Christophe Prud'homme].
+
