@@ -1,5 +1,6 @@
 = Cemosis Projects Documentation
 :page-feelpp_book_cover: true
+:page-pseudocode: ["quicksort"]
 
 [.lead]
 Welcome to {cemosis} documentation! {cemosis} is a technological platform in mathematics.
@@ -14,6 +15,57 @@ Welcome to {cemosis} documentation! {cemosis} is a technological platform in mat
 | image:hifimagnet/main.jpg[width=200]| xref:hifimagnet:ROOT:index.adoc[Hifimagnet]
 |===
 
+
+
+
+++++
+<a class="twitter-timeline" href="https://twitter.com/feelpp?ref_src=twsrc%5Etfw" data-limit="5">Tweets by feelpp</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+++++
+
+== Page attributes
+
+=== Adding pseudocode
+
+The documentation embeds some algorithms written using `pseudocode.js` whose syntax is mostly compatible with latex package `algorithmic`.
+
+The documentation and in particular the grammar is https://github.com/SaswatPadhi/pseudocode.js#grammar[here].
+
+Here is the example of the pseudocode for the quicksort algorithm
+++++
+<pre id="quicksort" style="display:hidden;">
+    % This quicksort algorithm is extracted from Chapter 7, Introduction to Algorithms (3rd edition)
+    \begin{algorithm}
+    \caption{Quicksort}
+    \begin{algorithmic}
+    \PROCEDURE{Quicksort}{$A, p, r$}
+        \IF{$p < r$} 
+            \STATE $q = $ \CALL{Partition}{$A, p, r$}
+            \STATE \CALL{Quicksort}{$A, p, q - 1$}
+            \STATE \CALL{Quicksort}{$A, q + 1, r$}
+        \ENDIF
+    \ENDPROCEDURE
+    \PROCEDURE{Partition}{$A, p, r$}
+        \STATE $x = A[r]$
+        \STATE $i = p - 1$
+        \FOR{$j = p$ \TO $r - 1$}
+            \IF{$A[j] < x$}
+                \STATE $i = i + 1$
+                \STATE exchange
+                $A[i]$ with $A[j]$
+            \ENDIF
+            \STATE exchange $A[i]$ with $A[r]$
+        \ENDFOR
+    \ENDPROCEDURE
+    \end{algorithmic}
+    \end{algorithm}
+    </pre>
+++++
+In order to display it properly you have to add the following line at the top of the asciidoc file
+.antora attribute page-pseudocode is an array of id of pseudocodes
+----
+:page-pseudocode: ["quicksort"]
+----
+
 == Copyright and Licensing
 
 Copyright (C) 2011-2019 {cemosis} Consortium.
@@ -24,3 +76,33 @@ Copyright (C) 2011-2019 {cemosis} Consortium.
 It has received contributions from {uri-contributors}[many other individuals].
 
 Cemosis was initiated in 2013 by https://github.com/prudhomm[Christophe Prud'homme].
+
+++++
+<pre id="code2" style="display:hidden;">
+    % This quicksort algorithm is extracted from Chapter 7, Introduction to Algorithms (3rd edition)
+    \begin{algorithm}
+    \caption{Quicksort}
+    \begin{algorithmic}
+    \PROCEDURE{Quicksort}{$A, p, r$}
+        \IF{$p < r$} 
+            \STATE $q = $ \CALL{Partition}{$A, p, r$}
+            \STATE \CALL{Quicksort}{$A, p, q - 1$}
+            \STATE \CALL{Quicksort}{$A, q + 1, r$}
+        \ENDIF
+    \ENDPROCEDURE
+    \PROCEDURE{Partition}{$A, p, r$}
+        \STATE $x = A[r]$
+        \STATE $i = p - 1$
+        \FOR{$j = p$ \TO $r - 1$}
+            \IF{$A[j] < x$}
+                \STATE $i = i + 1$
+                \STATE exchange
+                $A[i]$ with $A[j]$
+            \ENDIF
+            \STATE exchange $A[i]$ with $A[r]$
+        \ENDFOR
+    \ENDPROCEDURE
+    \end{algorithmic}
+    \end{algorithm}
+    </pre>
+++++
