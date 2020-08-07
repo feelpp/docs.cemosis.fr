@@ -107,14 +107,11 @@ If you have several pseudo-codes in a page e.g. `code1, code2, code3`, you have 
 ----
 ====
 
-== Copyright and Licensing
 
-Copyright (C) 2011-2019 {cemosis} Consortium.
+== Contact Us
 
-== Authors
+Development at {cemosis}  is led by https://github.com/prudhomm[Christophe Prud'homme] and https://github.com/vincentchabannes[Vincent Chabannes].
 
-{cemosis} development is led by https://github.com/prudhomm[Christophe Prud'homme] and https://github.com/vincentchabannes[Vincent Chabannes].
-It has received contributions from {uri-contributors}[many other individuals].
 
-Cemosis was initiated in 2013 by https://github.com/prudhomm[Christophe Prud'homme].
+{cemosis} was initiated in 2013 by https://github.com/prudhomm[Christophe Prud'homme].
 
