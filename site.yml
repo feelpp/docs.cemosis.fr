@@ -50,6 +50,7 @@ asciidoc:
     deploymentRoot: ""
     numbered: true
     hide-uri-scheme: true
+    cemosis: Cemosis
     feelpp: Feel++
     angiotk: AngioTK
     4fastsim: 4FastSim
