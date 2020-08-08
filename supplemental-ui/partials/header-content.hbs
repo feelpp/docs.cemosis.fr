@@ -3,9 +3,7 @@
     <div class="navbar-brand">
       <div class="navbar-item">
          <!--  <a href="https://book.feelpp.org">Feel++ documentation</a> -->
-         {{#each site.components}} {{#if (eq 'docs' ./name)}} {{#each ./versions}} {{#if (eq this ../latestVersion)}}
-           <a href="{{{./url}}}">Feel++ documentation</a>
-         {{/if}} {{/each}} {{/if}} {{/each}}            
+           <a href="{{{site.url}}}">Cemosis documentation</a>
       </div>
       <button class="navbar-burger" data-target="topbar-nav">
         <span></span>
@@ -15,7 +13,7 @@
     </div>
     <div id="topbar-nav" class="navbar-menu">
       <div class="navbar-end">
-        <a class="navbar-item" href="#">Home</a>
+        <a class="navbar-item" href="{{{site.url}}}">Home</a>
         <div class="navbar-item has-dropdown is-hoverable">
           <div class="navbar-link">Projects</div>
           <div class="navbar-dropdown">
@@ -38,6 +36,9 @@
             <hr class="navbar-divider">
             <div class="navbar-item"><strong>Documentation</strong></div>
             <a class="navbar-item" href="http://docs.feelpp.org/user/{{asciidoc.attributes.feelpp-version}}">User Manual</a>
+            <a class="navbar-item" href="http://docs.feelpp.org/dev/{{asciidoc.attributes.feelpp-version}}">Developer Manual</a>
+            <a class="navbar-item" href="http://docs.feelpp.org/toolbox/{{asciidoc.attributes.feelpp-version}}">Toolbox Manual</a>
+            
           </div>
         </div>
         <div class="navbar-item">
