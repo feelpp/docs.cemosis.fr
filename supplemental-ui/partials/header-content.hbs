@@ -20,9 +20,9 @@
             <div class="navbar-item"><strong>Latest Version</strong></div>
 
             <!-- this code allow to manage ordering of navbar item -->
-            {{#each site.components}} {{#each ./versions}} {{#if (eq this ../latestVersion)}}
+            {{#each site.components}} {{#if (not eq 'cemosis' ./name)}} {{#each ./versions}} {{#if (eq this ../latestVersion)}}
               <a class="navbar-item" href="{{{./url}}}"> {{{./title}}} </a>
-            {{/if}} {{/each}} {{/each}}
+            {{/if}} {{/each}} {{/if}} {{/each}}
 
             <hr class="navbar-divider">
           </div>
