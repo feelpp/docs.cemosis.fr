@@ -16,7 +16,8 @@ ui:
   supplemental_files: supplemental-ui
 asciidoc:
   attributes:
-    project_version: 0.105
+    feelpp-version: 0.108
+    project_version: 0.108
     deploymentRoot: ""
     cemosis: Cemosis
     numbered: true

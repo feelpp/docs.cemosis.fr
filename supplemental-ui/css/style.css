@@ -1,4 +1,19 @@
 
+
+.navbar-brand {
+    align-items: center;
+    display: flex;
+    flex-shrink: 0;
+    height: var(--navbar-height);
+  }
+
+
+.navbar-brand  .img {
+    vertical-align: top;
+    display: flex;
+    height: 75%;
+  }
+
 div.stretchy-wrapper-16_9 {
     width: 100%;
     padding-bottom: 56.25%; /* 16:9 */
