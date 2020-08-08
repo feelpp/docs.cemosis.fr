@@ -7,15 +7,26 @@ Welcome to {cemosis} documentation! {cemosis} is a technological platform in mat
 
 == Projects
 
-[cols="1,3"]
-|===
-| image:eye2brain/main.jpg[width=200] | xref:eye2brain:ROOT:index.adoc[Eye2brain]
-| image:hemotumpp/main.png[width=200]| xref:hemotumpp:ROOT:index.adoc[HemoTum++]
-| image:ibat/main.jpg[width=200]| xref:ibat:ROOT:index.adoc[IBat]
-| image:swimmer/main.png[width=200]| xref:swimmer:ROOT:index.adoc[Swimmer]
-| | 
-| image:hifimagnet/main.jpg[width=200]| xref:hifimagnet:ROOT:index.adoc[Hifimagnet]
-|===
+=== Environment
+
+.Ibat
+xref:ibat:ROOT:index.adoc[image:ibat/main.jpg[width=200]]
+
+=== Health
+
+.Eye2brain
+xref:eye2brain:ROOT:index.adoc[image:eye2brain/main.jpg[width=200,label=Eye2brain]]
+
+.HemoTum++
+xref:hemotumpp:ROOT:index.adoc[image:hemotumpp/main.png[width=200]]
+
+.Micro Swimmers
+xref:swimmer:ROOT:index.adoc[image:swimmer/main.png[width=200]]
+
+=== Physics
+
+.High Field Magnets
+xref:hifimagnet:ROOT:index.adoc[image:hifimagnet/main.jpg[width=200]]
 
 == Doc Writer Documentation
 
