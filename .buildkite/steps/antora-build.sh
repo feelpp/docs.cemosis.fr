@@ -3,6 +3,9 @@
 set -eo pipefail
 set -x
 
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+
 BRANCH=${BRANCH:-${BUILDKITE_BRANCH:master}}
 echo "--- Building $PROJECT..."
 #git clone git@github.com:feelpp/swimmer.git toto
