@@ -66,6 +66,13 @@ asciidoc:
     holo3: Holo3
     mqs: Maxwell Quasi-Static
     plantuml-server-url: http://www.plantuml.com/plantuml
+    url-enterprise: http://www.cemosis.fr/math-entreprise/
+    enterprise: ENTERPRISE 
+    url-multidisciplinary: http://www.cemosis.fr/multi-disciplinary/
+    multidisciplinary: MULTIDISCIPLINARY
+    developer-preview: Developer Preview
+    community: COMMUNITY
+    international: INTERNATIONAL
   extensions:
     - ./lib/remote-include-processor
     - asciidoctor-kroki
