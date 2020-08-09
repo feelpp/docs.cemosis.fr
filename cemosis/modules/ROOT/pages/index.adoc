@@ -35,4 +35,4 @@ Welcome to {cemosis} documentation! {cemosis} is a technological platform in mat
 
 == UI Documentation for writers
 
-The UI documentation for the doc writers is available xref:antora-ui-default:ROOT:index.adoc[here] including the xref:antora-ui-default:ROOT:cemosis/zeindex.adoc[Cemosis extensions]
+The UI documentation for the doc writers is available xref:antora-ui-default:ROOT:index.adoc[here] including the xref:antora-ui-default:ROOT:cemosis/index.adoc[Cemosis extensions]
