@@ -23,8 +23,8 @@ jobs:
     - uses: actions/checkout@v2
 
     # Runs a single command using the runners shell
-    - name: install antora and antora-ui
-      run: npm i @antora/cli @antora/site-generator-default
+    - name: install antora, antora-ui and asciidoctor-kroki
+      run: npm i @antora/cli @antora/site-generator-default asciidoctor-kroki
     - name: check antora version
       run: node_modules/.bin/antora -v
     - name: build site
