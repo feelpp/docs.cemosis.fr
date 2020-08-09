@@ -11,7 +11,7 @@ Welcome to {cemosis} documentation! {cemosis} is a technological platform in mat
 |=== 
 2+^| Environment
 ^.^| xref:ibat:ROOT:index.adoc[image:ibat/main.jpg[width=200]] ^.^| xref:msqab:ROOT:index.adoc[image:msqab/main.jpg[width=200]]
-| 4Fastsim IBat. A Collaboration with Synapse Concept | Modeling and Simulation of Air Quality in Bamako. A collaboration with U. Bamako(Mali)
+| 4Fastsim IBat. Thermal Modeling and Simulation of Buildings. A Collaboration with Synapse Concept | MSQAB. Modeling and Simulation of Air Quality in Bamako. A collaboration with U. Bamako(Mali)
 |===
 
 [%header]
@@ -125,12 +125,4 @@ If you have several pseudo-codes in a page e.g. `code1, code2, code3`, you have 
 ++++
 ----
 ====
-
-
-== Contact Us
-
-Development at {cemosis}  is led by https://github.com/prudhomm[Christophe Prud'homme] and https://github.com/vincentchabannes[Vincent Chabannes].
-
-
-{cemosis} was initiated in 2013 by https://github.com/prudhomm[Christophe Prud'homme].
 

@@ -1,7 +1,6 @@
-* Engineering
-** xref:ibat:ROOT:index.adoc[IBat]
-** xref:msqab:ROOT:index.adoc[MSQAB]
-** xref:holo3:ROOT:index.adoc[Holo3]
+* Environment
+** xref:ibat:ROOT:index.adoc[Thermal Modeling and Simulation of Buildings]
+** xref:msqab:ROOT:index.adoc[Modeling and Simulation of Air Quality in Bamako]
 * Health
 ** xref:eye2brain:ROOT:index.adoc[Eye2brain]
 ** xref:hemotumpp:ROOT:index.adoc[HemoTum++]
@@ -9,6 +8,7 @@
 * Physics
 ** xref:hifimagnet:ROOT:index.adoc[Hifimagnet]
 ** xref:mqs:ROOT:index.adoc[MQS]
+** xref:holo3:ROOT:index.adoc[Holo3]
 * Internships
 ** Rapports 2020
 *** xref:feelpp-cfd:ROOT:index.adoc[Feel++ CFD]
