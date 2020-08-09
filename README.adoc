@@ -10,7 +10,13 @@ ifdef::badges[]
 image:https://gitlab.math.unistra.fr/cemosis/docs.cemosis.fr/badges/master/pipeline.svg[CI status,116,20,link=https://gitlab.math.unistra.fr/cemosis/docs.cemosis.fr/pipelines]
 endif::[]
 
+image:https://github.com/feelpp/docs.cemosis.fr/workflows/Build%20and%20Deploy/badge.svg[Build and Deploy] 
+image:https://github.com/feelpp/docs.cemosis.fr/workflows/Index/badge.svg[Index]
+
+
 This repository contains the playbook project for the Cemosis documentation site published at docs.cemosis.fr.
+
+
 
 == Documentation Structure
 
