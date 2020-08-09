@@ -19,7 +19,7 @@ jobs:
     # Runs a single command using the runners shell
     - name: Index
       run: |
-          docker run -it -e APPLICATION_ID=$ALGOLIA_APP_ID  -e API_KEY=$ALGOLIA_ADMIN_API_KEY  -e "CONFIG=$(cat config.json | jq -r tostring)" algolia/docsearch-scraper
+          docker run -i -e APPLICATION_ID=$ALGOLIA_APP_ID  -e API_KEY=$ALGOLIA_ADMIN_API_KEY  -e "CONFIG=$(cat config.json | jq -r tostring)" algolia/docsearch-scraper
       env:
         ALGOLIA_ADMIN_API_KEY: ${{ secrets.ALGOLIA_ADMIN_API_KEY }}
         ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
