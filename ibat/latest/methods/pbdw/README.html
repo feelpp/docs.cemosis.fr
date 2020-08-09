@@ -1,0 +1,2084 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Projet de 4fastsim (method of PBDW) :: Cemosis Docs</title>
+    <link rel="canonical" href="https://docs.cemosis.fr/ibat/latest/methods/pbdw/README.html">
+    <meta name="generator" content="Antora 2.3.3">
+    <link rel="stylesheet" href="../../../../_/css/site.css">
+<link rel="icon" href="../../../../_/img/favicon.ico" type="image/x-icon">    
+<script>!function(l,p){if(l.protocol!==p&&l.host=="docs.antora.org"){l.protocol=p}else if(/\.gitlab\.io$/.test(l.host)){l.replace(p+"//docs.antora.org"+l.pathname.substr(l.pathname.indexOf("/",1))+l.search+l.hash)}}(location,"https:")</script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\\[','\\]']],
+    processEscapes: true,
+    processEnvironments: true, 
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+
+  TeX: {
+      Macros: {
+      RR: "{\\mathbb R}",
+      NN: "{\\mathbb N}",
+      Nso: "{N_{\\mathrm{so}}}",
+      Nma: "{N_{\\mathrm{ma}}}",
+      Nno: "{N_{\\mathrm{no}}}",
+      Ne: "{N_{\\mathrm{e}}}",
+      Ilag: ["{\\mathcal{I}^{\\mathrm{lag}}_{#1}}",1],
+      calTh: "{\\mathcal{T}_h}",
+      Ck: ["{\\mathcal{C}^{#1}}",1],
+      Pk: ["{\\mathcal{P}^{#1}}",1],
+      Qk: ["{\\mathcal{Q}^{#1}}",1],
+      Pch: ["{P^{#1}_{c,h}}",1],
+      Pcho: ["{P^{#1}_{c,h,0}}",1],
+      Qch: ["{Q^{#1}_{c,h}}",1],
+      Ich: ["{\\mathcal{I}^{#1}_{c,h}#2}",2],
+      poly: ["{\\mathbb{#1}}",1],
+      nf: "{n_f}",
+      ngeo: "{n_{\\mathrm{geo}}}",
+      geo: "{\\mathrm{geo}}",
+      card: ["{\\operatorname{card}(#1)}",1],
+      dim: ["{\\operatorname{dim}(#1)}",1],
+      opdim: "{\\operatorname{dim}}",
+      card: ["{\\operatorname{card}(#1)}",1],
+      poly: ["{\\mathbb{#1}",1],
+      R: ["{\\mathbb{R}^{#1}}",1],
+      set: ["{\\left\\{#1\\right\\}}",1],
+      diam: "{\\operatorname{diam}}",
+      jump: ["{[\\![ #1 ]\\!]}",1],
+      Next: "{\\mathrm{n}}",
+      essinf: "{\\operatorname{ess}\\, \\operatorname{inf}}",
+      tr: "{\\operatorname{tr}}",
+      Id: "{\\mathcal{I}}",
+      disp: ["{\\mathbf{#1}}",1],
+      stresst: ["{\\mathbf{\\sigma(#1)}}",1],
+      deformt: ["{\\mathbf{\\varepsilon(#1)}}",1],
+      domain: "{\\Omega}",
+      prect: ["{\\left\\(#1\\right\\)}",1],
+      ds: "",
+      bold: ["{\\bf #1}",1],
+      p: "{\\mathrm{p}}",
+      q:"{\\mathbf{q}}",
+      n:"{\\mathbf{n}}",
+      T:"{\\mathcal{T}}",
+      F:"{\\mathcal{F}}",
+      P:"{\\mathcal{P}}",
+      v:"{\\mathbf{v}}"
+  },
+  extensions: ["mhchem.js"] }
+});
+</script>
+<!--<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/MathJax.js?config=TeX-MML-AM_CHTML"></script>-->
+<!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML' async></script> -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_CHTML'>
+</script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.0/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>-->
+
+<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" integrity="sha384-TEMocfGvRuD1rIAacqrknm5BQZ7W7uWitoih+jMNFXQIbNl16bO8OZmylH/Vi/Ei" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js" integrity="sha384-jmxIlussZWB7qCuB+PgKG1uLjjxbVVIayPJwi6cG6Zb4YKq0JIw+OMnkkEC7kYCq" crossorigin="anonymous"></script>-->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-65761593-2"></script>
+    <script>function gtag(){dataLayer.push(arguments)};window.dataLayer=window.dataLayer||[];gtag('js',new Date());gtag('config','UA-65761593-2')</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar  navbar-expand-sm bg-dark navbar-dark">
+    <div class="navbar-brand">
+      <div class="navbar-item">
+         <!--  <a href="https://book.feelpp.org">Feel++ documentation</a> -->
+           <a href="https://docs.cemosis.fr">Cemosis Docs</a>
+      </div>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://docs.cemosis.fr">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <div class="navbar-link">Docs</div>
+          <div class="navbar-dropdown">
+            <div class="navbar-item"><strong>Latest Version</strong></div>
+
+            <!-- this code allow to manage ordering of navbar item -->
+               
+              <a class="navbar-item" href="/cemosis/latest/index.html"> Cemosis Documentation </a>
+                  
+              <a class="navbar-item" href="/antora-ui-default/index.html"> Cemosis Documentation UI </a>
+                  
+              <a class="navbar-item" href="/eye2brain/current/index.html"> Eye2Brain Manual </a>
+                  
+              <a class="navbar-item" href="/feelpp-cfd/latest/index.html"> Feel++ CFD </a>
+                  
+              <a class="navbar-item" href="/mqs/0.1.1/index.html"> Feel++ Maxwell Quasi Static </a>
+                  
+              <a class="navbar-item" href="/hemotumpp/0.1/index.html"> HemoTum++ </a>
+                  
+              <a class="navbar-item" href="/ibat/latest/index.html"> IBat </a>
+                  
+              <a class="navbar-item" href="/msqab/0.1/index.html"> msqab </a>
+                  
+              <a class="navbar-item" href="/swimmer/0.1/index.html"> Swimmer </a>
+               
+
+            <hr class="navbar-divider">
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <div class="navbar-link">Feel++</div>
+          <div class="navbar-dropdown">
+            <div class="navbar-item"><strong>GitHub</strong></div>
+            <a class="navbar-item" href="http://github.com/feelpp/feelpp">GitHub Repository</a>
+            <a class="navbar-item" href="http://github.com/feelpp/feelpp/issues">GitHub Issue Tracker</a>
+            <hr class="navbar-divider">
+            <div class="navbar-item"><strong>Documentation</strong></div>
+            <a class="navbar-item" href="http://docs.feelpp.org/user/">User Manual</a>
+            <a class="navbar-item" href="http://docs.feelpp.org/dev/">Developer Manual</a>
+            <a class="navbar-item" href="http://docs.feelpp.org/toolbox/">Toolbox Manual</a>
+            
+          </div>
+        </div>
+        <div class="primary-action">
+            <form class="navbar-item search">
+              <input type="text" placeholder="Search Cemosis Docs" class="query" id="search-query">
+              <button type="button" class="search-btn"><i class="fas fa-search"></i></button>
+            </form>
+        </div>
+        <div class="navbar-item">
+          <a class="navbar-brand" href="https://join.slack.com/t/feelpp/shared_invite/zt-2qe0q9hw-4pVbhohCXUE6Po9Ma8dbiQ">
+            <img src="/_/img/slack.png" alt="slack" style="width:30px;"></a>
+        </div>
+        <div class="navbar-item">
+          <a class="navbar-brand"  href="http://docs.feelpp.org">
+            <img src="/_/img/logoFeelpp.png" alt="Feel++" style="width:60px;">
+          </a>
+        </div>
+        <div class="navbar-item">
+          <a class="navbar-brand"  href="http://www.cemosis.fr">
+            <img src="/_/img/logoCemosisTransparent.png" alt="Cemosis" style="width:60px;">
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="ibat" data-version="latest">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../../index.html">IBat</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../../data/README.html">Data</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../../data/architecture/index.html">Data Architecture</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../data/architecture/index.html">Elastic Search</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../data/processing/index.html">Data Processing</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Geometry and Mesh</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../geometry/bim/index.html">BIM</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../geometry/multizone/index.html">Multizone</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../geometry/3D/index.html">3D</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../../models/index.html">Models</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../../models/systemic/index.html">Systemic Model</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../models/systemic/cases/index.html">Systemic Expperiments</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../../models/heat/index.html">Heat Transfer</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../../models/heat/radiative-heat-transfer/index.html">Radiative Heat Transfer</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../../models/heat/radiative-heat-transfer/viewfactor.html">View Factor</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../../models/heat/radiative-heat-transfer/montecarlo.html">Monte Carlo</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="5">
+    <a class="nav-link" href="../../models/heat/radiative-heat-transfer/distribution.html">Distribution of random rays</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../../models/heat/radiative-heat-transfer/glossary.html">Glossary</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../../models/moisture/index.html">Moisture Transfer</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../models/moisture/model.html">Moisture processes</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Benchmarks in Moisture Modeling</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../../models/moisture/benchmark-moisture.html">Benchmark: Drying out of a layer</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../../models/heat-moisture/index.html">Heat and Moisture Modeling</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../models/heat-moisture/model.html">Moisture</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../models/heat-moisture/cen2007.html">Heat and Moisture transfert Modeling</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../models/heat-moisture/notations-units.html">Notations and Units</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Benchmarks in Heat and Moisture Modeling</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../../models/heat-moisture/benchmark_EN15026_2007.html">Benckmark: Moisture uptake within a semi-infinite region EN 15026:2007</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../../models/heat-moisture/benchmark-bestest.html">Benckmark: Bestest</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Heat Air Moisture Modeling</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../models/heat-air-moisture/index.html">Model</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../models/heat-air-moisture/application.html">Application</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Applications</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../models/applications/doc_fpp_hm.html">Documentaion</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Notes</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../models/heat-moisture/symmbc.html">Symmetry BC for CFD</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Methodologies</span>
+<ul class="nav-list">
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="README.html">PBDW</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../geim/geim.html">GEIM</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../machine_learning/ml.html">ML</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../machine_learning/tools.html">Tools</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../../applications/index.html">Applications</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../applications/comfort/index.html">Thermal Comfort</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../applications/energy/index.html">Energy Simulation</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../../reports/index.html">Reports</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../../reports/thomas-saigre-tardif/index.html">Thomas&#8217;s Report</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../reports/thomas-saigre-tardif/res_proj.html">Final results of the project</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../reports/thomas-saigre-tardif/drying-layer.html">Drying out of a layer</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../reports/thomas-saigre-tardif/appli.html">Application development</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../reports/thomas-saigre-tardif/bestest.html">Benchmark Bestest</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../reports/thomas-saigre-tardif/thermal_comfort.html">Thermal comfort</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../reports/thomas-saigre-tardif/hdg.html">HDG</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../reports/thomas-saigre-tardif/conclusion.html">Conclusion and outlook</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../../reports/romain-vallet/index.html">Romain&#8217;s Report</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../../models/heat/radiative-heat-transfer/index.html">Radiative Heat Transfer</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../../models/heat/radiative-heat-transfer/viewfactor.html">View Factor</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../../models/heat/radiative-heat-transfer/montecarlo.html">Montecarlo</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../reports/romain-vallet/geometry.html">Geometry tools</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../reports/romain-vallet/moose.html">Details of MOOSE</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../reports/romain-vallet/visonaray.html">Detail of Visonaray</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../reports/romain-vallet/benchmarks.html">Benchmarks</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../../reports/madani-ouachour/index.html">Sarra and Hanane&#8217;s Report</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../reports/madani-ouachour/results.html">Project results,testing and randomization</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../reports/madani-ouachour/data.html">Data processing and missing data</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../reports/madani-ouachour/univariate.html">Univariate time series forecasting</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../reports/madani-ouachour/multivariate.html">Multivariate time series forecasting</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../reports/madani-ouachour/comfort.html">Comfort and discomfort criteria</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../reports/madani-ouachour/conclusion.html">Conclusion</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">IBat</span>
+    <span class="version">latest</span>
+  </div>
+  <ul class="components">
+    <li class="component">
+      <span class="title">Cemosis Documentation</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../../cemosis/latest/index.html">latest</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Cemosis Documentation UI</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../../antora-ui-default/index.html">master</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Eye2Brain Manual</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../../eye2brain/current/index.html">current</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Feel++ CFD</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../../feelpp-cfd/latest/index.html">latest</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Feel++ Maxwell Quasi Static</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../../mqs/0.1.1/index.html">0.1.1</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">HemoTum++</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../../hemotumpp/0.1/index.html">0.1</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component is-current">
+      <span class="title">IBat</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../../index.html">latest</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">msqab</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../../msqab/0.1/index.html">0.1</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Swimmer</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../../swimmer/0.1/index.html">0.1</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../../../../cemosis/latest/index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../../index.html">IBat</a></li>
+    <li>Methodologies</li>
+    <li><a href="README.html">PBDW</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">Projet de 4fastsim (method of PBDW)</h1>
+<div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_introduction">1. Introduction</a></li>
+<li><a href="#_pbdws_method">2. PBDW&#8217;s method</a>
+<ul class="sectlevel2">
+<li><a href="#pbdw-intro">2.1. Introduction of PBDW&#8217;s method</a></li>
+</ul>
+</li>
+<li><a href="#pbdw-method">3. Methodologie</a>
+<ul class="sectlevel2">
+<li><a href="#_stationary_problem_of_the_generic_form">3.1. Stationary problem of the generic form</a></li>
+<li><a href="#_sensor">3.2. Sensor</a></li>
+<li><a href="#_goal">3.3. Goal</a></li>
+<li><a href="#_reduced_basis_background">3.4. Reduced basis background</a></li>
+<li><a href="#_data_informed_update">3.5. Data-informed update</a></li>
+<li><a href="#_pbdw_problem_statement">3.6. PBDW problem statement</a></li>
+<li><a href="#_algorithms">3.7. Algorithms</a></li>
+<li><a href="#_performance">3.8. Performance</a></li>
+<li><a href="#_pbdw_error_and_stability_considerations">3.9. PBDW error and stability considerations</a></li>
+</ul>
+</li>
+<li><a href="#pbdw-implementation">4. Numerical implementation of PBDW</a></li>
+<li><a href="#_bibliographie">5. Bibliographie</a></li>
+</ul>
+</div>
+<div class="sect1">
+<h2 id="_introduction"><a class="anchor" href="#_introduction"></a>1. Introduction</h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<div class="sect1">
+<h2 id="_pbdws_method"><a class="anchor" href="#_pbdws_method"></a>2. PBDW&#8217;s method</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="pbdw-intro"><a class="anchor" href="#pbdw-intro"></a>2.1. Introduction of PBDW&#8217;s method</h3>
+<div class="paragraph">
+<p>Abstract: The principal objective of this part is to study a numerical tool which is less expensive for simulate the thermal distribution of the building. The construction a model thermique which</p>
+</div>
+<div class="paragraph">
+<p>Here we introduce a non-intrusive reduced order method of data assimilation for parameterized PDEs: the PBDW (Parameterized-Background Data-Weak). These method belong to the family of Reduced Basis methods.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="pbdw-method"><a class="anchor" href="#pbdw-method"></a>3. Methodologie</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_stationary_problem_of_the_generic_form"><a class="anchor" href="#_stationary_problem_of_the_generic_form"></a>3.1. Stationary problem of the generic form</h3>
+<div class="stemblock">
+<div class="content">
+\[\mathcal{P} : \Omega \times \mathcal{D} \rightarrow \mathbb{R}\]
+</div>
+</div>
+<div class="paragraph">
+<p>where \(\mathcal{P}\) is the problem,\(\Omega \in \mathbb{R}^d\) is the physical domain of dim \(d = 2,3\) , \(\mathcal{D} \in \mathbb{R}^{Np}\) is the parameter domain.</p>
+</div>
+<div class="paragraph">
+<p>We will consider the solution \(u \in \mathcal{X}\), a Hilbert space s.t \(H^1_0(\Omega) \in \mathcal{X} \in H^1(\Omega)\) .</p>
+</div>
+<div class="paragraph">
+<p>We assume we have some knowledge of the system encoded in the parameterized PDE model \(\mathcal{P}^{bk}\) (i.e the best adapted model available for the problem \(\mathcal{P})\), resulting in the best knowlege state  \(u^{bk}(\textbf{p}) \in \mathcal{X}\).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_sensor"><a class="anchor" href="#_sensor"></a>3.2. Sensor</h3>
+<div class="paragraph">
+<p>We also assume we have a second source of information in the form of field observations.</p>
+</div>
+<div class="paragraph">
+<p>We have \(M\) experimental observations, we assume our data \(y^{obs}_m, 1 \leq m \leq M\), we desire output quantity</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[y_m^{obs}(\textbf{p}) = l_m(u^{true}(\textbf{p}))\]
+</div>
+</div>
+<div class="paragraph">
+<p>where \(u^{true}(\textbf{p})\) represents the true physical state of the system and \(l_m\) are linear functionals representing the sensors</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_goal"><a class="anchor" href="#_goal"></a>3.3. Goal</h3>
+<div class="paragraph">
+<p>\(\Rightarrow\) The challenge is fomulate a scheme to interpret and employ data from mersurements in some optimal way to contribute to the knowledge of the state in the numerical model</p>
+</div>
+<div class="paragraph">
+<p>\(\Rightarrow\) In order to combine the best knowledge of the system modeled by \(\mathcal{P}^{bk}\) and the experimental observations of the physical state, we will consider a PBDW solution of two parts: background and update.</p>
+</div>
+<div class="paragraph">
+<p>\(\Rightarrow\) The goal is to fomulate the PBDW method in which we will approximate the true physical state \(u^{true}(\textbf{p})\) by</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{equation}
+u^{bk}(\textbf{p}) + \eta
+\end{equation}\]
+</div>
+</div>
+<div class="paragraph">
+<p>where \(\eta \in \mathcal{X}\) is an update correction term associated to the experimental observations.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_reduced_basis_background"><a class="anchor" href="#_reduced_basis_background"></a>3.4. Reduced basis background</h3>
+<div class="paragraph">
+<p>The idea of reduced basis methods is to compute an inexpensive and accurate approximation, \(u^{bk}_N(\textbf{p})\) of \(\mathcal{P}^{bk}\) for any \(\textbf{p} \in \mathcal{D}^{bk}\) by seeking a linear combination of particular solutions</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{equation}
+u^{bk}_N(\textbf{p}) = \sum^{N}_{i=1}\beta_i(\textbf{p}) u^{bk}_N(\textbf{p}_i)
+\end{equation}\]
+</div>
+</div>
+<div class="paragraph">
+<p>We perform a Gram-Schmidt orthnormalization, and introduce the Background space \(\mathcal{Z}_N = span\{\zeta_i\}^{N}_{i=1} \subset \mathcal{X}\)</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_data_informed_update"><a class="anchor" href="#_data_informed_update"></a>3.5. Data-informed update</h3>
+<div class="paragraph">
+<p>We will consider the experimental observations to contribute in the update piece.</p>
+</div>
+<div class="paragraph">
+<p>Use the the representation</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\varphi_m = exp\left( \frac{-(x - x_m)^2}{2r^2} \right) s.t \int_{\omega} \varphi_m(x) d \Omega =1\]
+</div>
+</div>
+<div class="paragraph">
+<p>where \(x_m \in \mathbb{R}^d\) is the center of the \(m^{th}\) sensor of radius \(r\).</p>
+</div>
+<div class="paragraph">
+<p>To evaluate the information these sensors can gather from a physical state \(v \in \mathcal{X}\), we define the function</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[l_m(v) = \int_{\Omega}  \varphi_m(x) v d \Omega \quad 1 \leq m \leq M\]
+</div>
+</div>
+<div class="paragraph">
+<p>We need to use (3) to construct the second approximation space \(\mathcal{U}_M
+\subset\mathcal{X}\) in which we find the update \(\eta\).</p>
+</div>
+<div class="paragraph">
+<p>Let  us define the Riesz operator \(\mathcal{R}_{\mathcal{X}}: \mathcal{X}' \rightarrow \mathcal{X}\) s.t</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[&lt;v,\mathcal{R}_{\mathcal{X}} l_m&gt;_{\mathcal{X}} = l(v)\]
+</div>
+</div>
+<div class="paragraph">
+<p>Introduce the update basis functions \(q_m = \mathcal{R}_{\mathcal{X}} l_m\) and for any physical state \(u^{true}\) of the configuration, we have</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[&lt;u^{true},\mathcal{R}_{\mathcal{X}} q_m&gt;_{\mathcal{X}} = l_m(u^{true})\]
+</div>
+</div>
+<div class="paragraph">
+<p>We define Update Space \(\mathcal{U}_{M_{max}} = span \{q_m \}^{M_{max}}_{m=1}\) where \(M_{max}\) is the maximum number of sensors available.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_pbdw_problem_statement"><a class="anchor" href="#_pbdw_problem_statement"></a>3.6. PBDW problem statement</h3>
+<div class="paragraph">
+<p>The PBDW aims at approximating the true physical state utrue(p) for some configuration \(\textbf{p}\) by</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[u_{N,M} = z_M + \eta_M\]
+</div>
+</div>
+<div class="paragraph">
+<p>where \(z_N\) is in \(\mathcal{Z}_N\), corresponds RB approximation pf best knowledge solution \(u^{bk}(\textbf{p})\)</p>
+</div>
+<div class="paragraph">
+<p>and the term \(\eta_M\) is in \(\mathcal{U}_M\), is the correction term associated with \(M\) observations</p>
+</div>
+<div class="paragraph">
+<p>We pose the PBDW approximation as the solution to the following minimization problem. Find \((u_{N,M} \in \mathcal{X}, z_N \in \mathcal{Z}_N,\eta_M \in \mathcal{U}_M)\) s.t</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[(U_{N,M};Z_{N};\eta_{M})=\underset{U_{N,M}\in \mathcal{X},Z_{N}\in \mathcal{Z}_{N},\eta_{M}\in \mathcal{U}_{M}}{arginf}\{ \| \eta_{M}\|_{\mathcal{X}}^{2}\}
+\\
+
+ &lt;U_{N,M}-Z_{N},v&gt;_{\mathcal{X}}=&lt;\eta_{M},v&gt;_{X}\ \forall\ v\in \mathcal{X}
+
+\\
+
+ &lt;U_{N,M},\phi&gt;_{\mathcal{X}}=&lt;u(p),\phi&gt;_{\mathcal{X}} \forall\ \phi \in \mathcal{U}_{M}\]
+</div>
+</div>
+<div class="paragraph">
+<p>Find \((\eta_M()\textbf{p} \in \mathcal{U}_M, z_N(\textbf{p})\in \mathcal{Z}_N)\) s.t</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[&lt;\eta_M,q&gt;_{\mathcal{X}} + &lt;z_N,q&gt;_{\mathcal{X}} = &lt;u^{true}(\textbf{p},q)&gt;_{\mathcal{X}} \quad q \in \mathcal{U}_M\]
+</div>
+</div>
+<div class="stemblock">
+<div class="content">
+\[&lt;\eta_M,p&gt;_{\mathcal{X}} = 0 \quad \forall p \in \mathcal{Z}_N\]
+</div>
+</div>
+<div class="paragraph">
+<p>Use the definition of update basis functions \(q_m \in \mathcal{X}\) we have</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[&lt;\eta_M,q_m&gt;_{\mathcal{X}} = y^{obs}_m(\textbf{p})\]
+</div>
+</div>
+<div class="stemblock">
+<div class="content">
+\[y^{obs}_m(\textbf{p}) = l_m(u^{true}(\textbf{p}))\]
+</div>
+</div>
+<div class="paragraph">
+<p>The corresponding algebraic formulation is to find \(\eta_M \in \mathbb{R}^M, z_N \in \mathbb{R}^N\) s.t</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{pmatrix}
+	A&amp;B\\
+	B^{T}&amp;0\\
+	\end{pmatrix}
+	\begin{pmatrix}
+	\overrightarrow{\eta_{M}}\\
+	\overrightarrow{Z_{N}}\\
+	\end{pmatrix} =\begin{pmatrix}
+	\overrightarrow{y^{obs}}\\
+	0\\
+	\end{pmatrix}\]
+</div>
+</div>
+<div class="paragraph">
+<p>where \((y^{obs}_m = y^{obs}_m)\) , \(\textbf{A}_{m,m} = &lt;q_m,q_m&gt;_{\mathcal{X}}\) and \(\textbf{B}_{m,n} = &lt;\zeta_n, \zeta_m&gt;_{\mathcal{X}}\)</p>
+</div>
+<div class="paragraph">
+<p>For a more stable numerical implementation, we can consider solving :</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\textbf{B}^T \textbf{A}^{-1} z_N = \textbf{B}^T \textbf{A}^{-1} y^{obs}\]
+</div>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\eta_M = \textbf{A}^{-1} (y^{obs}  - \textbf{B} z_N)\]
+</div>
+</div>
+<div class="paragraph">
+<p>*Offline stage:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Choose \(N\), \(M\).</p>
+</li>
+<li>
+<p>Choose \(\mathcal{P}^{bk}\) and \(\mathcal{D}^{bk}\) .</p>
+</li>
+<li>
+<p>Construct \(\mathcal{Z}_N\) and \(\mathcal{U}_M\).</p>
+</li>
+<li>
+<p>Construct \(\textbf{A}\), \(\textbf{B}\)</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>*Online</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Solve (3.17) and (3.18)</p>
+</li>
+<li>
+<p>Calcule output</p>
+</li>
+</ol>
+</div>
+<div class="stemblock">
+<div class="content">
+\[l_m(u_N,u_M) = \sum^{M}_{m=1} n_M l_m(q_m) + \sum^{N}_{n=1} z_N l_m(\zeta_n)\]
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_algorithms"><a class="anchor" href="#_algorithms"></a>3.7. Algorithms</h3>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Parameters</div>
+<div class="paragraph">
+<p><strong>Given</strong> : Sample</p>
+</div>
+<div class="paragraph">
+<p>\(Q = [Q_1, \cdots , Q_2]\)</p>
+</div>
+<div class="paragraph">
+<p>\(T_{ext} = [T_1, \cdots , T_2]\)</p>
+</div>
+<div class="paragraph">
+<p>\(h = [h_1, \cdots , h_2]\)</p>
+</div>
+<div class="paragraph">
+<p>\(\sum_{test} = (\textbf{p}_1, \cdots, \textbf{p}_{ntest}) \in \mathcal{D}^{ntest} \)</p>
+</div>
+<div class="paragraph">
+<p>\(SN = (textbf{p}_1 , \cdots, textbf{p}_N)\)</p>
+</div>
+</div>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Buil Background space \(\mathcal{Z}_N [ \mathcal{N} \times N ] \)</div>
+<div class="paragraph">
+<p><strong>(Sans Greedy)</strong></p>
+</div>
+<div class="paragraph">
+<p><code><strong> runheat </strong></code> (\(\textbf{p}_1\))  \(\mapsto u_h(\textbf{p}_1)\)</p>
+</div>
+<div class="paragraph">
+<p>\(\mathcal{Z}_1 = span(u_h(\textbf{p}_1))\)</p>
+</div>
+<div class="paragraph">
+<p><strong>for</strong> \(\textbf{p}_i\) in \(SN\) do:</p>
+</div>
+<div class="paragraph">
+<p>\(\quad \quad\) <code><strong> runheat </strong></code>(\(\textbf{p}_i\))  \(\mapsto u_h(\textbf{p}_i)\)</p>
+</div>
+<div class="paragraph">
+<p>\(\quad \quad\) \(z_i = u_h(\textbf{p}_i) - \sum_{u \in \mathcal{Z}_{i-1}} proj_u (u_h(\textbf{p}_i))\) (where \(proj_u (v) = \frac{&lt;u,v&gt;}{&lt;u,u&gt;}u\) )</p>
+</div>
+<div class="paragraph">
+<p>\(\quad \quad\) \(\mathcal{Z}_i = \mathcal{Z}_{i-1} \cup \{\mathcal{Z}_i\}\)</p>
+</div>
+<div class="paragraph">
+<p>Normaliser:
+<strong>for</strong> \(i = 1\) to \(N\)  do:</p>
+</div>
+<div class="paragraph">
+<p>\(\quad \quad\) \(\mathcal{Z}_i = \frac{z_1}{&lt;z_i, z_i&gt;}\)</p>
+</div>
+</div>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p><strong>(Avec Greedy)</strong></p>
+</div>
+<div class="paragraph">
+<p>Choose ramdomly \(\textbf{p}_1 \in \mathcal{D}\)</p>
+</div>
+<div class="paragraph">
+<p>\(S_1 = \{ \textbf{p}_1\}\) and \(\mathcal{Z}_1 = span(u_h(\textbf{p}_1))\)</p>
+</div>
+<div class="paragraph">
+<p><strong>for</strong> \(i = 2\) to \(N\) do:</p>
+</div>
+<div class="paragraph">
+<p>\(\quad \quad\) \(\textbf{p}_i = \underset{\textbf{p} \in \sum_{test}}{argmax} \frac{|| u_h(/textbf{p}) - \sum_{u \in \mathcal{Z}_{i-1}} proj_u (u_h(\textbf{p})) ||_{L^2}}{ || u_h(\textbf{p}) ||_{L^2} }\)</p>
+</div>
+<div class="paragraph">
+<p>\(\quad \quad\) \(S_i = S_{i-1} \cup \{ \textbf{p}_i \}\)</p>
+</div>
+<div class="paragraph">
+<p>\(\quad \quad\) \( \mathcal{Z}_i = \mathcal{Z}_{i-1} \cup \{ u_h(\textbf{p}_i) \} \)</p>
+</div>
+<div class="paragraph">
+<p>Normaliser:
+<strong>for</strong> \(i = 1\) to \(N\)  do:</p>
+</div>
+<div class="paragraph">
+<p>\(\quad \quad\) \(\mathcal{Z}_i = \frac{z_1}{&lt;z_i, z_i&gt;}\)</p>
+</div>
+</div>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Build Update space \(\mathcal{U}_M [\mathcal{N} \times M ]\)</div>
+<div class="paragraph">
+<p>Define \(l_m(v) \forall v \) test function in \(\mathcal{X}_h\)</p>
+</div>
+<div class="paragraph">
+<p><strong>for</strong> \(m = 1\) to \(M\) do:</p>
+</div>
+<div class="paragraph">
+<p>\(\quad \quad\) Define  sensor functionals over ball \(B((x_m,y_m), r)\)</p>
+</div>
+<div class="paragraph">
+<p>\(\quad \quad\) \(\varphi_m = exp \left( - \frac{(x - x_m)^2 (y - y_m)^2}{2r^2} \right) s.t \int_{w} \varphi_m (x) d \Omega = 1\)</p>
+</div>
+<div class="paragraph">
+<p>\(\quad \quad\) <strong>Solve</strong> for \(q_m : &lt;v,q_m&gt;_{H^1} = l_m(v)\)</p>
+</div>
+<div class="paragraph">
+<p>\(\quad \quad\) \(a(q_m,v) = \int_{\Omega} \nabla q_m \cdot \nabla v + \int_{\Omega} q_m v\)</p>
+</div>
+<div class="paragraph">
+<p>\(\quad \quad\) \(l_m(v) = \int_{\Omega} \varphi_m v\)</p>
+</div>
+<div class="paragraph">
+<p>\(\quad \quad\) \(\mathcal{U}_M [:,m ] = q_m \)</p>
+</div>
+</div>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Build matrix PBDW</div>
+<div class="paragraph">
+<p>\((\mathbb{A}_{i,j}) = &lt;q_j,q_i&gt;_{H^1} = a(q_j, q_i) \in \mathbb{R}^{M \times M}\)</p>
+</div>
+<div class="paragraph">
+<p>\((\mathbb{B}_{i,j}) = &lt;\zeta_j,q_i&gt;_{H^1} = a(\zeta_j, q_i) \in \mathbb{R}^{M \times N}\)</p>
+</div>
+<div class="paragraph">
+<p>\(\mathbb{K}^{PBDW} =\begin{pmatrix}
+	A&amp;B\\
+	B^{T}&amp;0\\
+	\end{pmatrix}\)</p>
+</div>
+</div>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Build \(y^{obs}\)</div>
+<div class="paragraph">
+<p>Choose randomly \(\textbf{p} \in \mathcal{D}\)</p>
+</div>
+<div class="paragraph">
+<p><code><strong> runfluid </strong></code> \((\textbf{p}) \mapsto u^{true}(\textbf{p})\)</p>
+</div>
+<div class="paragraph">
+<p><strong>for</strong> \(m = 1\) to \(M\):</p>
+</div>
+<div class="paragraph">
+<p>\(\quad \quad\) \(y^{obs}_m(\textbf{p}) = l_m(u^{true}(\textbf{p}))\)</p>
+</div>
+<div class="paragraph">
+<p>\(y^{obs}[:, m] = y^{obs}_m(\textbf{p})\)</p>
+</div>
+</div>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Solve PBDW</div>
+<div class="paragraph">
+<p>\(\begin{pmatrix}
+\overrightarrow{\eta_{M}}\\
+\overrightarrow{z_{N}}\\
+\end{pmatrix} =
+(\mathbb{K}^{PBDW})^{-1} *
+\begin{pmatrix}
+\overrightarrow{y^{obs}}\\
+0\\
+\end{pmatrix}\)</p>
+</div>
+</div>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Output</div>
+<div class="paragraph">
+<p>\(u_{N,M} = \sum^{M}_{i=1} \eta_M^i q_i + \sum^{N}_{j=1} z^j_N \zeta_j\)</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_performance"><a class="anchor" href="#_performance"></a>3.8. Performance</h3>
+<div class="paragraph">
+<p>In this case, the output quantity over the basis functions of the two approximation spaces can be precalculated, allowing for evaluation of the output of the PBDW approximation in \(\mathcal{O}(N + M)\) operations, without fully reconstructing the PBDW approximation from the basis functions \({\zeta_n}^N_{n=1}\) and \({q_m}^M_m=1\), a procedure in \(\mathcal{O}(\mathcal{N}_h)\) operations.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_pbdw_error_and_stability_considerations"><a class="anchor" href="#_pbdw_error_and_stability_considerations"></a>3.9. PBDW error and stability considerations</h3>
+<div class="paragraph">
+<p>The question is how can we know if our model is well-posed ? The problem dependend obviously in the construction of the Background and Ipdate spaces. So we want to compute a value which can depend on the two approximation spaces. We introduce the inf-sup Stability constant .</p>
+</div>
+<div class="stemblock">
+<div class="title">Stability constant</div>
+<div class="content">
+\[\beta_{N,M} = inf_{w \in \mathcal{Z}_N} sup_{v \in \mathcal{U}_M} \frac{&lt;w,v&gt;_{\mathcal{X}}}{ \| w \|_{\mathcal{X}} \| v \|_{\mathcal{X}}}\]
+</div>
+</div>
+<div class="paragraph">
+<p>Note that \(\beta_{N,M}\) is an non-increasing function of \(N\) and non-decreasing function of \(M\) with \(\beta_{N,M} = O\) for \(N&gt;M\).</p>
+</div>
+<div class="paragraph">
+<p>Present the best-fit of the approximation spaces</p>
+</div>
+<div class="stemblock">
+<div class="title">Best-fit error</div>
+<div class="content">
+\[\frac{inf_{q \in \mathcal{U}_M} inf_{z \in \mathcal{Z}_N} \| u^{true} - z - q \|_{\mathcal{X}}}{\| u^{true} \|_{\mathcal{X}}}\]
+</div>
+</div>
+<div class="paragraph">
+<p>A priori error estimatation is derived for the formulation as a function of the stability constant and the best-fit of the approximation spaces</p>
+</div>
+<div class="stemblock">
+<div class="title">Priory error</div>
+<div class="content">
+\[\frac{\| u^{true} - u_{N,M} \|_{X}}{\| u^{true} \|_{\mathcal{X}}} \leq \left( 1 + \frac{1}{\beta_{N,M}} \right) \frac{ inf_{q \in \mathcal{U}_M} inf_{z \in \mathcal{Z}_N} \| u^{true} - z - q \|_{\mathcal{X}}}{\| u^{true} \|_{\mathcal{X}}}\]
+</div>
+</div>
+<div class="paragraph">
+<p>Note that this error estimate of PBDW method dependend strongly on the stability constant. So if we have obtion of choosing \(M\), we need to build the approxiamation spaces in order to maximize the stability of the formular and also minimize the best-fit error.</p>
+</div>
+<div class="paragraph">
+<p>On the other hand, in pratique, we mostly don&#8217;t have a true physical state \(u^{true}\) to precise the priory error, so we work in the boundary of error such as the second term in the formular of PBDW error. Better approximation, smaller the boundary of error.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="pbdw-implementation"><a class="anchor" href="#pbdw-implementation"></a>4. Numerical implementation of PBDW</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>We have to link 2 toolboxes of <code>Heat transfert</code> and <code>heatfluid</code> to solve the problem. For each toolboxes, we need to creat a <code>.json</code> file to precise the materials properties</p>
+</div>
+<div class="listingblock">
+<div class="title">Main.cpp</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">     /* -*- mode: c++; coding: utf-8; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4; show-trailing-whitespace: t -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4*/
+
+     #include &lt;feel/feelmodels/heatfluid/heatfluid.hpp&gt;
+     #include &lt;feel/feelmodels/heat/heat.hpp&gt;
+     #include &lt;Eigen/Core&gt;
+     #include &lt;Eigen/Eigenvalues&gt;
+     #include &lt;stdlib.h&gt;
+     #include &lt;complex&gt;
+     #include &lt;algorithm&gt;
+     #include &lt;cstdlib&gt;
+
+
+     namespace Feel
+     {
+       static const int nDim = 2;
+       static const int OrderT = 1;
+       static const int OrderV = 2;
+       static const int OrderP = 1;
+       typedef FeelModels::Heat&lt; Simplex&lt;nDim,1&gt;,
+                                 Lagrange&lt;OrderT, Scalar,Continuous,PointSetFekete&gt; &gt; model_heat_type;
+
+       typedef FeelModels::FluidMechanics&lt; Simplex&lt;nDim,1&gt;,
+                                           Lagrange&lt;OrderV, Vectorial,Continuous,PointSetFekete&gt;,
+                                           Lagrange&lt;OrderP, Scalar,Continuous,PointSetFekete&gt; &gt; model_fluid_type;
+       typedef FeelModels::HeatFluid&lt; model_heat_type,model_fluid_type&gt; model_heatfluid_type;
+
+       template &lt;typename HeatFluidType&gt;
+       std::map&lt;std::string,double&gt;
+       runApplicationHeatFluid( boost::shared_ptr&lt;HeatFluidType&gt; heatFluid, std::map&lt;std::string,double&gt; const&amp; params )
+       {
+           for ( auto const&amp; param : params ) //param in params
+               heatFluid-&gt;addParameterInModelProperties( param.first, param.second);
+
+           heatFluid-&gt;solve();
+           heatFluid-&gt;exportResults();
+           if ( heatFluid-&gt;isStationary() )
+           {
+               heatFluid-&gt;solve();
+               heatFluid-&gt;exportResults();
+           }
+           else
+               {
+       #if 1
+                   auto heatModel = heatFluid-&gt;heatModel();
+                   auto fluidModel = heatFluid-&gt;fluidModel();
+                   if ( true )
+                       {
+                           auto myexpr = expr( soption(_prefix=heatModel-&gt;prefix(),_name="initial-solution.temperature"),
+                                               "",heatModel-&gt;worldComm(),heatModel-&gt;repository().expr() );
+                           heatModel-&gt;fieldTemperaturePtr()-&gt;on(_range=heatModel-&gt;rangeMeshElements(),_expr=myexpr);
+                       }
+                   fluidModel-&gt;fieldVelocityPressurePtr()-&gt;setConstant(0);
+                   heatModel-&gt;timeStepBdfTemperature()-&gt;start( heatModel-&gt;fieldTemperature() );
+                   fluidModel-&gt;timeStepBDF()-&gt;start( *fluidModel-&gt;fieldVelocityPressurePtr() );
+                   heatModel-&gt;updateTime( heatFluid-&gt;heatModel()-&gt;timeStepBase()-&gt;time() );
+                   fluidModel-&gt;updateTime( heatFluid-&gt;heatModel()-&gt;timeStepBase()-&gt;time() );
+                   heatFluid-&gt;updateTime( heatFluid-&gt;heatModel()-&gt;timeStepBase()-&gt;time() );
+                   fluidModel-&gt;blockVectorSolution().updateVectorFromSubVectors();
+                   heatModel-&gt;blockVectorSolution().updateVectorFromSubVectors();
+       #endif
+                   for ( ; !heatFluid-&gt;timeStepBase()-&gt;isFinished(); heatFluid-&gt;updateTimeStep() )
+                       {
+                           if (heatFluid-&gt;worldComm().isMasterRank())
+                               {
+                                   std::cout &lt;&lt; "============================================================\n";
+                                   std::cout &lt;&lt; "time simulation: " &lt;&lt; heatFluid-&gt;time() &lt;&lt; "s \n";
+                                   std::cout &lt;&lt; "============================================================\n";
+                               }
+
+                           heatFluid-&gt;solve();
+                           //heatFluid-&gt;exportResults();
+                       }
+                   heatFluid-&gt;heatModel()-&gt;exportMeasures( 0 );
+               }
+
+           std::map&lt;std::string,double&gt; res;
+           for ( std::string const&amp; s : std::vector&lt;std::string&gt;({ "temperature_pointA", "temperature_pointB" ,"temperature_pointC","temperature_pointD","temperature_pointE","temperature_pointF","temperature_pointG","temperature_pointH","temperature_pointI","temperature_pointK","temperature_pointL","temperature_pointM"}) )
+               res[s] = heatFluid-&gt;heatModel()-&gt;postProcessMeasuresIO().measure( s );
+           return res;
+       }
+
+       template &lt;typename HeatType&gt;
+       auto runApplicationHeat( boost::shared_ptr&lt;HeatType&gt; heat, std::map&lt;std::string,double&gt; const&amp; params )
+       {
+           for ( auto const&amp; param : params )
+               heat-&gt;addParameterInModelProperties( param.first, param.second );
+
+               heat-&gt;solve();
+               heat-&gt;exportResults();
+               auto const&amp; e = heat-&gt;fieldTemperature();
+
+           return e; //neu muon them dk kiem tra if thi can khai bao e o ngoai, vay no la type gi?
+       }
+
+       template &lt;typename HeatType&gt;
+       double produitscalair(boost::shared_ptr&lt;HeatType&gt; heat, model_heat_type::element_temperature_type const&amp; u, model_heat_type::element_temperature_type const&amp; v)
+       {
+         double Lg = 2.;
+         double g = integrate(_range=elements( heat-&gt;mesh()), _expr= inner(gradv(u),gradv(v))).evaluate()(0,0);
+         double p = integrate(_range=elements( heat-&gt;mesh()), _expr= inner(idv(u),idv(v))).evaluate()(0,0);
+         double val = g + Lg*p;
+         //double val = inner_product( u,v);
+         return val;
+       }
+
+       template &lt;typename HeatType&gt;
+       double produit(boost::shared_ptr&lt;HeatType&gt; heat, model_heat_type::element_temperature_type const&amp; u, model_heat_type::element_temperature_type const&amp; v)
+       {
+         double val = inner_product( u,v);
+         return val;
+       }
+
+       template &lt;typename HeatType&gt;
+       auto proj(boost::shared_ptr&lt;HeatType&gt; heat,model_heat_type::element_temperature_type const&amp; u, model_heat_type::element_temperature_type const&amp; v)
+       {
+         double uv = produit(heat, u, v);
+         double uu = produit(heat,u,u);
+         double scalar = uv / uu;
+         std::cout &lt;&lt; "scalar = "&lt;&lt; scalar &lt;&lt; "\n";
+         auto proju = heat-&gt;spaceTemperature()-&gt;element( scalar*idv(u) );
+         return proju;
+       }
+
+
+     } // namespace Feel
+
+     int myrandom (int i) { return std::rand()%i;}
+
+     struct Coordinate
+     {
+         double x, y;
+     }pointA,pointB,pointC,pointD,pointE,pointF,pointG,pointH,pointI,pointK,pointL,pointM;
+
+
+
+     int
+     main( int argc, char** argv )
+     {
+         using namespace Feel;
+         int N;
+         int M;
+         double r;
+
+         po::options_description pbdwdatafromaerooptions( "application pbdw datafromaero options" );
+         pbdwdatafromaerooptions.add( toolboxes_options("heat-fluid") );
+         pbdwdatafromaerooptions.add( toolboxes_options("heat") );
+         pbdwdatafromaerooptions.add_options()
+             ("case.dimension", Feel::po::value&lt;int&gt;()-&gt;default_value( 3 ), "dimension")
+             ("case.discretization", Feel::po::value&lt;std::string&gt;()-&gt;default_value( "P1-P2P1" ), "discretization : P1-P2P1")
+             ("M", Feel::po::value&lt;int&gt;(&amp;M)-&gt;default_value( 1), "nbObservation")
+             ("N", Feel::po::value&lt;int&gt;(&amp;N)-&gt;default_value( 2), "nbParameters")
+             ("r", Feel::po::value&lt;double&gt;(&amp;r)-&gt;default_value( 0.15), "rayon")
+          ;
+
+     	Environment env( _argc=argc, _argv=argv,
+                          _desc=pbdwdatafromaerooptions,
+                          _about=about(_name="feelpp_ibat_pbdw_datafromaero",
+                                       _author="Feel++ Consortium",
+                                       _email="feelpp-devel@feelpp.org"));
+
+
+
+         boost::shared_ptr&lt;model_heatfluid_type&gt; heatFluid( new model_heatfluid_type("heat-fluid") );
+         heatFluid-&gt;init();
+         heatFluid-&gt;printAndSaveInfo();
+
+         boost::shared_ptr&lt;model_heat_type&gt; heat( new model_heat_type("heat",false) );
+         heat-&gt;setMesh( heatFluid-&gt;mesh() );
+         heat-&gt;setStationary( true );
+         heat-&gt;init();
+         heat-&gt;printAndSaveInfo();
+
+
+         tic();
+
+          //Creat Sample SN
+          std::vector&lt;std::map&lt;std::string,double&gt;&gt; SN;
+          std::map&lt;std::string,double&gt; params0;
+          params0["T_heater"] = 310;
+          params0["T_ext"] = 280;
+          params0["h"] = 1.0/(0.06+0.01/0.5 + 0.3/0.8 + 0.20/0.032 +0.016/0.313 +0.14);
+          SN.push_back(params0 );
+
+          std::map&lt;std::string,double&gt; params1;
+          params1["T_heater"] = 300;
+          params1["T_ext"] = 280;
+          params1["h"] = 1.0/(0.06+0.01/0.5 + 0.3/0.8 + 0.20/0.032 +0.016/0.313 +0.14);
+          SN.push_back(params1);
+
+          std::map&lt;std::string,double&gt; params2;
+          params2["T_heater"] = 300; //330
+          params2["T_ext"] = 290; //310
+          params2["h"] = 0.1;
+          SN.push_back(params2);
+
+         //std::vector&lt;std::map&lt;std::string,double&gt;&gt; SN;
+         //for(int i=0; i&lt; N; i++)
+         //  SN[i] = DN[i];
+
+         using element_temperature_type = typename model_heat_type::element_temperature_type;
+         std::vector&lt; element_temperature_type &gt; ZN;
+
+
+         for (int i=0; i&lt;N; i++)
+         {
+           auto params = SN[i];
+           auto u = runApplicationHeat( heat, params );
+           ZN.push_back(u);
+           //std::cout &lt;&lt; "Zn " &lt;&lt; ZN.back().size() &lt;&lt; " vs " &lt;&lt; u.size() &lt;&lt; "\n";
+           //std::cout &lt;&lt; "Zn " &lt;&lt; ZN.back().sum() &lt;&lt; " vs " &lt;&lt; u.sum() &lt;&lt; "\n";
+         }
+
+         //Build Background space ZN_orthn/////////////////////////////////////////////////////////////////////////
+         std::vector&lt; element_temperature_type &gt; ZN_orth( ZN.size(),heat-&gt;spaceTemperature()-&gt;element() );
+         ZN_orth[0] = ZN[0];
+         for(int i = 1; i &lt; N; i++)
+         {
+           auto s = heat-&gt;spaceTemperature()-&gt;element();
+           for(int j = 0; j &lt; i; j++)
+           {
+             s += proj(heat, ZN_orth[j], ZN[i]);
+           }
+           ZN_orth[i] = ZN[i] - s;
+         }
+         for(int i = 0; i &lt; ZN_orth.size(); i++)
+         {
+           double norm = std::sqrt(produitscalair(heat, ZN_orth[i], ZN_orth[i]));
+           ZN_orth[i].scale( 1./norm);
+         }
+
+         //check
+         for (int i = 0; i &lt; ZN_orth.size(); i++)
+         {
+           for (int j = 0; j &lt; ZN_orth.size(); j++)
+           {
+               double scar = produitscalair(heat, ZN_orth[i], ZN_orth[j]);
+               if ( Environment::isMasterRank() )
+                 std::cout &lt;&lt; "i="&lt;&lt;i&lt;&lt;"; j="&lt;&lt;j&lt;&lt;"; scar=" &lt;&lt; scar &lt;&lt; "\n";
+           }
+         }
+
+
+         std::vector&lt; element_temperature_type &gt; ZN_orthn( ZN_orth.size(),heat-&gt;spaceTemperature()-&gt;element() );
+         ZN_orthn[0] = ZN_orth[0];
+         for(int i = 1; i &lt; N; i++)
+         {
+           auto s = heat-&gt;spaceTemperature()-&gt;element();
+           for(int j = 0; j &lt; i; j++)
+           {
+             s += proj(heat, ZN_orthn[j], ZN_orth[i]);
+           }
+           ZN_orthn[i] = ZN_orth[i] - s;
+         }
+         for(int i = 0; i &lt; ZN_orthn.size(); i++)
+         {
+           double norm = std::sqrt(produitscalair(heat, ZN_orthn[i], ZN_orthn[i]));
+           ZN_orthn[i].scale( 1./norm);
+         }
+
+
+         //check ZnOrthn?
+         for (int i = 0; i &lt; ZN_orthn.size(); i++)
+         {
+           for (int j = 0; j &lt; ZN_orthn.size(); j++)
+           {
+               double scar = produitscalair(heat, ZN_orthn[i], ZN_orthn[j]);
+               if ( Environment::isMasterRank() )
+                 std::cout &lt;&lt; "i="&lt;&lt;i&lt;&lt;"; j="&lt;&lt;j&lt;&lt;"; scar=" &lt;&lt; scar &lt;&lt; "\n";
+           }
+         }
+
+
+
+         //Buil update space UM////////////////////////////////////////////////////////////////////////////////////////
+         //Creat List of points
+         std::vector&lt;Coordinate&gt; points;
+         pointA.x = 0.05;
+         pointA.y = 0.25;
+         points.push_back(pointA);
+
+         pointB.x = 0.55;
+         pointB.y = 0.25;
+         points.push_back(pointB);
+
+         pointC.x = 1.05;
+         pointC.y = 0.25;
+         points.push_back(pointC);
+
+         pointD.x = 1.55;
+         pointD.y = 0.25;
+         points.push_back(pointD);
+
+         pointE.x = 0.05;
+         pointE.y = 0.5;
+         points.push_back(pointE);
+
+         pointF.x = 0.55;
+         pointF.y = 0.5;
+         points.push_back(pointF);
+
+         pointG.x = 1.05;
+         pointG.y = 0.5;
+         points.push_back(pointG);
+
+         pointH.x = 1.55;
+         pointH.y = 0.5;
+         points.push_back(pointH);
+
+         pointI.x = 0.05;
+         pointI.y = 0.75;
+         points.push_back(pointI);
+
+         pointK.x = 0.55;
+         pointK.y = 0.75;
+         points.push_back(pointK);
+
+         pointL.x = 1.05;
+         pointL.y = 0.75;
+         points.push_back(pointL);
+
+         pointM.x = 1.55;
+         pointM.y = 0.75;
+         points.push_back(pointM);
+
+         std::vector&lt;int&gt; data;
+         for (int i=0; i&lt;M; ++i)
+           data.push_back(i);
+
+         std::random_shuffle ( data.begin(), data.end(), myrandom);
+
+         std::cout &lt;&lt; "data contains:";
+         for (std::vector&lt;int&gt;::iterator it=data.begin(); it!=data.end(); ++it)
+           std::cout &lt;&lt; ' ' &lt;&lt; *it;
+         std::cout &lt;&lt; '\n';
+
+
+         int p = rand() % N;
+         std::cout &lt;&lt; " p = "&lt;&lt; p &lt;&lt; "\n";
+         auto resHeatFluid = runApplicationHeatFluid( heatFluid, SN[p] );
+         auto u_true = heatFluid-&gt;heatModel()-&gt;fieldTemperature();
+         std::vector&lt; double &gt; y_obs;
+
+         auto phi = heat-&gt;spaceTemperature()-&gt;element( );
+         auto capteur = heat-&gt;spaceTemperature()-&gt;element( );
+
+         std::vector&lt; element_temperature_type &gt; UM( M,heat-&gt;spaceTemperature()-&gt;element() );
+         for(int i=0; i&lt; M; i++)
+         {
+           int index = data[i];
+           auto sensor = points[index];
+           std::cout &lt;&lt; "xm="&lt;&lt; sensor.x&lt;&lt; "; ym="&lt;&lt;sensor.y&lt;&lt; "\n";
+           auto phiExpr = exp( - (pow(Px()-sensor.x,2) + pow(Py()-sensor.y,2))/(2*r*r) )*chi( (pow(Px()-sensor.x,2) + pow(Py()-sensor.y,2))&lt;r*r );
+
+
+           phi.on( _range=elements( heat-&gt;mesh()),_expr=phiExpr);
+           capteur += phi;
+
+           double c = integrate(_range=elements( heat-&gt;mesh()), _expr= phiExpr).evaluate()(0,0);
+           std::cout &lt;&lt; " Is that c = 1 ? " &lt;&lt; c &lt;&lt; "\n";
+
+           double y = integrate(_range=elements( heat-&gt;mesh()), _expr= phiExpr * idv(u_true)).evaluate()(0,0);
+           y_obs.push_back(y);
+
+           auto qm = heat-&gt;spaceTemperature()-&gt;element("qm" );
+           auto v = heat-&gt;spaceTemperature()-&gt;element( );
+
+           auto l = form1( _test= heat-&gt;spaceTemperature());
+           l = integrate(_range=elements( heat-&gt;mesh()), _expr= phiExpr * id(v));
+
+           auto a = form2( _trial=heat-&gt;spaceTemperature(), _test=heat-&gt;spaceTemperature());
+           a = integrate(_range=elements( heat-&gt;mesh()), _expr= inner(gradt(qm),grad(v)));
+           a += integrate(_range=elements( heat-&gt;mesh()), _expr= inner(idt(qm),id(v)));
+
+
+           a.solve(_rhs=l,_solution=qm);
+           UM[i] = qm;
+           std::cout &lt;&lt; " UM " &lt;&lt; UM[i].size() &lt;&lt; " vs " &lt;&lt; qm.size() &lt;&lt; "\n";
+           std::cout &lt;&lt; " UM " &lt;&lt; UM[i].sum() &lt;&lt; " vs " &lt;&lt; qm.sum() &lt;&lt; "\n";
+         }
+
+
+         //Build matrice PBDW//////////////////////////////////////////////////////////////////////////
+         //int M = coords.size();
+         //int N = ZN_orthn.size();
+         using Eigen::MatrixXd;
+         MatrixXd A(M,M);
+         for(int i=0; i&lt;M; i++)
+         {
+           for(int j=0; j&lt;M; j++)
+               A(i,j) = produitscalair(heat,UM[j], UM[i]);
+         }
+         std::cout &lt;&lt; "A = \n" &lt;&lt; A &lt;&lt; "\n";
+
+         MatrixXd B(M,N);
+         for(int i=0; i&lt;M; i++)
+         {
+           for(int j=0; j&lt;N; j++)
+             B(i,j) = produitscalair(heat,ZN_orthn[j], UM[i]);
+         }
+         std::cout &lt;&lt; "B = \n"  &lt;&lt; B &lt;&lt; "\n";
+
+
+         MatrixXd K(M+N,M+N);
+         K.setZero();
+         K.block(0,0,M,M) = A;
+         K.block(0,M,M,N) = B;
+         K.block(M,0,N,M) = B.transpose();
+         std::cout &lt;&lt; "K = \n"  &lt;&lt; K &lt;&lt; "\n";
+
+
+         //Solve PBDW//////////////////////////////////////////////////////////////////////////
+         MatrixXd Y(M+N,1);
+         Y.setZero();
+         for(int i=0; i&lt;M; i++)
+           Y(i,0)=y_obs[i];
+         std::cout &lt;&lt; "Y = \n"  &lt;&lt; Y &lt;&lt; "\n";
+
+
+         toc("offline");
+
+         Eigen::EigenSolver&lt;MatrixXd&gt; esK(K);
+         std::cout &lt;&lt; "The eigenvalues of K are:" &lt;&lt; endl &lt;&lt; esK.eigenvalues() &lt;&lt; endl;
+         std::cout &lt;&lt; "The matrix of eigenvectors, V, is:" &lt;&lt; endl &lt;&lt; esK.eigenvectors() &lt;&lt; endl &lt;&lt; endl;
+
+         std::vector&lt; double &gt; lambdaK;
+         for(int i=0; i&lt; N+M; i++   )
+         {
+           lambdaK.push_back(esK.eigenvalues()[i].real());
+           std::cout &lt;&lt; "lambda_K = \n"  &lt;&lt; lambdaK.back() &lt;&lt; "\n";
+         }
+
+         double lambdaK_min = *std::min_element(lambdaK.begin(), lambdaK.end());
+         double lambdaK_max = *std::max_element(lambdaK.begin(), lambdaK.end());
+         double cond_K = std::abs(lambdaK_max)/std::abs(lambdaK_min);
+         std::cout &lt;&lt; "Cond(K) = "  &lt;&lt; cond_K &lt;&lt; "\n";
+
+         tic();
+         MatrixXd S(M+N,1);
+         S = K.inverse()*Y;
+         std::cout &lt;&lt; "S = \n"  &lt;&lt; S &lt;&lt; "\n";
+
+         //Output//////////////////////////////////////////////////////////////////////////
+         MatrixXd eta(M,1);
+         //eta = S.block(0,0,M,0);
+         for (int i=0; i&lt;M; i++)
+           eta(i,0)=S(i,0);
+         MatrixXd z(N,1);
+         //z = S.block(M,0,N,0);
+         for (int i=0; i&lt;N; i++)
+           z(i,0)=S(i+M,0);
+
+         std::cout &lt;&lt; "z = \n"  &lt;&lt; z &lt;&lt; "\n";
+         std::cout &lt;&lt; "eta = \n"  &lt;&lt; eta &lt;&lt; "\n";
+
+
+       auto u_MN = heat-&gt;spaceTemperature()-&gt;element();
+       for(int i=0; i&lt;M; i++)
+           u_MN += heat-&gt;spaceTemperature()-&gt;element(eta(i,0)*idv(UM[i]));
+
+       for(int i=0; i&lt;N; i++)
+           u_MN += heat-&gt;spaceTemperature()-&gt;element(z(i,0)*idv(ZN_orthn[i]));
+
+       toc("online");
+       ////Stability coefficient//////////////////////////////////////////
+       tic();
+       MatrixXd C(N,N);
+       for(int i=0; i&lt;N; i++)
+       {
+         for(int j=0; j&lt;N; j++)
+           C(i,j) = produitscalair(heat,ZN_orthn[i], ZN_orthn[j]);
+       }
+       std::cout &lt;&lt; "C = \n"  &lt;&lt; C &lt;&lt; "\n";
+
+       MatrixXd K1(N,N);
+       K1 = (B.transpose() * A.inverse() * B ) * C.inverse();
+       std::cout &lt;&lt; "K1 = \n"  &lt;&lt; K1 &lt;&lt; "\n";
+
+       Eigen::EigenSolver&lt;MatrixXd&gt; es(K1);
+       std::cout &lt;&lt; "The eigenvalues of K1 are:" &lt;&lt; endl &lt;&lt; es.eigenvalues() &lt;&lt; endl;
+       std::cout &lt;&lt; "The matrix of eigenvectors, V, is:" &lt;&lt; endl &lt;&lt; es.eigenvectors() &lt;&lt; endl &lt;&lt; endl;
+
+       std::vector&lt; double &gt; lambda;
+       for(int i=0; i&lt; N; i++   )
+       {
+         lambda.push_back(es.eigenvalues()[i].real());
+         //std::cout &lt;&lt; "lambda = \n"  &lt;&lt; lambda.back() &lt;&lt; "\n";
+       }
+
+       double lambda_min = *std::min_element(lambda.begin(), lambda.end());
+       double beta = std::sqrt(lambda_min);
+       //std::cout &lt;&lt; "lambda_min = "  &lt;&lt; lambda_min &lt;&lt; "\n";
+       std::cout &lt;&lt; "beta = "  &lt;&lt; beta &lt;&lt; "\n";
+
+
+         /////priori error/////////////////////////////////////////////////////////
+         double l2 = normL2(_range=elements(heat-&gt;mesh()), _expr=idv(u_true)-idv(u_MN) );
+         double h1 = normH1(_range=elements(heat-&gt;mesh()), _expr=idv(u_true)-idv(u_MN), _grad_expr=gradv(u_true)-gradv(u_MN));
+         //std::cout &lt;&lt; "h1 = "  &lt;&lt; h1 &lt;&lt; "\n";
+         double c_l2 = normL2(_range=elements(heat-&gt;mesh()), _expr=idv(u_true) );
+         //std::cout &lt;&lt; "c_l2 = "  &lt;&lt; c_l2 &lt;&lt; "\n";
+         double e_l2 = (1./c_l2) * l2;
+         std::cout &lt;&lt; "err_l2 = "  &lt;&lt; e_l2 &lt;&lt; "\n";
+         double c_h1 = normH1(_range=elements(heat-&gt;mesh()), _expr=idv(u_true), _grad_expr=gradv(u_true) );
+         //std::cout &lt;&lt; "c_h1 = "  &lt;&lt; c_h1 &lt;&lt; "\n";
+         double e_h1 = (1./c_h1) * h1;
+         std::cout &lt;&lt; "err_h1 = "  &lt;&lt; e_h1 &lt;&lt; "\n";
+
+
+         ///boundary error///////////////////////////////////////////////////////
+         std::vector&lt; double &gt; err_h1;
+         std::vector&lt; double &gt; err_l2;
+         for(int i=0; i&lt;N; i++)
+         {
+           for(int j=0; j&lt;M; j++)
+           {
+             err_h1.push_back(normH1(_range=elements(heat-&gt;mesh()),
+             _expr=idv(u_true)-idv(ZN_orthn[i]) - idv(UM[j]), _grad_expr=gradv(u_true)-gradv(ZN_orthn[i]) - gradv(UM[j])));
+
+             err_l2.push_back(normL2(_range=elements(heat-&gt;mesh()), _expr=idv(u_true)-idv(ZN_orthn[i]) - idv(UM[j]) ));
+           }
+         }
+         double min_h1 = *std::min_element(err_h1.begin(), err_h1.end());
+         double min_l2 = *std::min_element(err_l2.begin(), err_l2.end());
+
+         double best_fit_l2 = (1./c_l2) * min_l2;
+         std::cout &lt;&lt; "best_fit_l2 = "  &lt;&lt; best_fit_l2 &lt;&lt; "\n";
+         double bound_l2 = (1 + 1./beta) * best_fit_l2;
+         std::cout &lt;&lt; "bound_l2 = "  &lt;&lt; bound_l2 &lt;&lt; "\n";
+
+         double best_fit_h1 = (1./c_h1) * min_h1;
+         std::cout &lt;&lt; "best_fit_h1 = "  &lt;&lt; best_fit_h1 &lt;&lt; "\n";
+         double bound_h1 = (1 + 1./beta) * best_fit_h1;
+         std::cout &lt;&lt; "bound_h1 = "  &lt;&lt; bound_h1 &lt;&lt; "\n";
+
+
+         toc("beta");
+         ///save solution///////////////////////////////////////////////////////////////
+         auto g = exporter( _mesh=heat-&gt;mesh(),_name="u_true" );
+         g -&gt; add("u_true", u_true);
+         g-&gt;save();
+
+         auto u_err = heat-&gt;spaceTemperature()-&gt;element();
+         for(int i = 0; i&lt;u_true.size(); i++)
+           u_err[i] = std::log(std::abs(u_true[i] - u_MN[i]));
+         auto er = exporter( _mesh=heat-&gt;mesh(), _name="u_err");
+         er -&gt; add("u_err", u_err);
+         er-&gt;save();
+
+
+         auto d = exporter( _mesh=heat-&gt;mesh(),_name="u_h" );
+         for(int i = 0; i &lt; ZN.size(); i++)
+             d-&gt;add( (boost::format("Z_%1%")%i).str(), ZN[i] );
+         d-&gt;save();
+
+         auto q = exporter( _mesh=heat-&gt;mesh(),_name="qm" );
+         for(int i = 0; i &lt; UM.size(); i++)
+             q-&gt;add( (boost::format("q_%1%")%i).str(), UM[i] );
+         q-&gt;save();
+
+         auto n = exporter( _mesh=heat-&gt;mesh(),_name="Znorthn" );
+         for(int i = 0; i &lt; ZN_orthn.size(); i++)
+             n-&gt;add( (boost::format("Znorthn_%1%")%i).str(), ZN_orthn[i] );
+         n-&gt;save();
+
+         auto e = exporter( _mesh=heat-&gt;mesh(), _name="u_MN");
+         e -&gt; add("solution PBDW", u_MN);
+         e-&gt;save();
+
+         auto QM = heat-&gt;spaceTemperature()-&gt;element();
+         for(int i=0; i&lt;UM.size(); i++)
+             QM += UM[i];
+         auto f = exporter( _mesh=heat-&gt;mesh(),_name="qm_total" );
+         f-&gt;add("qm_total", QM);
+         f-&gt;save();
+
+
+         auto gg = exporter( _mesh=heat-&gt;mesh(),_name="sensor_location" );
+         gg-&gt;add("sensor", capteur);
+         gg-&gt;save();
+
+         auto u_velocity = heatFluid-&gt;fluidModel()-&gt;fieldVelocity();
+         auto h = exporter( _mesh=heat-&gt;mesh(),_name="u_velocity" );
+         h-&gt;add("u_velocity", u_velocity);
+         h-&gt;save();
+
+
+
+         std::cout &lt;&lt; "============================================================\n";
+
+         return 0;
+     }</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">aero.json</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">     // -*- mode: javascript -*-
+     {
+         "Name": "Thermo dynamics",
+         "ShortName":"ThermoDyn",
+         "Parameters":
+         {
+     	"T_heater":310,
+     	"T_ext":280,
+       "h":0.1
+         },
+         "Models":
+         {
+     	"use-model-name":1,
+     	"fluid":
+     	{
+     	    "equations": "Navier-Stokes"
+     	}
+         },
+         "Materials":
+         {
+             "air":
+             {
+     	    "markers":["air"],
+                 "physics":["fluid","heat"],
+                 "rho":"1",
+                 "mu":"2.65e-2",
+                 "k":"0.03",
+                 "Cp":"1004",
+                 "beta":"0.003660" //0.00006900
+             }
+         },
+         "BoundaryConditions":
+         {
+             "velocity":
+             {
+                 "Dirichlet":
+                 {
+                     "exterior-walls": { "expr":"{0,0}" },
+                     "heater1": { "expr":"{0,0}" }
+                 }
+             },
+             "temperature":
+             {
+                 "Dirichlet":
+                 {
+                     "heater1": { "expr":"T_heater:T_heater" }
+                 },
+                 "Robin":
+                 {
+                     "exterior-walls":
+                     {
+                         "expr1":"h:h",// h coeff
+                         "expr2":"T_ext:T_ext"// temperature exterior
+                     }
+
+                 }
+             }
+         },
+         "PostProcess":
+         {
+     	"use-model-name":1,
+     	"heat-fluid":
+     	{
+     	    "Exports":
+     	    {
+     		"fields":["fluid.velocity","fluid.pressure","heat.temperature","fluid.pid"]
+     	    }
+     	},
+     	"fluid":
+     	{
+     	},
+     	"heat":
+     	{
+     	    "Measures":
+     	    {
+     		"Points":
+     		{
+     		    "pointA":
+     		    {
+     			"coord":"{0.05,0.25}",
+     			"fields":"temperature"
+     		    },
+     		    "pointB":
+     		    {
+     			"coord":"{0.55,0.25}",
+     			"fields":"temperature"
+     		    },
+     		    "pointC":
+     		    {
+       			"coord":"{1.05,0.25}",
+       			"fields":"temperature"
+     		    },
+     		    "pointD":
+     		    {
+       			"coord":"{1.55,0.25}",
+       			"fields":"temperature"
+     		    },
+     		    "pointE":
+     		    {
+       			"coord":"{0.05,0.5}",
+       			"fields":"temperature"
+     		    },
+     		    "pointF":
+     		    {
+       			"coord":"{0.55,0.5}",
+       			"fields":"temperature"
+     		    },
+     		    "pointG":
+     		    {
+       			"coord":"{1.05,0.5}",
+       			"fields":"temperature"
+     		    },
+     		    "pointH":
+     		    {
+       			"coord":"{1.55,0.5}",
+       			"fields":"temperature"
+     		    },
+     		    "pointI":
+     		    {
+       			"coord":"{0.05,0.75}",
+       			"fields":"temperature"
+     		    },
+     		    "pointK":
+     		    {
+       			"coord":"{0.55,0.75}",
+       			"fields":"temperature"
+     		    },
+     		    "pointL":
+     		    {
+       			"coord":"{1.05,0.75}",
+       			"fields":"temperature"
+     		    },
+     		    "pointM":
+     		    {
+       			"coord":"{1.55,0.75}",
+       			"fields":"temperature"
+     		    }
+     		}
+     	    }
+     	}
+         }
+     }</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">heat.json</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// -*- mode: javascript -*-
+{
+    "Name": "Thermo dynamics",
+    "ShortName":"ThermoDyn",
+    "Parameters":
+    {
+	"T_heater":310,
+	"T_ext":280
+    },
+    "Materials":
+    {
+        "air":
+        {
+	    "markers":["air"],
+            "physics":["fluid","heat"],
+            "rho":"1",
+            "mu":"2.65e-2",
+            "k":"0.03",
+            "Cp":"1004",
+            "beta":"0.003660" //0.00006900
+        }
+    },
+    "BoundaryConditions":
+    {
+        "temperature":
+        {
+            "Dirichlet":
+            {
+                "heater1": { "expr":"T_heater:T_heater" }
+            },
+            "Robin":
+            {
+                "exterior-walls":
+                {
+                    "expr1":"1.0/(0.06+0.01/0.5 + 0.3/0.8 + 0.20/0.032 +0.016/0.313 +0.14)",// h coeff
+                    "expr2":"T_ext:T_ext"// temperature exterior
+                }
+
+            }
+        }
+    },
+    "PostProcess":
+    {
+	"Measures":
+	{
+	    "Points":
+	    {
+        "pointA":
+        {
+        "coord":"{0.05,0.25}",
+        "fields":"temperature"
+        },
+        "pointB":
+        {
+        "coord":"{0.55,0.25}",
+        "fields":"temperature"
+        },
+        "pointC":
+        {
+        "coord":"{1.05,0.25}",
+        "fields":"temperature"
+        },
+        "pointD":
+        {
+        "coord":"{1.55,0.25}",
+        "fields":"temperature"
+        },
+        "pointE":
+        {
+        "coord":"{0.05,0.5}",
+        "fields":"temperature"
+        },
+        "pointF":
+        {
+        "coord":"{0.55,0.5}",
+        "fields":"temperature"
+        },
+        "pointG":
+        {
+        "coord":"{1.05,0.5}",
+        "fields":"temperature"
+        },
+        "pointH":
+        {
+        "coord":"{1.55,0.5}",
+        "fields":"temperature"
+        },
+        "pointI":
+        {
+        "coord":"{0.05,0.75}",
+        "fields":"temperature"
+        },
+        "pointK":
+        {
+        "coord":"{0.55,0.75}",
+        "fields":"temperature"
+        },
+        "pointL":
+        {
+        "coord":"{1.05,0.75}",
+        "fields":"temperature"
+        },
+        "pointM":
+        {
+        "coord":"{1.55,0.75}",
+        "fields":"temperature"
+        }
+	    }
+	}
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>See <a href="#:cases:pbdw/case1.adoc" class="page unresolved">Case 1</a>.</p>
+</div>
+<div class="paragraph">
+<p>See <a href="#:cases:pbdw/case2.adoc" class="page unresolved">Case 2</a>.</p>
+</div>
+<div class="paragraph">
+<p>See <a href="#:cases:pbdw/case3.adoc" class="page unresolved">Case 3</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_bibliographie"><a class="anchor" href="#_bibliographie"></a>5. Bibliographie</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Validation expérimentale de modèles : application aux bâtiments basse consommation - <em>Stephanie Bontemps</em></p>
+</li>
+<li>
+<p>Méthodes des bases réduites pour la qualité de l&#8217;air en milieu urbain - <em>Janelle K.HAMMOND</em></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <div class="container">
+    <div class="footer-links">
+      <div class="col">
+        <div class="footer-logo">
+          <a href="https://www.cemosis.fr" class="icon">
+            <img src="../../../../_/img/logoCemosisTransparent.png" alt="Cemosis">
+          </a>
+        </div>
+      </div>
+      <div class="col">
+        <ul>
+          <li><a href="https://docs.cemosis.fr" target="_blank" rel="noopener">Projects Documentation</a></li>
+          <li><a href="https://join.slack.com/t/feelpp/shared_invite/zt-2qe0q9hw-4pVbhohCXUE6Po9Ma8dbiQ" target="_blank" rel="noopener">Forums(Slack)</a></li>
+        </ul>
+      </div>
+      <div class="col">
+        <ul>
+          <li><a href="https://www.cemosis.fr" target="_blank" rel="noopener">Cemosis</a></li>
+          <li><a href="https://www.cemosis.fr/news" target="_blank" rel="noopener">News</a></li>
+          <li><a href="https://www.cemosis.fr/projects" target="_blank" rel="noopener">Projects</a></li>
+        </ul>
+      </div>
+      <div class="col">
+        <ul>
+          <li><a href="https://docs.feelpp.org" target="_blank" rel="noopener">Feel++ Documentation</a></li>
+          <li><a href="http://docs.feelpp.org/user/">Get Started</a></li>
+          <li><a href="http://docs.feelpp.org/user//install/distributions/">Downloads</a></li>
+        </ul>
+      </div>
+      <div class="col">
+        <ul class="social-icons">
+          <li>
+            <svg  width="14" height="14" viewBox="0 0 32 32"> <path id="facebook" class="cls-1" d="M29,0H3A2.652,2.652,0,0,0,0,3V29a2.652,2.652,0,0,0,3,3H16V18H12V14h4V12a6.452,6.452,0,0,1,6-6h4v4H22a2.151,2.151,0,0,0-2,2v2h6l-1,4H20V32h9a2.652,2.652,0,0,0,3-3V3A2.652,2.652,0,0,0,29,0Z"/></svg>
+            <a href="https://www.facebook.com/cemosis.fr" class="icon">
+            Facebook
+            </a>
+          </li>
+          <li>
+            <svg  width="14" height="14" viewBox="0 0 32.1 26.1"> <path id="twitter" class="cls-1" d="M32,7.1a11.836,11.836,0,0,1-3.8,1,6.462,6.462,0,0,0,2.9-3.6,12.606,12.606,0,0,1-4.2,1.6A6.492,6.492,0,0,0,22.1,4a6.594,6.594,0,0,0-6.6,6.6,7.719,7.719,0,0,0,.2,1.5A18.458,18.458,0,0,1,2.2,5.2a6.294,6.294,0,0,0-.9,3.3A6.765,6.765,0,0,0,4.2,14a6.109,6.109,0,0,1-3-.8v.1a6.543,6.543,0,0,0,5.3,6.4,4.678,4.678,0,0,1-1.7.2,4.869,4.869,0,0,1-1.2-.1,6.679,6.679,0,0,0,6.1,4.6,12.917,12.917,0,0,1-8.2,2.8,9.151,9.151,0,0,1-1.6-.1,18.438,18.438,0,0,0,10.1,3c12.1,0,18.7-10,18.7-18.7v-.8A13.336,13.336,0,0,0,32,7.2Z" transform="translate(0.1 -4)"/></svg>
+            <a href="https://twitter.com/cemosis" class="icon">
+              Twitter
+            </a>
+          </li>
+          <li>
+          <svg  width="14" height="14" viewBox="0 0 32 32"> <path id="linkedin" class="cls-1" d="M29,0H3A3.076,3.076,0,0,0,0,3V29a3.009,3.009,0,0,0,3,3H29a2.946,2.946,0,0,0,3-3V3A3.009,3.009,0,0,0,29,0ZM12,26H8V12h4ZM10,10a2,2,0,1,1,2-2A2.006,2.006,0,0,1,10,10ZM26,26H22V18a2,2,0,0,0-4,0v8H14V12h4v2.5c.8-1.1,2.1-2.5,3.5-2.5A4.736,4.736,0,0,1,26,17Z"/></svg>
+              <a href="https://www.linkedin.com/company/cemosis" class="icon">
+             Linkedin
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-terms">
+      <div class="footer-terms-copyright">
+          <span>© 2020 Cemosis, Université de Strasbourg</span>
+      </div>
+      <div class="footer-terms-links">
+        <a href="https://www.cemosis.fr/terms-of-use">Terms of Use</a>
+        <a href="https://www.cemosis.fr/privacy-policy">Privacy Policy</a>
+        <a href="https://www.cemosis.fr/cookie-policy">Cookie Policy</a>
+        <a href="https://www.cemosis.fr/support-policy">Support Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+<script src="../../../../_/js/site.js"></script>
+<script async src="../../../../_/js/vendor/fontawesome-icon-defs.js"></script>
+<script async src="../../../../_/js/vendor/fontawesome.js"></script>
+<script async src="../../../../_/js/vendor/highlight.js"></script>
+
+<script async id="search-script" src="../../../../_/js/vendor/docsearch.js" data-app-id="FIPLENFG5M" data-api-key="489d96aa4ae574ec7ad1f23741a2d46d" data-index-name="cemosis" data-stylesheet="../../../../_/css/vendor/docsearch.css">
+</script>
+
+  </body>
+</html>

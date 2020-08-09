@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<sitemap>
+<loc>https://docs.cemosis.fr/sitemap-antora-ui-default.xml</loc>
+</sitemap>
+<sitemap>
+<loc>https://docs.cemosis.fr/sitemap-cemosis.xml</loc>
+</sitemap>
+<sitemap>
+<loc>https://docs.cemosis.fr/sitemap-eye2brain.xml</loc>
+</sitemap>
+<sitemap>
+<loc>https://docs.cemosis.fr/sitemap-feelpp-cfd.xml</loc>
+</sitemap>
+<sitemap>
+<loc>https://docs.cemosis.fr/sitemap-hemotumpp.xml</loc>
+</sitemap>
+<sitemap>
+<loc>https://docs.cemosis.fr/sitemap-ibat.xml</loc>
+</sitemap>
+<sitemap>
+<loc>https://docs.cemosis.fr/sitemap-mqs.xml</loc>
+</sitemap>
+<sitemap>
+<loc>https://docs.cemosis.fr/sitemap-msqab.xml</loc>
+</sitemap>
+<sitemap>
+<loc>https://docs.cemosis.fr/sitemap-swimmer.xml</loc>
+</sitemap>
+</sitemapindex>

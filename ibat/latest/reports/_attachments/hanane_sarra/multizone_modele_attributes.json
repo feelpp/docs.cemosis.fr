@@ -1,0 +1,663 @@
+{
+    "building":
+    {
+        "building_id":"API_B",
+         "area":"3264.9",
+        "n_zones":"13",
+        "n_nodes":"24",
+
+        "zone1":
+        {
+            "zone_id":"zone1",
+            "area":"234.41",
+            "n_spaces":"13",
+            "n_nodes":"0"
+        },
+        "zone2":
+        {
+            "zone_id":"zone1",
+            "area":"154.05",
+            "n_spaces":"8",
+            "n_nodes":"1",
+            "node1":
+            {
+                "node_id":"19",
+                "location":
+                {
+                    "space_id":"CR12",
+                    "space_area":"140"
+                },
+                "position" : 
+                {
+                    "x_m" : "35.9",
+                    "y_m" : "10.6",
+                    "z_m" : "2.85"
+                },
+                "measures" :
+                {
+                    "temperature":{"unit":"degC"}, 
+                    "humidity" :{"unit":"%"},
+                    "light" :{"unit":"lux"},
+                    "pir" : {"unit": ""},
+                    "sound":{"unit":"db"}
+                }
+            }
+        }, 
+        "zone3":
+        {
+            "zone_id":"zone3",
+            "area":"129.89",
+            "n_spaces":"7",
+            "n_nodes":"0"
+        },
+        "zone4":
+        {
+            "zone_id":"zone4",
+            "area":"257",
+            "n-spaces":"5",
+            "n_nodes":"2",
+            "node1":
+            {
+                "node_id":"53",
+                "location":
+                {
+                    "space_id":"Hall21",
+                    "space_area":"65"
+                },
+                "position" : 
+                {
+                    "x_m" : "36.2",
+                    "y_m" : "28.6",
+                    "z_m" : "6.65"
+                },
+                "measures" :
+                {
+                    "temperature":{"unit":"degC"}, 
+                    "humidity" :{"unit":"%"},
+                    "light" :{"unit":"lux"},
+                    "pir" : {"unit": ""},
+                    "sound":{"unit":"db"}
+                }
+            },
+            "node2":
+            {
+                "node_id":"54",
+                "location":
+                {
+                    "space_id":"Hal21",
+                    "space_area":"65"
+                },
+                "position" : 
+                {
+                    "x_m" : "27.9",
+                    "y_m" : "28.2",
+                    "z_m" : "6.65"
+                },
+                "measures" :
+                {
+                    "temperature":{"unit":"degC"}, 
+                    "humidity" :{"unit":"%"},
+                    "light" :{"unit":"lux"},
+                    "pir" : {"unit": ""},
+                    "sound":{"unit":"db"}
+                }
+            }
+        },
+        "zone5":
+        {
+            "zone_id":"zone5",
+            "area":"111.96",
+            "n_spaces":"5",
+            "n_nodes":"0"
+        },
+        "zone6":
+        {
+            "zone_id":"zone6",
+            "area":"298.07",
+            "n_spaces":"19",
+            "n_nodes":"2",
+            "node1":
+            {
+                "node_id":"40",
+                "location":
+                {
+                    "space_id":"CR13",
+                    "space_area":"80"
+                },
+                "position" : 
+                {
+                    "x_m" : "65.4",
+                    "y_m" : "8.9",
+                    "z_m" : "2.85"
+                },
+                "measures" :
+                {
+                    "temperature":{"unit":"degC"}, 
+                    "humidity" :{"unit":"%"},
+                    "light" :{"unit":"lux"},
+                    "pir" : {"unit": ""},
+                    "sound":{"unit":"db"}
+                }
+
+            },
+            "node2":
+            {
+                "node_id":"41",
+                "location":
+                {
+                    "space_id":"CR13",
+                    "space_area":"80"
+                },
+                "position" : 
+                {
+                    "x_m" : "56",
+                    "y_m" : "10.6",
+                    "z_m" : "2.85"
+                },
+                "measures" :
+                {
+                    "temperature":{"unit":"degC"}, 
+                    "humidity" :{"unit":"%"},
+                    "light" :{"unit":"lux"},
+                    "pir" : {"unit": ""},
+                    "sound":{"unit":"db"}
+                }
+
+            }
+        },
+        "zone7":
+        {
+            "zone_id":"zone7",
+            "area":"448.66",
+            "n_spaces":"17",
+            "n_nodes":"2",
+            "node1":
+            {
+                "node_id":"17",
+                "location":
+                {
+                    "space_id":"Hall12",
+                    "space_area":"100"
+                },
+                "position" : 
+                {
+                    "x_m" : "83",
+                    "y_m" : "18.5",
+                    "z_m" : "2.85"
+                },
+                "measures" :
+                {
+                    "temperature":{"unit":"degC"}, 
+                    "humidity" :{"unit":"%"},
+                    "light" :{"unit":"lux"},
+                    "pir" : {"unit": ""},
+                    "sound":{"unit":"db"}
+                }
+
+            },
+            "node2":
+            {
+                "node_id":"39",
+                "location":
+                {
+                    "space_id":"Hall12",
+                    "space_area":"100"
+                },
+                "position" : 
+                {
+                    "x_m" : "80.1",
+                    "y_m" : "7.8",
+                    "z_m" : "2.85"
+                },
+                "measures" :
+                {
+                    "temperature":{"unit":"degC"}, 
+                    "humidity" :{"unit":"%"},
+                    "light" :{"unit":"lux"},
+                    "pir" : {"unit": ""},
+                    "sound":{"unit":"db"}
+                }
+
+            }
+        },
+        "zone8":
+        {
+            "zone_id":"zone8",
+            "area":"437.26",
+            "n_spaces":"24",
+            "n_nodes":"2",
+            "node1":
+            {
+                "node_id":"26",
+                "location":
+                {
+                    "space_id":"CR21",
+                    "space_area":"28.5"
+                },
+                "position" : 
+                {
+                    "x_m" : "1.2",
+                    "y_m" : "24.5",
+                    "z_m" : "6.65"
+                },
+                "measures" :
+                {
+                    "temperature":{"unit":"degC"}, 
+                    "humidity" :{"unit":"%"},
+                    "light" :{"unit":"lux"},
+                    "pir" : {"unit": ""},
+                    "sound":{"unit":"db"}
+                }
+
+            },
+            "node2":
+            {
+                "node_id":"45",
+                "location":
+                {
+                    "space_id":"CR22",
+                    "space_area":"25"
+                },
+                "position" : 
+                {
+                    "x_m" : "8.1",
+                    "y_m" : "25.7",
+                    "z_m" : "6.65"
+                },
+                "measures" :
+                {
+                    "temperature":{"unit":"degC"}, 
+                    "humidity" :{"unit":"%"},
+                    "light" :{"unit":"lux"},
+                    "pir" : {"unit": ""},
+                    "sound":{"unit":"db"}
+                }
+            }
+        },
+        "zone9":
+        {
+            "zone_id":"zone9",
+            "area":"104.5",
+            "n_spaces":"6",
+            "n_nodes":"3",
+            "node1":
+            {
+                "node_id":"52",
+                "location":
+                {
+                    "space_id":"CR24",
+                    "space_area":"90"
+                },
+                "position" : 
+                {
+                    "x_m" : "35.9",
+                    "y_m" : "10.6",
+                    "z_m" : "6.65"
+                },
+                "measures" :
+                {
+                    "temperature":{"unit":"degC"}, 
+                    "humidity" :{"unit":"%"},
+                    "light" :{"unit":"lux"},
+                    "pir" : {"unit": ""},
+                    "sound":{"unit":"db"}
+                }
+
+            },
+            "node2":
+            {
+                "node_id":"55",
+                "location":
+                {
+                    "space_id":"CR24",
+                    "space_area":"90"
+                },
+                "position" : 
+                {
+                    "x_m" : "29.8",
+                    "y_m" : "9.9",
+                    "z_m" : "6.65"
+                },
+                "measures" :
+                {
+                    "temperature":{"unit":"degC"}, 
+                    "humidity" :{"unit":"%"},
+                    "light" :{"unit":"lux"},
+                    "pir" : {"unit": ""},
+                    "sound":{"unit":"db"}
+                }
+            },
+            "node3":
+            {
+                "node_id":"56",
+                "location":
+                {
+                    "space_id":"CR24",
+                    "space_area":"90"
+                },
+                "position" : 
+                {
+                    "x_m" : "22.6",
+                    "y_m" : "9",
+                    "z_m" : "6.65"
+                },
+                "measures" :
+                {
+                    "temperature":{"unit":"degC"}, 
+                    "humidity" :{"unit":"%"},
+                    "light" :{"unit":"lux"},
+                    "pir" : {"unit":""},
+                    "sound":{"unit":"db"}
+                }
+
+            }
+        },
+        "zone10":
+        {
+            "zone_id":"zone10",
+            "area":"79.19",
+            "n_spaces":"4",
+            "n_nodes":"0"
+        },
+        "zone11":
+        {
+            "zone_id":"zone11",
+            "area":"79.24",
+            "n_spaces":"4",
+            "n_nodes":"0"
+        },
+        "zone12":
+        {
+            "zone_id":"zone12",
+            "area":"509.98",
+            "n_spaces":"21",
+            "n_nodes":"8",
+            "node1":
+            {
+                "node_id":"23",
+                "location":
+                {
+                    "space_id":"B243",
+                    "space_area":"111.14"
+                },
+                "position" : 
+                {
+                    "x_m" : "67.2",
+                    "y_m" : "15.5",
+                    "z_m" : "6.65"
+                },
+                "measures" :
+                {
+                    "temperature":{"unit":"degC"}, 
+                    "humidity" :{"unit":"%"},
+                    "light" :{"unit":"lux"},
+                    "pir" : {"unit":""},
+                    "sound":{"unit":"db"}
+                }
+
+            },
+            "node2":
+            {
+                "node_id":"24",
+                "location":
+                {
+                    "space_id":"CR27",
+                    "space_area":"12"
+                },
+                "position" : 
+                {
+                    "x_m" : "53.33",
+                    "y_m" : "32.44",
+                    "z_m" : "6.65"
+                },
+                "measures" :
+                {
+                    "temperature":{"unit":"degC"}, 
+                    "humidity" :{"unit":"%"},
+                    "light" :{"unit":"lux"},
+                    "pir" : {"unit":""},
+                    "sound":{"unit":"db"}
+                }
+            },
+            "node3":
+            {
+                "node_id":"44",
+                "location":
+                {
+                    "space_id":"B247",
+                    "space_area":"16.34"
+                },
+                "position" : 
+                {
+                    "x_m" : "50.9",
+                    "y_m" : "22.3",
+                    "z_m" : "6.65"
+                },
+                "measures" :
+                {
+                    "temperature":{"unit":"degC"}, 
+                    "humidity" :{"unit":"%"},
+                    "light" :{"unit":"lux"},
+                    "pir" : {"unit": ""},
+                    "sound":{"unit":"db"}
+                }
+            },
+            "node4":
+            {
+                "node_id":"46",
+                "location":
+                {
+                    "space_id":"B248",
+                    "space_area":"26.49"
+                },
+                "position" : 
+                {
+                    "x_m" : "53.4",
+                    "y_m" : "23.5",
+                    "z_m" : "6.65"
+                },
+                "measures" :
+                {
+                    "temperature":{"unit":"degC"}, 
+                    "humidity" :{"unit":"%"},
+                    "light" :{"unit":"lux"},
+                    "pir" : {"unit": ""},
+                    "sound":{"unit":"db"}
+                }
+                
+            },
+            "node5":
+            {
+                "node_id":"48",
+                "location":
+                {
+                    "space_id":"CR25",
+                    "space_area":"120"
+                },
+                "position" : 
+                {
+                    "x_m" : "69.2",
+                    "y_m" : "8.3",
+                    "z_m" : "6.65"
+                },
+                "measures" :
+                {
+                    "temperature":{"unit":"degC"}, 
+                    "humidity" :{"unit":"%"},
+                    "light" :{"unit":"lux"},
+                    "pir" : {"unit": ""},
+                    "sound":{"unit":"db"}
+                }
+            },
+            "node6":
+            {
+                "node_id":"49",
+                "location":
+                {
+                    "space_id":"CR25",
+                    "space_area":"120"
+                },
+                "position" : 
+                {
+                    "x_m" : "60.3",
+                    "y_m" : "9.4",
+                    "z_m" : "6.65"
+                },
+                "measures" :
+                {
+                    "temperature":{"unit":"degC"}, 
+                    "humidity" :{"unit":"%"},
+                    "light" :{"unit":"lux"},
+                    "pir" : {"unit": ""},
+                    "sound":{"unit":"db"}
+                }             
+            },
+            "node7":
+            {
+                "node_id":"50",
+                "location":
+                {
+                    "space_id":"CR25",
+                    "space_area":"120"
+                },
+                "position" : 
+                {
+                    "x_m" : "54",
+                    "y_m" : "9.8",
+                    "z_m" : "6.65"
+                },
+                "measures" :
+                {
+                    "temperature":{"unit":"degC"}, 
+                    "humidity" :{"unit":"%"},
+                    "light" :{"unit":"lux"},
+                    "pir" : {"unit":""},
+                    "sound":{"unit":"db"}
+                }
+            },
+            "node8":
+            {
+                "node_id":"51",
+                "location":
+                {
+                    "space_id":"CR25",
+                    "space_area":"120"
+                },
+                "position" : 
+                {
+                    "x_m" : "46",
+                    "y_m" : "9.6",
+                    "z_m" : "6.65"
+                },
+                "measures" :
+                {
+                    "temperature":{"unit":"degC"}, 
+                    "humidity" :{"unit":"%"},
+                    "light" :{"unit":"lux"},
+                    "pir" : {"unit": ""},
+                    "sound":{"unit":"db"}
+                }
+            }               
+        },
+        "zone13":
+        {
+            "zone_id":"zone13",
+            "area":"420.69",
+            "n_spaces":"18",
+            "n_nodes":"4",
+            "node1":
+            {
+                "node_id":"11",
+                "location":
+                {
+                    "space_id":"B268",
+                    "space_area":"14.53"
+                },
+                "position" : 
+                {
+                    "x_m" : "87.2",
+                    "y_m" : "1.7",
+                    "z_m" : "6.65"
+                },
+                "measures" :
+                {
+                    "temperature":{"unit":"degC"}, 
+                    "humidity" :{"unit":"%"},
+                    "light" :{"unit":"lux"},
+                    "pir" : {"unit":""},
+                    "sound":{"unit":"db"}
+                }
+            },
+            "node2":
+            {
+                "node_id":"16",
+                "location":
+                {
+                    "space_id":"B267",
+                    "space_area":"13.5"
+                },
+                "position" : 
+                {
+                    "x_m" : "88.5",
+                    "y_m" : "5.9",
+                    "z_m" : "6.65"
+                },
+                "measures" :
+                {
+                    "temperature":{"unit":"degC"}, 
+                    "humidity" :{"unit":"%"},
+                    "light" :{"unit":"lux"},
+                    "pir" : {"unit":""},
+                    "sound":{"unit":"db"}
+                }
+            },
+            "node3":
+            {
+                "node_id":"22",
+                "location":
+                {
+                    "space_id":"CR26",
+                    "space_area":"83"
+                },
+                "position" : 
+                {
+                    "x_m" : "84.6",
+                    "y_m" : "17.9",
+                    "z_m" : "6.65"
+                },
+                "measures" :
+                {
+                    "temperature":{"unit":"degC"}, 
+                    "humidity" :{"unit":"%"},
+                    "light" :{"unit":"lux"},
+                    "pir" : {"unit": ""},
+                    "sound":{"unit":"db"}
+                }
+            },
+            "node4":
+            {
+                "node_id":"47",
+                "location":
+                {
+                    "space_id":"CR26",
+                    "space_area":"83"
+                },
+                "position" : 
+                {
+                    "x_m" : "82.6",
+                    "y_m" : "6.3",
+                    "z_m" : "6.65"
+                },
+                "measures" :
+                {
+                    "temperature":{"unit":"degC"}, 
+                    "humidity" :{"unit":"%"},
+                    "light" :{"unit":"lux"},
+                    "pir" : {"unit": ""},
+                    "sound":{"unit":"db"}
+                }
+                
+            }
+        }
+    }
+}
