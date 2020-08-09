@@ -30,3 +30,8 @@ jobs:
     - name: build site
       run: |
         node_modules/.bin/antora --fetch site.yml
+      env:
+        GITHUB_OAUTH: ${{ secrets.DOCS_GITHUB_KEY }}
+        ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
+        ALGOLIA_INDEX_NAME: ${{ secrets.ALGOLIA_INDEX_NAME }}
+        ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
