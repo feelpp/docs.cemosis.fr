@@ -24,8 +24,6 @@ Welcome to {cemosis} documentation! {cemosis} is a technological platform in mat
 |===
 
 
-
-
 [%header]
 |=== 
 2+^| Physics
@@ -35,94 +33,6 @@ Welcome to {cemosis} documentation! {cemosis} is a technological platform in mat
 | Holo3 Polymap. Surface reconstruction using deflectometry. A collaboration with Holo3. |
 |===
 
+== UI Documentation for writers
 
-== Doc Writer Documentation
-
-=== Adding pseudocodes to documentation
-
-The documentation embeds some algorithms written using `pseudocode.js` whose syntax is mostly compatible with latex package `algorithmic`.
-
-The documentation and in particular the grammar is https://github.com/SaswatPadhi/pseudocode.js#grammar[here].
-
-.Example of the pseudocode for the quicksort algorithm rendered by `pseudocode.js`
-====
-++++
-<pre id="quicksort" style="display:hidden;">
-    % This quicksort algorithm is extracted from Chapter 7, Introduction to Algorithms (3rd edition)
-    \begin{algorithm}
-    \caption{Quicksort}
-    \begin{algorithmic}
-    \PROCEDURE{Quicksort}{$A, p, r$}
-        \IF{$p < r$} 
-            \STATE $q = $ \CALL{Partition}{$A, p, r$}
-            \STATE \CALL{Quicksort}{$A, p, q - 1$}
-            \STATE \CALL{Quicksort}{$A, q + 1, r$}
-        \ENDIF
-    \ENDPROCEDURE
-    \PROCEDURE{Partition}{$A, p, r$}
-        \STATE $x = A[r]$
-        \STATE $i = p - 1$
-        \FOR{$j = p$ \TO $r - 1$}
-            \IF{$A[j] < x$}
-                \STATE $i = i + 1$
-                \STATE exchange
-                $A[i]$ with $A[j]$
-            \ENDIF
-            \STATE exchange $A[i]$ with $A[r]$
-        \ENDFOR
-    \ENDPROCEDURE
-    \end{algorithmic}
-    \end{algorithm}
-    </pre>
-++++
-====
-
-[IMPORTANT]
-====
-In order to display it properly you have to add the following line at the top of the asciidoc file
-.antora attribute page-pseudocode is an array of id of pseudocodes
-----
-:page-pseudocode: ["quicksort"]
-----
-
-If you have several pseudo-codes in a page e.g. `code1, code2, code3`, you have to list them all
-----
-:page-pseudocode: ["code1","code2","code3"]
-----
-====
-
-.Original code in asciidoc
-====
-----
-++++
-<pre id="code2" style="display:hidden;">
-    % This quicksort algorithm is extracted from Chapter 7, Introduction to Algorithms (3rd edition)
-    \begin{algorithm}
-    \caption{Quicksort}
-    \begin{algorithmic}
-    \PROCEDURE{Quicksort}{$A, p, r$}
-        \IF{$p < r$} 
-            \STATE $q = $ \CALL{Partition}{$A, p, r$}
-            \STATE \CALL{Quicksort}{$A, p, q - 1$}
-            \STATE \CALL{Quicksort}{$A, q + 1, r$}
-        \ENDIF
-    \ENDPROCEDURE
-    \PROCEDURE{Partition}{$A, p, r$}
-        \STATE $x = A[r]$
-        \STATE $i = p - 1$
-        \FOR{$j = p$ \TO $r - 1$}
-            \IF{$A[j] < x$}
-                \STATE $i = i + 1$
-                \STATE exchange
-                $A[i]$ with $A[j]$
-            \ENDIF
-            \STATE exchange $A[i]$ with $A[r]$
-        \ENDFOR
-    \ENDPROCEDURE
-    \end{algorithmic}
-    \end{algorithm}
-    </pre>
-++++
-----
-====
-
+The UI documentation for the doc writers is available xref:antora-ui-default:ROOT:index.adoc[here] including the xref:antora-ui-default:ROOT:cemosis/zeindex.adoc[Cemosis extensions]
