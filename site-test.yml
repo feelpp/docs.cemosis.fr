@@ -19,7 +19,6 @@ asciidoc:
     feelpp-version: 0.108
     project_version: 0.108
     deploymentRoot: ""
-    cemosis: Cemosis
     numbered: true
     hide-uri-scheme: true
     feelpp: Feel++
@@ -37,3 +36,6 @@ asciidoc:
     developer-preview: Developer Preview
     community: COMMUNITY
     international: INTERNATIONAL 
+    cemosis: https://www.cemosis.fr[Cemosis]
+    amies: https://www.agence-maths-entreprises.fr/[AMIES]
+    eumathsin: https://www.eu-maths-in.eu[EU-MATHS-IN]

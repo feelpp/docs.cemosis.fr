@@ -3,10 +3,40 @@
 :page-pseudocode: ["quicksort"]
 :page-edition: enterprise
 
-[.lead]
-Welcome to {cemosis} documentation! {cemosis} is a technological platform in mathematics.
+
+== Welcome to {cemosis} documentation! 
+
+{cemosis} is the technological platform in mathematics of University of Strasbourg.
+{Cemosis} aims at fostering collaborations between mathematicians and enterprises as well as other disciplines.
+Here you will find the documentation of some {cemosis} projects in different applications domains: environment, health and physics.
+
+=== Expertise
+
+{cemosis} expertise is in 
+
+* [x] modeling simulation and control
+* [x] data analysis, big data, IA
+* [x] high performance computing
+* [x] signal and image processing
+
+=== Enterprise Collaborations
+[.labels]
+[.edition]##{enterprise}##
+
+=== Multidisciplinary Collaborations
+[.labels]
+[.edition]##{multidisciplinary}##
+
+=== National and International Relations
+
+In France, we work closely with {amies}, the national agency for mathematics in interaction with enterprises and society.
+
+In Europe, we are part of the {eumathsin} network.
+It is a new initiative to boost mathematics for industry in Europe
 
 == Projects
+
+=== Environment
 
 [%header,cols="5*^.^"]
 |=== 
@@ -15,6 +45,8 @@ Welcome to {cemosis} documentation! {cemosis} is a technological platform in mat
 | xref:ibat:ROOT:index.adoc[image:ibat/main.jpg[width=200]] | 4Fastsim IBat | Thermal Modeling and Simulation of Buildings | [.edition]##{enterprise}##Synapse Concept  | Labex AMIES, Synapse Concept & Cemosis
 | xref:msqab:ROOT:index.adoc[image:msqab/main.jpg[width=200]]| MSQAB  |  Modeling and Simulation of Air Quality in Bamako |  [.edition]##{multidisciplinary}##U. Bamako(Mali) | Mali French Embassay & Cemosis
 |===
+
+=== Health
 
 [%header,cols="5*^.^"]
 |=== 
@@ -25,6 +57,7 @@ Welcome to {cemosis} documentation! {cemosis} is a technological platform in mat
 | xref:swimmer:ROOT:index.adoc[image:swimmer/main.png[width=200,label=Swimmer]] | xref:swimmer:ROOT:index.adoc[Micro Swimmer] | Modeling, Simulation and Control of Micro Swimmers | [.edition]##{multidisciplinary}##INRIA (Sofia Antipolis), IRIS Paris Sorbonne | Labex IRMIA, CNRS
 |===
 
+=== Physics
 
 [%header,cols="5*^.^"]
 |=== 
