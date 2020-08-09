@@ -7,26 +7,34 @@ Welcome to {cemosis} documentation! {cemosis} is a technological platform in mat
 
 == Projects
 
-=== Environment
+[%header]
+|=== 
+2+^| Environment
+^.^| xref:ibat:ROOT:index.adoc[image:ibat/main.jpg[width=200]] ^.^| xref:msqab:ROOT:index.adoc[image:msqab/main.jpg[width=200]]
+| 4Fastsim IBat. A Collaboration with Synapse Concept | Modeling and Simulation of Air Quality in Bamako. A collaboration with U. Bamako(Mali)
+|===
 
-.Ibat
-xref:ibat:ROOT:index.adoc[image:ibat/main.jpg[width=200]]
+[%header]
+|=== 
+2+^| Health
+^.^| xref:eye2brain:ROOT:index.adoc[image:eye2brain/main.jpg[width=200,label=Eye2brain]] ^.^| xref:hemotumpp:ROOT:index.adoc[image:hemotumpp/main.png[width=200]]
+| Eye2brain. A Collaboration with U. Paris Descartes and U. Missouri(USA) | Hemotum++. Influence of Hemodynamic on Tumor arrest sites. A collaboration with Goetz Lab
+^.^| xref:eye2brain:ROOT:index.adoc[image:swimmer/main.png[width=200,label=Swimmer]] |
+| Micro Swimmer. A collaboration with INRIA (Sofia Antipolis) and  IRIS Paris Sorbonne | 
+|===
 
-=== Health
 
-.Eye2brain
-xref:eye2brain:ROOT:index.adoc[image:eye2brain/main.jpg[width=200,label=Eye2brain]]
 
-.HemoTum++
-xref:hemotumpp:ROOT:index.adoc[image:hemotumpp/main.png[width=200]]
 
-.Micro Swimmers
-xref:swimmer:ROOT:index.adoc[image:swimmer/main.png[width=200]]
+[%header]
+|=== 
+2+^| Physics
+^.^| xref:hifimagnet:ROOT:index.adoc[image:hifimagnet/main.jpg[width=200]] .^| xref:mqs:ROOT:index.adoc[image:hifimagnet/magnet.png[width=200]] 
+| High Field Magnets. A Collaboration with CNRS LNCMI | Maxwell Quasi Static models for High Field Magnets. A Collaboration with CNRS LNCMI 
+^.^| xref:holo3:ROOT:index.adoc[image:holo3/polymap.jpg[width=200]] .^|
+| Holo3 Polymap. Surface reconstruction using deflectometry. A collaboration with Holo3. |
+|===
 
-=== Physics
-
-.High Field Magnets
-xref:hifimagnet:ROOT:index.adoc[image:hifimagnet/main.jpg[width=200]]
 
 == Doc Writer Documentation
 
