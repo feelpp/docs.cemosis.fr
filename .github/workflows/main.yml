@@ -29,6 +29,7 @@ jobs:
       run: node_modules/.bin/antora -v
     - name: build site
       run: |
+        echo https://$GITHUB_OAUTH:@github.com > $HOME/.git-credentials
         node_modules/.bin/antora --fetch site.yml
       env:
         GITHUB_OAUTH: ${{ secrets.DOCS_GITHUB_KEY }}
