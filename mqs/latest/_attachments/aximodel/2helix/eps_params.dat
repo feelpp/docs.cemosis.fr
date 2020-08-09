@@ -1,0 +1,14 @@
+# author: trophime
+# date : Wed Jun 24 10:37:51 2020
+#
+#General precision params definitions
+#geometric =
+1e-12
+#convergence =
+1e-14
+#integration epsabs =
+1e-12
+#integration epsrel =
+1e-14
+#optimisation =
+1e-15
