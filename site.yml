@@ -1,7 +1,6 @@
 site:
   title: Cemosis Docs
-#  url: https://docs.cemosis.fr
-  url: https://feelpp.github.io/docs.cemosis.fr/
+  url: https://docs.cemosis.fr
   start_page: cemosis::index.adoc
   keys:
     google_analytics: 'UA-65761593-2'
