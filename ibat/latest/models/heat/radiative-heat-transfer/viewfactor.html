@@ -130,6 +130,8 @@ MathJax.Hub.Config({
                   
               <a class="navbar-item" href="/hemotumpp/0.1/index.html"> HemoTum++ </a>
                   
+              <a class="navbar-item" href="/hifimagnet/stable/index.html"> HiFiMagnet Documentation </a>
+                  
               <a class="navbar-item" href="/holo3/latest/index.html"> Holo3 </a>
                     
               <a class="navbar-item" href="/ibat/latest/index.html"> IBat </a>
@@ -540,6 +542,14 @@ MathJax.Hub.Config({
       </ul>
     </li>
     <li class="component">
+      <span class="title">HiFiMagnet Documentation</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../../../hifimagnet/stable/index.html">stable</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
       <span class="title">Holo3</span>
       <ul class="versions">
         <li class="version is-latest">
@@ -810,7 +820,7 @@ We integrate over the two surfaces and get</p>
 <div class="paragraph">
 <p>From <a href="#viewfactor_dd">definition of infinitesiaml view factor</a> and <a href="#viewfactor_simplify">the simplify view factor</a>, we have immediately the following relation, called the <em>reciprocity relation</em>:</p>
 </div>
-<div class="ulist">
+<div id="reciprocity" class="ulist">
 <div class="title">Reciprocity relation between view factors</div>
 <ul>
 <li>
@@ -842,9 +852,13 @@ this necessary relation can be used to verify computations of view factors.
 <div class="paragraph">
 <p>If we placed in case of <a href="#viewfactor_simplify">view factor simplify</a>. When considering surfaces of an enclosure, the summation rule applies to each of the \(N\) surfaces in the enclosure</p>
 </div>
+<div class="exampleblock">
+<div class="content">
 <div class="stemblock">
 <div class="content">
 \[\sum_{j=1}^{N} F_{A_i \rightarrow A_j}=1.\]
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
@@ -878,12 +892,52 @@ this necessary relation can be used to verify computations of view factors.
 </div>
 <div class="sect2">
 <h3 id="_subsurface_summation"><a class="anchor" href="#_subsurface_summation"></a>3.3. Subsurface Summation</h3>
+<div class="sect3">
+<h4 id="subsum"><a class="anchor" href="#subsum"></a>3.3.1. Summation by \(A_j\)</h4>
 <div class="paragraph">
-<p>If we placed in case of <a href="#viewfactor_simplify">view factor simplify</a>. If the area \(A_j\) can decompose by different sub-areas : \(A_j = \sum_{k=1}^{K}{A_{(j,k)}}\) :</p>
+<p>If we placed in case of <a href="#viewfactor_simplify">view factor simplify</a>. If the area \(A_j\) can be decompose by different sub-areas : \(A_j = \bigcup_{l=1}^{L}{A_{(j,l)}}\) :</p>
 </div>
+<div id="subsum1" class="exampleblock">
+<div class="content">
 <div class="stemblock">
 <div class="content">
-\[F_{A_i \rightarrow A_j} = \sum_{k=1}^{K}{F_{A_i \rightarrow A_{(j,k)}}}\]
+\[F_{A_i \rightarrow A_j} = \sum_{l=1}^{L}{F_{A_i \rightarrow A_{(j,l)}}}\]
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_summation_by_a_i"><a class="anchor" href="#_summation_by_a_i"></a>3.3.2. Summation by \(A_i\)</h4>
+<div class="paragraph">
+<p>If we placed in case of <a href="#viewfactor_simplify">view factor simplify</a>. If the area \(A_i\) can be decompose by different sub-areas : \(A_i = \bigcup_{k=1}^{K}{A_{(i,k)}}\), to use <a href="#subsum">summation by \(A_j\)</a> and <a href="#reciprocity">reciprocity rule</a> :</p>
+</div>
+<div id="subsum2" class="exampleblock">
+<div class="content">
+<div class="stemblock">
+<div class="content">
+\[F_{A_i \rightarrow A_j} = \frac{1}{A_i} \sum_{k=1}^{K}{ A_{(i,k)}  F_{A_{(i,k)} \rightarrow A_j}}\]
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Remarks</strong> : It&#8217;s weighted average by areas.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_summation_by_a_i_and_a_j"><a class="anchor" href="#_summation_by_a_i_and_a_j"></a>3.3.3. Summation by \(A_i\) and \(A_j\)</h4>
+<div class="paragraph">
+<p>If we placed in case of <a href="#viewfactor_simplify">view factor simplify</a>. If the area \(A_i\) and \(A_j\) can be decompose by different sub-areas : \(A_i = \bigcup_{k=1}^{K}{A_{(i,k)}}\) and \(A_j = \bigcup_{l=1}^{L}{A_{(j,k)}}\) , to combine <a href="#subsum1">summation by \(A_j\)</a>and <a href="#subsum2">summation by \(A_i\)</a> :</p>
+</div>
+<div id="subsum3" class="exampleblock">
+<div class="content">
+<div class="stemblock">
+<div class="content">
+\[F_{A_i \rightarrow A_j} = \frac{1}{A_i} \sum_{k=1}^{K}{ \left( A_{(i,l)} \sum_{l=1}^{L}{F_{A_{(i,k)} \rightarrow A_{(j,l)}}} \right) }\]
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>

@@ -133,6 +133,8 @@ MathJax.Hub.Config({
                   
               <a class="navbar-item" href="/hemotumpp/0.1/index.html"> HemoTum++ </a>
                   
+              <a class="navbar-item" href="/hifimagnet/stable/index.html"> HiFiMagnet Documentation </a>
+                  
               <a class="navbar-item" href="/holo3/latest/index.html"> Holo3 </a>
                     
               <a class="navbar-item" href="/ibat/latest/index.html"> IBat </a>
@@ -543,6 +545,14 @@ MathJax.Hub.Config({
       </ul>
     </li>
     <li class="component">
+      <span class="title">HiFiMagnet Documentation</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../../../hifimagnet/stable/index.html">stable</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
       <span class="title">Holo3</span>
       <ul class="versions">
         <li class="version is-latest">
@@ -775,42 +785,39 @@ MathJax.Hub.Config({
 <div class="paragraph">
 <p>Here, for all element \(e^i_k\) of surface \(A_i\), we generate once a set of ray and for all element \(e^i_l\), we browse the set of ray to know wich ray is intercept.</p>
 </div>
-<div class="paragraph">
-<p>Algorithm of calculation of view factor</p>
-</div>
 <pre id="viewfactor-1" style="display:hidden;">
 \begin{algorithm}
     \caption{ViewFactor}
     \begin{algorithmic}
-    \PROCEDURE{Calculation of view factor}{$A_i, A_j, N_s, N_r$}
+    \FUNCTION{ViewFactor1}{$A_i, A_j, N_s, N_r$}
     \STATE $A_i$ is surface decomposed by finite element $e^i_k$
     \STATE $A_j$ is surface decomposed by finite element $e^j_l$
     \STATE $N_s$ number of source point of one element
     \STATE $N_r$ number of ray from one source point
 
-    \STATE $$rea_i \leftarrow 0$ : area of surface $A_i$
+    \STATE $Area_i \leftarrow 0$ : area of surface $A_i$
     \STATE $\Sigma_2 \leftarrow 0$
 
-    \FOR $e^i_k$ in set of element of surface $A_i$ :
+    \FOR{$e^i_k$ in set of element of surface $A_i$}
 
-        \FOR $1 \leq i_s \leq N_s$ :
+        \FOR{$1 \leq i_s \leq N_s$}
             \STATE generate a source point $s$
-            \FOR $1 \leq i_r \leq N_r$:
+            \FOR{$1 \leq i_r \leq N_r$}
                 \STATE generate a ray $r$ from source point $s$
             \ENDFOR
         \ENDFOR
 
-        $\Sigma_1 \leftarrow 0$
-        \FOR $e^j_l$ in set of element of surface $A_j$ :
-            \IF $e^j_k$ visible from $e^i_l$ :
+        \STATE $\Sigma_1 \leftarrow 0$
+        \FOR{$e^j_l$ in set of element of surface $A_j$}
+            \IF{$e^j_k$ visible from $e^i_l$}
                 \STATE $n \leftarrow 0$ : number of ray intercept
-                \FOR ray $r$ in set of ray :
-                    \IF $r$ is intercept by $e^j_k$:
+                \FOR{ray $r$ in set of ray}
+                    \IF{$r$ is intercept by $e^j_k$}
                         \STATE $n \leftarrow n + 1$
                     \ENDIF
                 \ENDFOR
                 \STATE $F_{local} \leftarrow \frac{n}{N_s N_r}$
-                \STATE $\Epsilon_1 \leftarrow \Sigma_1 + F_{local}$
+                \STATE $\Sigma_1 \leftarrow \Sigma_1 + F_{local}$
             \ENDIF
         \ENDFOR
         \STATE $Area_i \leftarrow Area_i + Area(e^i_k)$
@@ -818,7 +825,7 @@ MathJax.Hub.Config({
     \ENDFOR
     \STATE $F_{global} \leftarrow \frac{1}{Area(A_i)} \Sigma_2$
     \RETURN $F_{global}$
-    \ENDPROCEDURE
+    \ENDFUNCTION
     \end{algorithmic}
 \end{algorithm}
 </pre>
@@ -834,14 +841,11 @@ MathJax.Hub.Config({
 <div class="paragraph">
 <p>Here, for all element \(e^i_k\) of surface \(A_i\), we generate once a set of ray and for all ray, we browse the set of element \(e^j_l\) to know wich element intercept the ray.</p>
 </div>
-<div class="paragraph">
-<p>Algorithm of calculation of view factor</p>
-</div>
 <pre id="viewfactor-2" style="display:hidden;">
 \begin{algorithm}
     \caption{ViewFactor}
     \begin{algorithmic}
-    \PROCEDURE{ViewFactor}{$A_i, A_j, N_s, N_r$}
+    \FUNCTION{ViewFactor2}{$A_i, A_j, N_s, N_r$}
     \STATE $A_i$ is surface decomposed by $K$ finite element $e^i_k$
     \STATE $A_j$ is surface decomposed by $L$ finite element $e^j_l$
     \STATE $N_s$ number of source point of one element
@@ -872,7 +876,7 @@ MathJax.Hub.Config({
     \ENDFOR
     \STATE $F_{global} \leftarrow F_{global} + \frac{1}{Area(A_i)} \Sigma_2$
     \RETURN $F_{global}$
-    \ENDPROCEDURE
+    \ENDFUNCTION
     \end{algorithmic}
 \end{algorithm}
 </pre>
@@ -901,7 +905,7 @@ The interception must contain the visibility between \(e^i_k\) and \(e^j_l\).
 \begin{algorithm}
     \caption{Calculation of View Factor}
     \begin{algorithmic}
-    \PROCEDURE{Calculation of view factor}{$A_i$, $A_j$, $N_s$, $N_r$}
+    \FUNCTION{ViewFactor3}{$A_i$, $A_j$, $N_s$, $N_r$}
     \STATE $A_i$ is surface decomposed by finite element $e^i_k$
     \STATE $A_j$ is surface decomposed by finite element $e^j_l$
     \STATE $N_s$ number of source point of one element
@@ -910,16 +914,16 @@ The interception must contain the visibility between \(e^i_k\) and \(e^j_l\).
     \STATE $Area_i \leftarrow 0$ : area of surface $A_i$
     \STATE $\Sigma_2 \leftarrow 0$
 
-    \FOR $e^i_k$ in set of element of surface $A_i$ :
+    \FOR{$e^i_k$ in set of element of surface $A_i$}
         \STATE $\Sigma_1 \leftarrow 0$
-        \FOR $e^j_l$ in set of element of surface $A_j$:
-            \IF $e^i_k$ and $e^j_l$ are visible
+        \FOR{$e^j_l$ in set of element of surface $A_j$}
+            \IF{$e^i_k$ and $e^j_l$ are visible}
                 \STATE $n \leftarrow 0$
-                \FOR $1 \leq i_s \leq N_s$ :
+                \FOR{$1 \leq i_s \leq N_s$}
                     \STATE generate source point $s$
-                    \FOR $1 \leq i_r \leq N_r$ :
+                    \FOR{$1 \leq i_r \leq N_r$}
                         \STATE generate ray $r$
-                        \IF $r$ is intercept by $e^j_l$
+                        \IF{$r$ is intercept by $e^j_l$}
                             \STATE $n \leftarrow n + 1$
                         \ENDIF
                     \ENDFOR
@@ -929,11 +933,11 @@ The interception must contain the visibility between \(e^i_k\) and \(e^j_l\).
             \STATE $\Sigma_1 \leftarrow \Sigma_1 + F_{e^i_k \rightarrow e^j_l}$
         \ENDFOR
         \STATE $Area_i \leftarrow Area_i + Area(e^i_k)$
-        \STATE $\Sigma_2 \leftarrow \Sigma_2 + Area(e^i_k) \Sigma_1
+        \STATE $\Sigma_2 \leftarrow \Sigma_2 + Area(e^i_k) \Sigma_1$
     \ENDFOR
     \STATE $F_{global} \leftarrow \frac{1}{Area(A_i)} \Sigma_2$
-    \RETURN $F_{global}$
-    \ENDPROCEDURE
+    \RETURN  $F_{global}$
+    \ENDFUNCTION
     \end{algorithmic}
 \end{algorithm}
 </pre>

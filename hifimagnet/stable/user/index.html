@@ -1,0 +1,1696 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>HiFiMagnet user manual :: Cemosis Docs</title>
+    <link rel="canonical" href="https://docs.cemosis.fr/hifimagnet/stable/user/index.html">
+    <meta name="keywords" content="Feel++, partial differential equations, finite element method,">
+    <meta name="generator" content="Antora 2.3.3">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+<link rel="icon" href="../../../_/img/favicon.ico" type="image/x-icon">    
+<script>!function(l,p){if(l.protocol!==p&&l.host=="docs.antora.org"){l.protocol=p}else if(/\.gitlab\.io$/.test(l.host)){l.replace(p+"//docs.antora.org"+l.pathname.substr(l.pathname.indexOf("/",1))+l.search+l.hash)}}(location,"https:")</script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\\[','\\]']],
+    processEscapes: true,
+    processEnvironments: true, 
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+
+  TeX: {
+      Macros: {
+      RR: "{\\mathbb R}",
+      NN: "{\\mathbb N}",
+      Nso: "{N_{\\mathrm{so}}}",
+      Nma: "{N_{\\mathrm{ma}}}",
+      Nno: "{N_{\\mathrm{no}}}",
+      Ne: "{N_{\\mathrm{e}}}",
+      Ilag: ["{\\mathcal{I}^{\\mathrm{lag}}_{#1}}",1],
+      calTh: "{\\mathcal{T}_h}",
+      Ck: ["{\\mathcal{C}^{#1}}",1],
+      Pk: ["{\\mathcal{P}^{#1}}",1],
+      Qk: ["{\\mathcal{Q}^{#1}}",1],
+      Pch: ["{P^{#1}_{c,h}}",1],
+      Pcho: ["{P^{#1}_{c,h,0}}",1],
+      Qch: ["{Q^{#1}_{c,h}}",1],
+      Ich: ["{\\mathcal{I}^{#1}_{c,h}#2}",2],
+      poly: ["{\\mathbb{#1}}",1],
+      nf: "{n_f}",
+      ngeo: "{n_{\\mathrm{geo}}}",
+      geo: "{\\mathrm{geo}}",
+      card: ["{\\operatorname{card}(#1)}",1],
+      dim: ["{\\operatorname{dim}(#1)}",1],
+      opdim: "{\\operatorname{dim}}",
+      card: ["{\\operatorname{card}(#1)}",1],
+      poly: ["{\\mathbb{#1}",1],
+      R: ["{\\mathbb{R}^{#1}}",1],
+      set: ["{\\left\\{#1\\right\\}}",1],
+      diam: "{\\operatorname{diam}}",
+      jump: ["{[\\![ #1 ]\\!]}",1],
+      Next: "{\\mathrm{n}}",
+      essinf: "{\\operatorname{ess}\\, \\operatorname{inf}}",
+      tr: "{\\operatorname{tr}}",
+      Id: "{\\mathcal{I}}",
+      disp: ["{\\mathbf{#1}}",1],
+      stresst: ["{\\mathbf{\\sigma(#1)}}",1],
+      deformt: ["{\\mathbf{\\varepsilon(#1)}}",1],
+      domain: "{\\Omega}",
+      prect: ["{\\left\\(#1\\right\\)}",1],
+      ds: "",
+      bold: ["{\\bf #1}",1],
+      p: "{\\mathrm{p}}",
+      q:"{\\mathbf{q}}",
+      n:"{\\mathbf{n}}",
+      T:"{\\mathcal{T}}",
+      F:"{\\mathcal{F}}",
+      P:"{\\mathcal{P}}",
+      v:"{\\mathbf{v}}"
+  },
+  extensions: ["mhchem.js"] }
+});
+</script>
+<!--<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/MathJax.js?config=TeX-MML-AM_CHTML"></script>-->
+<!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML' async></script> -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_CHTML'>
+</script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.0/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>-->
+
+<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" integrity="sha384-TEMocfGvRuD1rIAacqrknm5BQZ7W7uWitoih+jMNFXQIbNl16bO8OZmylH/Vi/Ei" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js" integrity="sha384-jmxIlussZWB7qCuB+PgKG1uLjjxbVVIayPJwi6cG6Zb4YKq0JIw+OMnkkEC7kYCq" crossorigin="anonymous"></script>-->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-65761593-2"></script>
+    <script>function gtag(){dataLayer.push(arguments)};window.dataLayer=window.dataLayer||[];gtag('js',new Date());gtag('config','UA-65761593-2')</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar  navbar-expand-sm bg-dark navbar-dark">
+    <div class="navbar-brand">
+      <div class="navbar-item">
+         <!--  <a href="https://book.feelpp.org">Feel++ documentation</a> -->
+           <a href="https://docs.cemosis.fr">Cemosis Docs</a>
+      </div>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://docs.cemosis.fr">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <div class="navbar-link">Docs</div>
+          <div class="navbar-dropdown">
+            <div class="navbar-item"><strong>Latest Version</strong></div>
+
+            <!-- this code allow to manage ordering of navbar item -->
+               
+              <a class="navbar-item" href="/cemosis/latest/index.html"> Cemosis Documentation </a>
+                  
+              <a class="navbar-item" href="/antora-ui-default/index.html"> Cemosis Documentation UI </a>
+                  
+              <a class="navbar-item" href="/eye2brain/current/index.html"> Eye2Brain Manual </a>
+                  
+              <a class="navbar-item" href="/feelpp-cfd/latest/index.html"> Feel++ CFD </a>
+                  
+              <a class="navbar-item" href="/mqs/latest/index.html"> Feel++ Maxwell Quasi Static </a>
+                  
+              <a class="navbar-item" href="/hemotumpp/0.1/index.html"> HemoTum++ </a>
+                  
+              <a class="navbar-item" href="/hifimagnet/stable/index.html"> HiFiMagnet Documentation </a>
+                  
+              <a class="navbar-item" href="/holo3/latest/index.html"> Holo3 </a>
+                    
+              <a class="navbar-item" href="/ibat/latest/index.html"> IBat </a>
+                  
+              <a class="navbar-item" href="/msqab/0.1/index.html"> msqab </a>
+                  
+              <a class="navbar-item" href="/swimmer/latest/index.html"> Swimmer Docs </a>
+               
+
+            <hr class="navbar-divider">
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <div class="navbar-link">Feel++</div>
+          <div class="navbar-dropdown">
+            <div class="navbar-item"><strong>GitHub</strong></div>
+            <a class="navbar-item" href="http://github.com/feelpp/feelpp">GitHub Repository</a>
+            <a class="navbar-item" href="http://github.com/feelpp/feelpp/issues">GitHub Issue Tracker</a>
+            <hr class="navbar-divider">
+            <div class="navbar-item"><strong>Documentation</strong></div>
+            <a class="navbar-item" href="http://docs.feelpp.org/user/">User Manual</a>
+            <a class="navbar-item" href="http://docs.feelpp.org/dev/">Developer Manual</a>
+            <a class="navbar-item" href="http://docs.feelpp.org/toolbox/">Toolbox Manual</a>
+            
+          </div>
+        </div>
+        <div class="primary-action">
+            <form class="navbar-item search">
+              <input type="text" placeholder="Search Cemosis Docs" class="query" id="search-query">
+              <button type="button" class="search-btn"><i class="fas fa-search"></i></button>
+            </form>
+        </div>
+        <div class="navbar-item">
+          <a class="navbar-brand" href="https://join.slack.com/t/feelpp/shared_invite/zt-2qe0q9hw-4pVbhohCXUE6Po9Ma8dbiQ">
+            <img src="../../../_/img/slack.png" alt="slack" style="width:30px;"></a>
+        </div>
+        <div class="navbar-item">
+          <a class="navbar-brand"  href="http://docs.feelpp.org">
+            <img src="../../../_/img/logoFeelpp.png" alt="Feel++" style="width:60px;">
+          </a>
+        </div>
+        <div class="navbar-item">
+          <a class="navbar-brand"  href="http://www.cemosis.fr">
+            <img src="../../../_/img/logoCemosisTransparent.png" alt="Cemosis" style="width:60px;">
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="hifimagnet" data-version="stable">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">HiFiMagnet Documentation</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html#manuals">Manuals</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html#help">Help</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html#contribute">Contribute</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html#copyright">Licenses</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html#authors">Authors</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../model/index.html#model">Physical Modelling</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../model/index.html#introduction">Introduction</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../model/index.html#coupled3d">Coupled Model</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../model/index.html#thermoelec">ThermoElectric Model</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../model/index.html#magneto">Magnetostatic Model</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../model/index.html#meca">ELasticity Model</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../model/index.html#cooling">ThermoHydraulics Model</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../cad/index.html#salome_plugin">HifiMagnet Salome plugin</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../cad/index.html#introduction">Introduction</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../cad/index.html#quickstart">Quickstart</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cad/index.html#qs_getting">Getting Salome</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cad/index.html#qs_reference">Running Salome</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../cad/index.html#data">Data Structure</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../cad/index.html#usage">Usage</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../magnettools/index.html#magnettools_manual">MagnetTools</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../magnettools/index.html#installation">Installation</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../magnettools/DataStructure.html">Data</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../magnettools/Bmap.html">Magnetic Field Map</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../magnettools/Transient.html">Transient Analysis</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../magnettools/Optimization.html">Optimization</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="#user_manual">User Manual</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#quickstart">Quick Start</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#usage">Usage</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#usage_hifimagnet">Using HiFiMagnet</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../post/index.html#post_manual">Post-Processing</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../post/index.html#paraview">Paraview</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../post/index.html#ensight">Ensight</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../benchmarks/index.html#main_examples">Examples and Benchmarks</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../benchmarks/index.html#examples">Examples</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../benchmarks/index.html#examples">Benchmarks</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../benchmarks/index.html#validations">Validations</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../benchmarks/index.html#verifications">Verifications</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../mso4sc/index.html#msoportal">MSOPortal</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../mso4sc/index.html#msoportal">Introduction</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../mso4sc/index.html#connect">Create an account</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../mso4sc/index.html#overview">OverView of the Portal</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../mso4sc/index.html#mso_setup">Setting up your account</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../mso4sc/user.html#enduser">EndUser</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../mso4sc/user.html#purchase">Purchasing an app</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../mso4sc/user.html#data">Uploading to DataCatalogue</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../mso4sc/user.html#running">Running an app</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../mso4sc/user.html#RemoteDesktop">Viewing results</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../mso4sc/user.html#offering_setup">Available apps</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../mso4sc/dev.html#devuser">DevUser</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../mso4sc/dev.html#registerapp">Validate an <strong>EndUser</strong></a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../mso4sc/dev.html#registerapp">Register App</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../mso4sc/dev.html#validorder">Validate an order</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../dev/index.html#dev_manual">Developper Manual</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../dev/index.html#install_salome">HiFimagnet Salome plugin</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../dev/index.html#install_magnettools">MagnetTools</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../dev/index.html#install_hifimagnet">Hifimagnet</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../dev/index.html#mso4sc-dev">MSO4SC Portal</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../tutorials/index.html#tutorials">Tutorials</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tutorials/thermoelec.html">ThermoElectric</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tutorials/magnetostatic.html">Magnetostatic (H1)</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tutorials/elasticity.html">Elasticity</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tutorials/salome.html">Using Salome</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tutorials/ensight.html">Using Ensight</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">HiFiMagnet Documentation</span>
+    <span class="version">stable</span>
+  </div>
+  <ul class="components">
+    <li class="component">
+      <span class="title">Cemosis Documentation</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../cemosis/latest/index.html">latest</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Cemosis Documentation UI</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../antora-ui-default/index.html">master</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Eye2Brain Manual</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../eye2brain/current/index.html">current</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Feel++ CFD</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../feelpp-cfd/latest/index.html">latest</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Feel++ Maxwell Quasi Static</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../mqs/latest/index.html">latest</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">HemoTum++</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../hemotumpp/0.1/index.html">0.1</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component is-current">
+      <span class="title">HiFiMagnet Documentation</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">stable</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Holo3</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../holo3/latest/index.html">latest</a>
+        </li>
+        <li class="version">
+          <a href="../../../holo3/doc-pierre/index.html">doc-pierre</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">IBat</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../ibat/latest/index.html">latest</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">msqab</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../msqab/0.1/index.html">0.1</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Swimmer Docs</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../swimmer/latest/index.html">latest</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../../../cemosis/latest/index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">HiFiMagnet Documentation</a></li>
+    <li><a href="#user_manual">User Manual</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/feelpp/book.hifimagnet/edit/master/docs/docs/modules/user/pages/index.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">HiFiMagnet user manual</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Welcome to HiFiMagnet manual documentation!</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The HiFiMagnet manual documentation introduces the process to build and run an application.
+New user shall read the <a href="../index.html" class="page">HiFiMagnet introduction</a> to have a global view.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+You wish to contribute? Please consult the <a href="../index.html#contribute" class="page">contribute</a> section to learn how to proceed!
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<h1 id="introduction" class="sect0"><a class="anchor" href="#introduction"></a>Introduction to HiFiMagnet</h1>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="title">Discuss and Contribute</div>
+Use <a href="https://github.com//feelpp/feelpp/issues/858">Issue 858</a> to drive development of this
+section. Your contributions make a difference. No contribution is too small.
+</td>
+</tr>
+</table>
+</div>
+<h1 id="_what_is_hifimagnet" class="sect0"><a class="anchor" href="#_what_is_hifimagnet"></a>What is HiFiMagnet?</h1>
+<div class="paragraph">
+<p>HiFiMagnet is a software chain that allows to design and model High Field Magnets.
+It consists in a set of tools including:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>MagnetTools</p>
+</li>
+<li>
+<p>HiFiMagnet</p>
+<div class="ulist">
+<ul>
+<li>
+<p>cad tools: <a href="http://gmsh.info/">gmsh</a>, <a href="http://www.salome-platform.org/">Salome</a></p>
+</li>
+<li>
+<p>meshing: <a href="http://gmsh.info/">gmsh</a>, <a href="https://ngsolve.org/">netgen</a>, <a href="http://meshgems.com/meshgems-products.html">MeshGems</a></p>
+</li>
+<li>
+<p>multiphics models: Feel++ toolboxes</p>
+</li>
+<li>
+<p>post-processing: <a href="http://www.ensight.com/">EnSight</a>, <a href="http://www.paraview.org/">ParaView</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>When using containers, note that the tools are distributed into 3 differents containers:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>one for pre-processing (see <a href="../cad/index.html#qs_getting" class="page">here</a>),</p>
+</li>
+<li>
+<p>one for running simulations (see respectively here for <a href="../magnettools/index.html#qs_installation" class="page">Axi</a> and here for <a href="#qs_installation">3D</a>),</p>
+</li>
+<li>
+<p>one for post-processing (see <a href="../post/index.html" class="page">here</a>).</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><a href="http://www.ensight.com/">EnSight (recommended)</a></dt>
+<dd>
+<p>is a commercial multi-platform data analysis and visualization application.</p>
+</dd>
+<dt class="hdlist1"><a href="http://www.paraview.org/">ParaView</a></dt>
+<dd>
+<p>is an open-source, multi-platform data analysis and visualization application.</p>
+</dd>
+<dt class="hdlist1"><a href="https://wci.llnl.gov/simulation/computer-codes/visit">Visit</a></dt>
+<dd>
+<p>is a distributed, parallel visualization and graphical analysis tool for data defined on two- and three-dimensional (2D and 3D) meshes</p>
+</dd>
+</dl>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<h1 id="quickstart" class="sect0"><a class="anchor" href="#quickstart"></a>Quick Starts</h1>
+<div class="sect1">
+<h2 id="qs_installation"><a class="anchor" href="#qs_installation"></a>1. Getting HiFiMagnet</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Using HiFiMagnet inside container, either Docker or Singularity based,
+is the recommended and fastest way. If your system support singularity containers we recommend to use them instead of Docker ones.</p>
+</div>
+<div class="sect2">
+<h3 id="singularity"><a class="anchor" href="#singularity"></a>1.1. from sregistry</h3>
+<div class="paragraph">
+<p>To get the HiFiMagnet singularity image you need first to get you token on a valid sregistry:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>connect to the Sregistry service (eg <a href="https://sregistry.srv.cesga.es/">cesga sregistry</a> use the FiWare authentification}</p>
+</li>
+<li>
+<p>in the top right scrolling menu with your user id, select <strong>Token</strong></p>
+</li>
+<li>
+<p>copy the line to a <code>.sregistry</code> in your home directory</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The HiFiMagnet singularity images are stored in a private collection.
+To download the images you have to be granted access to the HiFiMagnet team.
+Once this is done, from a terminal:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-csh hljs" data-lang="csh">export SREGISTRY_CLIENT=registry
+export SREGISTRY_CLIENT_SECRETS=~/.sregistry-cesga
+[export SREGISTRY_STORAGE=...]
+
+sregistry pull --name hifimagnet-stretch.simg hifimagnet/hifimagnet:stretch</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="dockerhub"><a class="anchor" href="#dockerhub"></a>1.2. from dockerhub</h3>
+<div class="paragraph">
+<p>You need to be member of Feel++ team on <a href="https://hub.docker.com/">dockerhub</a> to be able to download the image.
+To get the image:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-csh hljs" data-lang="csh">docker login
+docker pull feelpp/hifimagnet</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Check the existing docker images on <a href="https://hub.docker.com/r/feelpp/salome/">feelpp/hifimagnet dockerhub</a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_install_from_lncmi_debian_repository"><a class="anchor" href="#_install_from_lncmi_debian_repository"></a>1.3. Install from Lncmi Debian repository</h3>
+<div class="paragraph">
+<p>On Debian/Ubuntu system you can install HiFiMagnet from the local Lncmi packages repository.
+To do so:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>you need to have access to the Lncmi repository</p>
+</li>
+<li>
+<p>add a lncmi.lst into your <code>/etc/apt/sources.list.d</code> directory:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title"><code>lncmi.lst</code> for Debian Testing distribution</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-txt hljs" data-lang="txt">deb http://euler/~trophime/debian/ testing main
+deb-src http://euler/~trophime/debian/ testing main</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then run:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-csh hljs" data-lang="csh">sudo apt update
+sudo apt install hifimagnet</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Supported Debian/Ubuntu distributions:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Stretch</p>
+</li>
+<li>
+<p>Xenial</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>On Windows 10 Pro you can also install HiFiMagnet without much effort.
+Just enable WSL feature and download Debian Stretch or Ubuntu Xenial (aka 16.04 LST)
+from Microsoft App Store. Then apply the same procedure as above to install the package.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="qs_usage"><a class="anchor" href="#qs_usage"></a>2. Running HiFiMagnet</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_from_singularity_container"><a class="anchor" href="#_from_singularity_container"></a>2.1. from Singularity container</h3>
+<div class="paragraph">
+<p>Assuming we use <code>hifimagnet.simg</code> singularity image:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">singularity run -it -v $HOME/feel:/feel feelpp/hifimagnet feelpp_hfm_coupledmodel_3DP1N1 --config  ...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>coupled_3D_P1_N1_singular_cvg.cfg</code> configuration file holds all the information
+to specify what calculations are performed. The configuration files are fully described in this <a href="#data">section</a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_from_docker_container"><a class="anchor" href="#_from_docker_container"></a>2.2. from Docker container</h3>
+<div class="paragraph">
+<p>Start the Docker container <code>feelpp/hifimagnet</code> as follows</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">docker run -it -v $HOME/feel:/feel feelpp/hifimagnet feelpp_hfm_coupledmodel_3DP1N1 --config  ...</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_from_command_line"><a class="anchor" href="#_from_command_line"></a>2.3. from command line</h3>
+<div class="paragraph">
+<p>To perform a 3D fully coupled multi-physics simulation:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">feelpp_hfm_coupledmodel_3DP1N1 --config coupled_3D_P1_N1_singular_cvg.cfg</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<h1 id="usage" class="sect0"><a class="anchor" href="#usage"></a>Using HiFiMagnet</h1>
+<div class="paragraph">
+<p>As stated in introduction HiFiMagnet per se provides tools to simulation High Field Magnets.
+More precisely we can model:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>thermo-electric behavior,</p>
+</li>
+<li>
+<p>magnetic field produced:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>everywhere</p>
+</li>
+<li>
+<p>only in a zone of interest from a user perspective</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>mechanical behavior accounting for:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>an axisymetrical estimation of the magnetic field</p>
+</li>
+<li>
+<p>the magnetic field produced</p>
+</li>
+<li>
+<p>thermal dilation</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>fully coupled behavior</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The kind of calculation performed is specified in a configuration <code>cfg</code> file.
+The data settings consist in writting json files for each physical model involved,
+providing connection between CAD/Mesh entities to respectively Material and Boundary conditions.</p>
+</div>
+<div class="sect1">
+<h2 id="data"><a class="anchor" href="#data"></a>1. Data structure</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>HiFiMagnet simulations parameters are defined througth configuration file <code>.cfg</code>
+and <code>json</code> files defining the model per physic and eventually some other <code>json</code> files
+for the physical properties of the materials.</p>
+</div>
+<div class="paragraph">
+<p>The data structure follows Feel++ style and convention.
+In this section we will give details about these different files.</p>
+</div>
+<div class="sect2">
+<h3 id="_config_files"><a class="anchor" href="#_config_files"></a>1.1. Config Files</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cfg hljs" data-lang="cfg">dim=3
+geofile=quarter-torus3D.geo <i class="conum" data-value="1"></i><b>(1)</b>
+geofile-path=$cfgdir
+gmsh.scale=0.001 <i class="conum" data-value="2"></i><b>(2)</b>
+gmsh.hsize=5
+
+conductor_volume=coil <i class="conum" data-value="3"></i><b>(3)</b>
+#insulator_volume=glue
+
+compute_magnetism=true <i class="conum" data-value="4"></i><b>(4)</b>
+compute_bg_magfield=false
+compute_bg_magfield_bmap=false
+compute_elasticity=false
+
+[convergence]
+max_iter=1
+
+[functions]
+j={58.e+3*(0.5/(2*Pi))*y/(x^2+y^2),-58.e+3*(0.5/(2*Pi))*x/(x^2+y^2),0}:x:y:z
+v=0.5*atan2(y,x)/(2*Pi)*(atan2(y,x)&gt;0)+(0.5*(atan2(y,x)+2*Pi)/(2*Pi))*(atan2(y,x)&lt;0):x:y:z
+t=362.156146169164-58.e+3/(2*0.38)*(0.5/(2*Pi))^2*log(sqrt(x*x+y*y)/39.4354779237947 )^2:x:y:z
+
+[thermoelectric] <i class="conum" data-value="5"></i><b>(5)</b>
+model_json=$cfgdir/quarter-torus3D-therm.json
+weakdir=false
+
+[electro]
+pc-type=boomeramg #gamg
+#ksp-monitor=true
+ksp-rtol=1e-7
+ksp-atol=1e-5
+ksp-maxit=2000
+ksp-use-initial-guess-nonzero=1
+
+[thermal]
+pc-type=boomeramg #gamg
+#ksp-monitor=true
+ksp-rtol=1e-8
+ksp-atol=1e-6
+ksp-use-initial-guess-nonzero=1
+
+[elasticity] <i class="conum" data-value="6"></i><b>(6)</b>
+filename=$cfgdir/quarter-torus3D-elasticity.json
+on.type=elimination_symmetric
+lorentz_forces=true
+thermal_dilatation=false
+# # precondtioner config
+pc-type=boomeramg #gamg #lu,gasm,ml
+ksp-monitor=true
+# ksp-converged-reason=1
+
+[magnetic_field-bmap] <i class="conum" data-value="7"></i><b>(7)</b>
+geo-data=torus3D.d
+geo-path=$cfgdir
+helix-intensity=0
+bitter-intensity=11767.7
+supra-intensity=0
+
+[magnetostatic] <i class="conum" data-value="8"></i><b>(8)</b>
+model_json=$cfgdir/quarter-torus3D-mag.json
+weakdir=false
+eps-coeff=0
+# print-info=1
+
+[ms]
+pc-type=ams
+#
+# pc-hypre-ams options
+# see : http://www.mcs.anl.gov/petsc/petsc-dev/src/ksp/pc/impls/hypre/hypre.c.html
+#
+# when ams is used as a preconditionner
+# use ams-cycle-type : 2,4,6,8,12,14
+#
+# relax-type:
+# 1 weighted Jacobi relaxation,
+# 2 a hybrid Gauss-Seidel / Jacobi relaxation scheme,
+# 3 a symmetric hybrid Gauss-Seidel / Jacobi relaxation scheme,
+# 4 l1-Gauss-Seidel or Jacobi,
+# 5 Chebyshev smoothers,
+# 6 hybrid block and Schwarz smoothers [36],
+# 7 ILU and approximate inverse smoothers.
+#
+# when ksp-type=cg
+# use a symmetric smoother such as
+# weighted Jacobi or hybrid symmetric Gauss-Seidel
+pc-hypre-ams-max-iter=15
+pc-hypre-ams-print-level=2
+pc-hypre-ams-cycle-type=13
+pc-hypre-ams-tol=1.e-6
+pc-hypre-ams-relax-type=4
+pc-hypre-ams-relax-times=4
+pc-hypre-ams-relax-weight=0.8
+pc-hypre-ams-omega=0.8
+#
+pc-view=1
+ksp-type=preonly #cg
+ksp-monitor=1
+ksp-atol=2e-3
+ksp-rtol=1e-7
+ksp-verbose=1
+ksp-view=0
+show-preconditioner-options=1
+#ksp-use-initial-guess-nonzero=1
+
+# in json:    "Model": "MagnetoStatic-singular"
+[ts]
+steady=true</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>name of the geometry or mesh</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>gmsh options: scale (optional, the default is <strong>meter</strong>), mesh size</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>list of conductor and insulator volumes</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>flag to control calculations</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>thermo-electric model</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td>elasticity model</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="7"></i><b>7</b></td>
+<td>magnetostatic model</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="8"></i><b>8</b></td>
+<td>specific to HiFiMagnet</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The first lines define the geometry or mesh to consider:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>name of the geometry or mesh</p>
+</li>
+<li>
+<p>gmsh options: scale (optional, the default is <strong>meter</strong>), mesh size</p>
+</li>
+<li>
+<p>list of conductor and insulator volumes</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The next section give setup the calculations to be ran:</p>
+</div>
+<div class="paragraph">
+<p>This is followed by section dedicated to specific physics.
+In this example we have:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>thermo-electric model</p>
+</li>
+<li>
+<p>elasticity model</p>
+</li>
+<li>
+<p>magnetostatic model</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Each of this physic section contains:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>name of the <code>json</code> file holding the complete description of the model (see bellow),</p>
+</li>
+<li>
+<p>setup of the solver: eg <code>[electro]</code> and [<code>thermal</code>] for thermo-electric model</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Solver are specific to each physical model.
+However in general, the default solver is a direct solver.
+For large problems, we would prefer iterative solver for efficiency.
+A typical iterative solver is defined as follow:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>pc-type</code>: name of the preconditionner,</p>
+</li>
+<li>
+<p><code>ksp-rtol</code>: relative tolerance to stop iterative solver,</p>
+</li>
+<li>
+<p><code>ksp-atol</code>: absolute tolerance to stop iterative solver,</p>
+</li>
+<li>
+<p><code>ksp-maxit</code>: maximum iterations allowed to reach convergence,</p>
+</li>
+<li>
+<p><code>ksp-use-initial-guess-nonzero</code>: enable to start with a non null initial guess solution.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Section <code>magnetic_field-bmap</code> is specific to HiFiMagnet. It enables to define
+data needed to compute the "ideal" magnetic field provided by a magnet
+using <a href="#xref:magnettools:Bmap.adoc#bmap" class="page unresolved">xref:magnettools:Bmap.adoc#bmap</a>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>the <code>.d</code> cfg file describing the Axisymetrical model of the magnet</p>
+</li>
+<li>
+<p>the values for the input currents in each subsets of the magnet</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>A magnet is composed of PolyHelices insert and eventually some external magnets either
+Bitter magnets and/or Supraconductor Magnets.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_physic_model_files"><a class="anchor" href="#_physic_model_files"></a>1.2. Physic Model files</h3>
+<div class="paragraph">
+<p>The Physic Model files are <code>json</code> files that contain informations about:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Materials</p>
+</li>
+<li>
+<p>Boundary Conditions</p>
+</li>
+<li>
+<p>Post-Processing quantities</p>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="_thermoelctric_model_file"><a class="anchor" href="#_thermoelctric_model_file"></a>1.2.1. ThermoElctric Model file</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cfg hljs" data-lang="cfg">{
+    "Name": "CoupledCart", <i class="conum" data-value="1"></i><b>(1)</b>
+    "ShortName":"MSC",
+    "Models": <i class="conum" data-value="2"></i><b>(2)</b>
+    {
+        "equations": "thermoelectric-linear"
+    },
+    "Materials": <i class="conum" data-value="3"></i><b>(3)</b>
+    {
+        "coil":
+        {
+            "name":"copper",
+            "filename":"$cfgdir/Cu.json"
+        }
+    },
+    "BoundaryConditions": <i class="conum" data-value="3"></i><b>(3)</b>
+    {
+        "potential": <i class="conum" data-value="4"></i><b>(4)</b>
+        {
+            "Dirichlet":
+            {
+                "V0":
+                {
+                    "expr1":"0.5/4.",
+		    "expr2":"coil"
+                },
+                "V1":
+                {
+                    "expr1":"0",
+		    "expr2":"coil"
+                }
+            }
+        },
+        "temperature": <i class="conum" data-value="5"></i><b>(5)</b>
+        {
+            "Robin":
+            {
+                "Rext":
+                {
+                    "expr1":"80000",
+                    "expr2":"293"
+                },
+                "Rint":
+                {
+                    "expr1":"80000",
+                    "expr2":"293"
+                }
+            }
+        }    },
+    "PostProcess": <i class="conum" data-value="6"></i><b>(6)</b>
+    {
+        "Exports":
+        {
+            "fields":["temperature","potential","joules","current"]
+        }
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_magnetostatics_model_file"><a class="anchor" href="#_magnetostatics_model_file"></a>1.2.2. Magnetostatics Model file</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cfg hljs" data-lang="cfg">{
+    "Name": "CoupledCart", <i class="conum" data-value="1"></i><b>(1)</b>
+    "ShortName":"MSC",
+    "Models": <i class="conum" data-value="2"></i><b>(2)</b>
+    {
+        "equations": "magnetostatic-regularized"
+    },
+    "Materials": <i class="conum" data-value="3"></i><b>(3)</b>
+    {
+        "coil":
+        {
+            "name":"copper",
+            "mu_mag": "1"
+        },
+        "air":
+        {
+            "name":"air",
+            "mu_mag": "1"
+        }
+    },
+    "BoundaryConditions": <i class="conum" data-value="4"></i><b>(4)</b>
+    {
+        "magnetic_potential":
+        {
+            "Dirichlet":
+            {
+                "Border":
+                {
+                    "expr":"{0,0,0}:x:y:z"
+                },
+                "OYOZ":
+                {
+                    "expr":"0:x:y:z"
+                },
+                "V1":
+                {
+                    "expr":"0:x:y:z"
+                },
+                "OXOZ":
+                {
+                    "expr":"0:x:y:z"
+                },
+                "V0":
+                {
+                    "expr":"0:x:y:z"
+                }
+            }
+        }
+    },
+    "PostProcess":, <i class="conum" data-value="5"></i><b>(5)</b>
+    {
+        "Exports":
+        {
+            "fields":["magneticPotential","magneticField","currentDensity"]
+        }
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_elasticity_model_file"><a class="anchor" href="#_elasticity_model_file"></a>1.2.3. Elasticity Model file</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cfg hljs" data-lang="cfg">{
+    "Name": "CoupledCart", <i class="conum" data-value="1"></i><b>(1)</b>
+    "ShortName":"MSC",
+    "Models": <i class="conum" data-value="2"></i><b>(2)</b>
+    {
+        "equations": "Elasticity"
+    },
+    "Materials": <i class="conum" data-value="3"></i><b>(3)</b>
+    {
+        "coil":
+        {
+            "name":"copper",
+            "E":"2.1e6",
+            "nu":"0.33",
+            "alphaT":"18e-6",
+            "rho":"10.e-6"
+        }
+    },
+    "BoundaryConditions": <i class="conum" data-value="4"></i><b>(4)</b>
+    {
+        "displacement_z":
+        {
+            "Dirichlet":
+            {
+                "HP":
+                {
+                    "expr":"0"
+                },
+                "BP":
+                {
+                    "expr":"0"
+                }
+            }
+        },
+        "displacement_y":
+        {
+            "Dirichlet":
+            {
+                "V0":
+                {
+                    "expr":"0"
+                }
+            }
+        },
+        "displacement_x":
+        {
+            "Dirichlet":
+            {
+                "V1":
+                {
+                    "expr":"0"
+                }
+            }
+        }
+    },
+    "PostProcess": <i class="conum" data-value="5"></i><b>(5)</b>
+    {
+        "Exports":
+        {
+            "fields":["displacement","Von-Mises","tresca","principal-stresses"]
+        }
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_materials_file"><a class="anchor" href="#_materials_file"></a>1.3. Materials file</h3>
+<div class="paragraph">
+<p>Physical properties of the material are defined in a <code>json</code> file
+for each material. The properties are given in SI units.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cfg hljs" data-lang="cfg">{
+    "name":"Cu", <i class="conum" data-value="1"></i><b>(1)</b>
+    "sigma0":"50.e+6",
+    "k0":"330",
+    "T0":"293",
+    "alpha":"3.4e-3", <i class="conum" data-value="2"></i><b>(2)</b>
+    "sigma":"sigma0/(1+alpha*(T-T0)):sigma0:alpha:T:T0", <i class="conum" data-value="3"></i><b>(3)</b>
+    "k":"k0*T/((1+alpha*(T-T0))*T0):k0:T:alpha:T0", <i class="conum" data-value="4"></i><b>(4)</b>
+    "E":"120.e+9", <i class="conum" data-value="5"></i><b>(5)</b>
+    "nu":"0.35", <i class="conum" data-value="6"></i><b>(6)</b>
+    "alphaT":"18e-6", <i class="conum" data-value="7"></i><b>(7)</b>
+    "rho":"8.96e+3", <i class="conum" data-value="8"></i><b>(8)</b>
+    "mu":"1" <i class="conum" data-value="9"></i><b>(9)</b>
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In the table bellow, you will find the correspondance between an entrie in the <code>json</code> file
+defining properties for material &lt;1&gt; :</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Notation</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Quantity</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Unit</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Note</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">&lt;2&gt; \(\alpha\)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">thermal resistivity coefficient</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">&lt;3&gt; \(\sigma\)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">electrical conductivity</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">\(S.m^{-1}\)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">an expression of \(T\)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(references values,indiced with a \(_0\), at \(T_0\))</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">&lt;4&gt; \(k\)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">thermal conductivity</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">\(W.m^{-1} .K^{-1}\)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">same</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">&lt;5&gt; \(Y\)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Young modulus</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">\(Pa\)</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">&lt;6&gt; \(\nu\)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Poisson ratio</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">&lt;7&gt; \(\alpha_T\)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">thermal expansion coefficient</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">\(K^{-1}\)</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">&lt;8&gt; \(\rho\)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">material&#8217;s density</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">\(kg.m^{-3}\)</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">&lt;9&gt; \(\mu\)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">magnetic permeability</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">\(V.s.A^{-1}.m^{-1}\)</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_workflow"><a class="anchor" href="#_workflow"></a>2. Workflow</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_using_magnettools_to_define_design"><a class="anchor" href="#_using_magnettools_to_define_design"></a>2.1. Using MagnetTools to define Design</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>create optimized axi geometry</p>
+</li>
+<li>
+<p>run <code>opt2yml</code> to create the cfg files for HiFiMagnet Salome Plugin</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_using_hifimagnet_salome_plugin_to_create_cad_and_generate_meshes"><a class="anchor" href="#_using_hifimagnet_salome_plugin_to_create_cad_and_generate_meshes"></a>2.2. Using HiFiMagnet Salome Plugin to create CAD and generate meshes</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>fill in the missing data into Salome yaml cfg files</p>
+</li>
+<li>
+<p>run the CAD generation</p>
+</li>
+<li>
+<p>eventually add <code>Air</code></p>
+</li>
+<li>
+<p>mesh</p>
+</li>
+<li>
+<p>improve the mesh</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_prepare_the_mesh_for_hpc"><a class="anchor" href="#_prepare_the_mesh_for_hpc"></a>2.3. Prepare the mesh for HPC</h3>
+<div class="paragraph">
+<p>The mesh created with HiFiMagnet Salome is in <code>med</code> format.
+Depending on the version of Feel++ used this format may not be supported.
+So before running any simulation you have to convert the mesh to <code>gmsh V2</code> format:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">gmsh -bin -3 mesh.med -o mesh.msh</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then you have eventually to partition the mesh to use it on HPC:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">feelpp_mesh_partitioner [--gmsh.scale=0.001] --ifile mesh.msh -ofile mesh-np4 --part 4 --nochdir</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where <code>part</code> denotes the number of processors (4 in our example) you want to use.
+The option <code>--gmsh.scale=0.001</code> enables to rescale the mesh file.</p>
+</div>
+<div class="paragraph">
+<p>This will create new files <code>mesh-np4.json</code> and <code>mesh-np4.h5</code> ready for running.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>HiFiMagnet Salome CAD geometries are defined in <code>mm</code>.
+The mesh file generated is also in <code>mm</code>.</p>
+</div>
+<div class="paragraph">
+<p>As a consequence, <strong>do not forget to rescale the mesh</strong> before running simulation.
+Use <code>--gmsh.scale=0.001</code> to rescale the mesh.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_define_cfg_model_and_materials_files"><a class="anchor" href="#_define_cfg_model_and_materials_files"></a>2.4. Define Cfg, Model and Materials files</h3>
+
+</div>
+<div class="sect2">
+<h3 id="_running_3d_simulations"><a class="anchor" href="#_running_3d_simulations"></a>2.5. Running 3D simulations</h3>
+
+</div>
+<div class="sect2">
+<h3 id="_postprocessing_results"><a class="anchor" href="#_postprocessing_results"></a>2.6. Postprocessing results</h3>
+
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_examples"><a class="anchor" href="#_examples"></a>3. Examples</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="../benchmarks/HL/README.html" class="page">HL</a></p>
+</li>
+<li>
+<p><a href="../benchmarks/HL-31/README.html" class="page">HL-31</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <div class="container">
+    <div class="footer-links">
+      <div class="col">
+        <div class="footer-logo">
+          <a href="https://www.cemosis.fr" class="icon">
+            <img src="../../../_/img/logoCemosisTransparent.png" alt="Cemosis">
+          </a>
+        </div>
+      </div>
+      <div class="col">
+        <ul>
+          <li><a href="https://docs.cemosis.fr" target="_blank" rel="noopener">Projects Documentation</a></li>
+          <li><a href="https://join.slack.com/t/feelpp/shared_invite/zt-2qe0q9hw-4pVbhohCXUE6Po9Ma8dbiQ" target="_blank" rel="noopener">Forums(Slack)</a></li>
+        </ul>
+      </div>
+      <div class="col">
+        <ul>
+          <li><a href="https://www.cemosis.fr" target="_blank" rel="noopener">Cemosis</a></li>
+          <li><a href="https://www.cemosis.fr/news" target="_blank" rel="noopener">News</a></li>
+          <li><a href="https://www.cemosis.fr/projects" target="_blank" rel="noopener">Projects</a></li>
+        </ul>
+      </div>
+      <div class="col">
+        <ul>
+          <li><a href="https://docs.feelpp.org" target="_blank" rel="noopener">Feel++ Documentation</a></li>
+          <li><a href="http://docs.feelpp.org/user/">Get Started</a></li>
+          <li><a href="http://docs.feelpp.org/user//install/distributions/">Downloads</a></li>
+        </ul>
+      </div>
+      <div class="col">
+        <ul class="social-icons">
+          <li>
+            <svg  width="14" height="14" viewBox="0 0 32 32"> <path id="facebook" class="cls-1" d="M29,0H3A2.652,2.652,0,0,0,0,3V29a2.652,2.652,0,0,0,3,3H16V18H12V14h4V12a6.452,6.452,0,0,1,6-6h4v4H22a2.151,2.151,0,0,0-2,2v2h6l-1,4H20V32h9a2.652,2.652,0,0,0,3-3V3A2.652,2.652,0,0,0,29,0Z"/></svg>
+            <a href="https://www.facebook.com/cemosis.fr" class="icon">
+            Facebook
+            </a>
+          </li>
+          <li>
+            <svg  width="14" height="14" viewBox="0 0 32.1 26.1"> <path id="twitter" class="cls-1" d="M32,7.1a11.836,11.836,0,0,1-3.8,1,6.462,6.462,0,0,0,2.9-3.6,12.606,12.606,0,0,1-4.2,1.6A6.492,6.492,0,0,0,22.1,4a6.594,6.594,0,0,0-6.6,6.6,7.719,7.719,0,0,0,.2,1.5A18.458,18.458,0,0,1,2.2,5.2a6.294,6.294,0,0,0-.9,3.3A6.765,6.765,0,0,0,4.2,14a6.109,6.109,0,0,1-3-.8v.1a6.543,6.543,0,0,0,5.3,6.4,4.678,4.678,0,0,1-1.7.2,4.869,4.869,0,0,1-1.2-.1,6.679,6.679,0,0,0,6.1,4.6,12.917,12.917,0,0,1-8.2,2.8,9.151,9.151,0,0,1-1.6-.1,18.438,18.438,0,0,0,10.1,3c12.1,0,18.7-10,18.7-18.7v-.8A13.336,13.336,0,0,0,32,7.2Z" transform="translate(0.1 -4)"/></svg>
+            <a href="https://twitter.com/cemosis" class="icon">
+              Twitter
+            </a>
+          </li>
+          <li>
+          <svg  width="14" height="14" viewBox="0 0 32 32"> <path id="linkedin" class="cls-1" d="M29,0H3A3.076,3.076,0,0,0,0,3V29a3.009,3.009,0,0,0,3,3H29a2.946,2.946,0,0,0,3-3V3A3.009,3.009,0,0,0,29,0ZM12,26H8V12h4ZM10,10a2,2,0,1,1,2-2A2.006,2.006,0,0,1,10,10ZM26,26H22V18a2,2,0,0,0-4,0v8H14V12h4v2.5c.8-1.1,2.1-2.5,3.5-2.5A4.736,4.736,0,0,1,26,17Z"/></svg>
+              <a href="https://www.linkedin.com/company/cemosis" class="icon">
+             Linkedin
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-terms">
+      <div class="footer-terms-copyright">
+          <span>© 2020 Cemosis, Université de Strasbourg</span>
+      </div>
+      <div class="footer-terms-links">
+        <a href="https://www.cemosis.fr/terms-of-use">Terms of Use</a>
+        <a href="https://www.cemosis.fr/privacy-policy">Privacy Policy</a>
+        <a href="https://www.cemosis.fr/cookie-policy">Cookie Policy</a>
+        <a href="https://www.cemosis.fr/support-policy">Support Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+<script src="../../../_/js/site.js"></script>
+<script async src="../../../_/js/vendor/fontawesome-icon-defs.js"></script>
+<script async src="../../../_/js/vendor/fontawesome.js"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+
+<script async id="search-script" src="../../../_/js/vendor/docsearch.js" data-app-id="FIPLENFG5M" data-api-key="489d96aa4ae574ec7ad1f23741a2d46d" data-index-name="cemosis" data-stylesheet="../../../_/css/vendor/docsearch.css">
+</script>
+
+  </body>
+</html>

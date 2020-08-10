@@ -1,0 +1,1523 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>HiFiMagnet Developper documentation :: Cemosis Docs</title>
+    <link rel="canonical" href="https://docs.cemosis.fr/hifimagnet/stable/dev/index.html">
+    <meta name="keywords" content="Feel++, partial differential equations, finite element method,">
+    <meta name="generator" content="Antora 2.3.3">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+<link rel="icon" href="../../../_/img/favicon.ico" type="image/x-icon">    
+<script>!function(l,p){if(l.protocol!==p&&l.host=="docs.antora.org"){l.protocol=p}else if(/\.gitlab\.io$/.test(l.host)){l.replace(p+"//docs.antora.org"+l.pathname.substr(l.pathname.indexOf("/",1))+l.search+l.hash)}}(location,"https:")</script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\\[','\\]']],
+    processEscapes: true,
+    processEnvironments: true, 
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+
+  TeX: {
+      Macros: {
+      RR: "{\\mathbb R}",
+      NN: "{\\mathbb N}",
+      Nso: "{N_{\\mathrm{so}}}",
+      Nma: "{N_{\\mathrm{ma}}}",
+      Nno: "{N_{\\mathrm{no}}}",
+      Ne: "{N_{\\mathrm{e}}}",
+      Ilag: ["{\\mathcal{I}^{\\mathrm{lag}}_{#1}}",1],
+      calTh: "{\\mathcal{T}_h}",
+      Ck: ["{\\mathcal{C}^{#1}}",1],
+      Pk: ["{\\mathcal{P}^{#1}}",1],
+      Qk: ["{\\mathcal{Q}^{#1}}",1],
+      Pch: ["{P^{#1}_{c,h}}",1],
+      Pcho: ["{P^{#1}_{c,h,0}}",1],
+      Qch: ["{Q^{#1}_{c,h}}",1],
+      Ich: ["{\\mathcal{I}^{#1}_{c,h}#2}",2],
+      poly: ["{\\mathbb{#1}}",1],
+      nf: "{n_f}",
+      ngeo: "{n_{\\mathrm{geo}}}",
+      geo: "{\\mathrm{geo}}",
+      card: ["{\\operatorname{card}(#1)}",1],
+      dim: ["{\\operatorname{dim}(#1)}",1],
+      opdim: "{\\operatorname{dim}}",
+      card: ["{\\operatorname{card}(#1)}",1],
+      poly: ["{\\mathbb{#1}",1],
+      R: ["{\\mathbb{R}^{#1}}",1],
+      set: ["{\\left\\{#1\\right\\}}",1],
+      diam: "{\\operatorname{diam}}",
+      jump: ["{[\\![ #1 ]\\!]}",1],
+      Next: "{\\mathrm{n}}",
+      essinf: "{\\operatorname{ess}\\, \\operatorname{inf}}",
+      tr: "{\\operatorname{tr}}",
+      Id: "{\\mathcal{I}}",
+      disp: ["{\\mathbf{#1}}",1],
+      stresst: ["{\\mathbf{\\sigma(#1)}}",1],
+      deformt: ["{\\mathbf{\\varepsilon(#1)}}",1],
+      domain: "{\\Omega}",
+      prect: ["{\\left\\(#1\\right\\)}",1],
+      ds: "",
+      bold: ["{\\bf #1}",1],
+      p: "{\\mathrm{p}}",
+      q:"{\\mathbf{q}}",
+      n:"{\\mathbf{n}}",
+      T:"{\\mathcal{T}}",
+      F:"{\\mathcal{F}}",
+      P:"{\\mathcal{P}}",
+      v:"{\\mathbf{v}}"
+  },
+  extensions: ["mhchem.js"] }
+});
+</script>
+<!--<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/MathJax.js?config=TeX-MML-AM_CHTML"></script>-->
+<!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML' async></script> -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_CHTML'>
+</script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.0/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>-->
+
+<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" integrity="sha384-TEMocfGvRuD1rIAacqrknm5BQZ7W7uWitoih+jMNFXQIbNl16bO8OZmylH/Vi/Ei" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js" integrity="sha384-jmxIlussZWB7qCuB+PgKG1uLjjxbVVIayPJwi6cG6Zb4YKq0JIw+OMnkkEC7kYCq" crossorigin="anonymous"></script>-->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-65761593-2"></script>
+    <script>function gtag(){dataLayer.push(arguments)};window.dataLayer=window.dataLayer||[];gtag('js',new Date());gtag('config','UA-65761593-2')</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar  navbar-expand-sm bg-dark navbar-dark">
+    <div class="navbar-brand">
+      <div class="navbar-item">
+         <!--  <a href="https://book.feelpp.org">Feel++ documentation</a> -->
+           <a href="https://docs.cemosis.fr">Cemosis Docs</a>
+      </div>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://docs.cemosis.fr">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <div class="navbar-link">Docs</div>
+          <div class="navbar-dropdown">
+            <div class="navbar-item"><strong>Latest Version</strong></div>
+
+            <!-- this code allow to manage ordering of navbar item -->
+               
+              <a class="navbar-item" href="/cemosis/latest/index.html"> Cemosis Documentation </a>
+                  
+              <a class="navbar-item" href="/antora-ui-default/index.html"> Cemosis Documentation UI </a>
+                  
+              <a class="navbar-item" href="/eye2brain/current/index.html"> Eye2Brain Manual </a>
+                  
+              <a class="navbar-item" href="/feelpp-cfd/latest/index.html"> Feel++ CFD </a>
+                  
+              <a class="navbar-item" href="/mqs/latest/index.html"> Feel++ Maxwell Quasi Static </a>
+                  
+              <a class="navbar-item" href="/hemotumpp/0.1/index.html"> HemoTum++ </a>
+                  
+              <a class="navbar-item" href="/hifimagnet/stable/index.html"> HiFiMagnet Documentation </a>
+                  
+              <a class="navbar-item" href="/holo3/latest/index.html"> Holo3 </a>
+                    
+              <a class="navbar-item" href="/ibat/latest/index.html"> IBat </a>
+                  
+              <a class="navbar-item" href="/msqab/0.1/index.html"> msqab </a>
+                  
+              <a class="navbar-item" href="/swimmer/latest/index.html"> Swimmer Docs </a>
+               
+
+            <hr class="navbar-divider">
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <div class="navbar-link">Feel++</div>
+          <div class="navbar-dropdown">
+            <div class="navbar-item"><strong>GitHub</strong></div>
+            <a class="navbar-item" href="http://github.com/feelpp/feelpp">GitHub Repository</a>
+            <a class="navbar-item" href="http://github.com/feelpp/feelpp/issues">GitHub Issue Tracker</a>
+            <hr class="navbar-divider">
+            <div class="navbar-item"><strong>Documentation</strong></div>
+            <a class="navbar-item" href="http://docs.feelpp.org/user/">User Manual</a>
+            <a class="navbar-item" href="http://docs.feelpp.org/dev/">Developer Manual</a>
+            <a class="navbar-item" href="http://docs.feelpp.org/toolbox/">Toolbox Manual</a>
+            
+          </div>
+        </div>
+        <div class="primary-action">
+            <form class="navbar-item search">
+              <input type="text" placeholder="Search Cemosis Docs" class="query" id="search-query">
+              <button type="button" class="search-btn"><i class="fas fa-search"></i></button>
+            </form>
+        </div>
+        <div class="navbar-item">
+          <a class="navbar-brand" href="https://join.slack.com/t/feelpp/shared_invite/zt-2qe0q9hw-4pVbhohCXUE6Po9Ma8dbiQ">
+            <img src="../../../_/img/slack.png" alt="slack" style="width:30px;"></a>
+        </div>
+        <div class="navbar-item">
+          <a class="navbar-brand"  href="http://docs.feelpp.org">
+            <img src="../../../_/img/logoFeelpp.png" alt="Feel++" style="width:60px;">
+          </a>
+        </div>
+        <div class="navbar-item">
+          <a class="navbar-brand"  href="http://www.cemosis.fr">
+            <img src="../../../_/img/logoCemosisTransparent.png" alt="Cemosis" style="width:60px;">
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="hifimagnet" data-version="stable">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">HiFiMagnet Documentation</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html#manuals">Manuals</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html#help">Help</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html#contribute">Contribute</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html#copyright">Licenses</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html#authors">Authors</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../model/index.html#model">Physical Modelling</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../model/index.html#introduction">Introduction</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../model/index.html#coupled3d">Coupled Model</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../model/index.html#thermoelec">ThermoElectric Model</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../model/index.html#magneto">Magnetostatic Model</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../model/index.html#meca">ELasticity Model</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../model/index.html#cooling">ThermoHydraulics Model</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../cad/index.html#salome_plugin">HifiMagnet Salome plugin</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../cad/index.html#introduction">Introduction</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../cad/index.html#quickstart">Quickstart</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cad/index.html#qs_getting">Getting Salome</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../cad/index.html#qs_reference">Running Salome</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../cad/index.html#data">Data Structure</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../cad/index.html#usage">Usage</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../magnettools/index.html#magnettools_manual">MagnetTools</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../magnettools/index.html#installation">Installation</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../magnettools/DataStructure.html">Data</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../magnettools/Bmap.html">Magnetic Field Map</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../magnettools/Transient.html">Transient Analysis</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../magnettools/Optimization.html">Optimization</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../user/index.html#user_manual">User Manual</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../user/index.html#quickstart">Quick Start</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../user/index.html#usage">Usage</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../user/index.html#usage_hifimagnet">Using HiFiMagnet</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../post/index.html#post_manual">Post-Processing</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../post/index.html#paraview">Paraview</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../post/index.html#ensight">Ensight</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../benchmarks/index.html#main_examples">Examples and Benchmarks</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../benchmarks/index.html#examples">Examples</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../benchmarks/index.html#examples">Benchmarks</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../benchmarks/index.html#validations">Validations</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../benchmarks/index.html#verifications">Verifications</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../mso4sc/index.html#msoportal">MSOPortal</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../mso4sc/index.html#msoportal">Introduction</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../mso4sc/index.html#connect">Create an account</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../mso4sc/index.html#overview">OverView of the Portal</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../mso4sc/index.html#mso_setup">Setting up your account</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../mso4sc/user.html#enduser">EndUser</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../mso4sc/user.html#purchase">Purchasing an app</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../mso4sc/user.html#data">Uploading to DataCatalogue</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../mso4sc/user.html#running">Running an app</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../mso4sc/user.html#RemoteDesktop">Viewing results</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../mso4sc/user.html#offering_setup">Available apps</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../mso4sc/dev.html#devuser">DevUser</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../mso4sc/dev.html#registerapp">Validate an <strong>EndUser</strong></a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../mso4sc/dev.html#registerapp">Register App</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../mso4sc/dev.html#validorder">Validate an order</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="#dev_manual">Developper Manual</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#install_salome">HiFimagnet Salome plugin</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#install_magnettools">MagnetTools</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#install_hifimagnet">Hifimagnet</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#mso4sc-dev">MSO4SC Portal</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../tutorials/index.html#tutorials">Tutorials</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tutorials/thermoelec.html">ThermoElectric</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tutorials/magnetostatic.html">Magnetostatic (H1)</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tutorials/elasticity.html">Elasticity</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tutorials/salome.html">Using Salome</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tutorials/ensight.html">Using Ensight</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">HiFiMagnet Documentation</span>
+    <span class="version">stable</span>
+  </div>
+  <ul class="components">
+    <li class="component">
+      <span class="title">Cemosis Documentation</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../cemosis/latest/index.html">latest</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Cemosis Documentation UI</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../antora-ui-default/index.html">master</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Eye2Brain Manual</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../eye2brain/current/index.html">current</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Feel++ CFD</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../feelpp-cfd/latest/index.html">latest</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Feel++ Maxwell Quasi Static</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../mqs/latest/index.html">latest</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">HemoTum++</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../hemotumpp/0.1/index.html">0.1</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component is-current">
+      <span class="title">HiFiMagnet Documentation</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">stable</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Holo3</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../holo3/latest/index.html">latest</a>
+        </li>
+        <li class="version">
+          <a href="../../../holo3/doc-pierre/index.html">doc-pierre</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">IBat</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../ibat/latest/index.html">latest</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">msqab</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../msqab/0.1/index.html">0.1</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Swimmer Docs</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../swimmer/latest/index.html">latest</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../../../cemosis/latest/index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">HiFiMagnet Documentation</a></li>
+    <li><a href="#dev_manual">Developper Manual</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/feelpp/book.hifimagnet/edit/master/docs/docs/modules/dev/pages/index.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">HiFiMagnet Developper documentation</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Welcome to HiFiMagnet Developper documentation!</p>
+</div>
+</div>
+</div>
+<h1 id="install_salome" class="sect0"><a class="anchor" href="#install_salome"></a>HiFiMagnet Salome plugin</h1>
+<div class="paragraph">
+<p>This section describes HiFiMagnet Salome Plugin installation from scratch. You can also use official Salome binairies to build the plugin but this will not be detailed.</p>
+</div>
+<div class="paragraph">
+<p>Building Salome from scratch is performed within a docker image to avoid any conflitcs with pre-existing configuration. The obtained binaries will exported at the end of the build process if successful as a compressed archive. The archive will be later used when creating the containers.</p>
+</div>
+<div class="paragraph">
+<p>All the scripts and docker or singularity recipes may be found in <a href="http://github.com/hifimagnet/">HiFiMagnet github repository</a>.
+In particular see the followings directory:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>docker: for all docker related stuff</p>
+</li>
+<li>
+<p>singularity: same for singularity</p>
+</li>
+<li>
+<p>package: for all debian/ubuntu packaging questions</p>
+</li>
+</ul>
+</div>
+<div class="sect1">
+<h2 id="_using_official_binary"><a class="anchor" href="#_using_official_binary"></a>1. Using Official binary</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This is not the recommended installation and this method is supported only starting from Salome 8.3.0.</p>
+</div>
+<div class="paragraph">
+<p>If a Salome tarball exist for your os, just retrieve it from the <a href="http://salome-platform.org/">Salome website</a>.
+Note that you would need to be a registered user to download the official binary. Otherwise, you could try to build
+Salome from scratch followings instructions given above.</p>
+</div>
+<div class="paragraph">
+<p>Once you have binary, just untar it and try to run Salome from a command line.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>To build a container from Official Salome binaries, you can custom create a custom <code>Dockerfile-official</code>
+from the template <code>Dockerfile-official.in</code> in <a href="http://github.com/hifimagnet/docker/salome">HiFiMagnet docker repository</a>
+Do not forget to create an account on <a href="http://salome-platform.org/">Salome website</a>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">cp Dockerfile-official.in Dockerfile-official
+perl -pi -e "s|DIST|$DIST|" Dockerfile-official
+
+cp WELCOME-official WELCOME
+perl -pi -e "s|VERSION|8.3.0|" WELCOME
+perl -pi -e "s|SVERSION|V8_3_0|" WELCOME
+perl -pi -e "s|DIST|$DIST|" WELCOME
+
+docker build \
+   --build-arg HTTP_USER=... \
+   --build-arg HTTP_PASSWD=... \
+   --build-arg VERSION=8.3.0 \
+   --build-arg ARG SVERSION=V8_3_0 \
+   --build-arg ARG GRAPHICS=nvidia \
+   --build-arg ARG DIST=jessie \
+   --build-arg ARG MESHGEMS=0 \
+   -t salome-8.3.0:new -f Dockerfile-official .
+
+rm -f WELCOME
+rm -f Dockerfile-official</code></pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>To install HiFiMagnet Salome plugin you have then 2 options:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>use salomeTools if they are available,&#8230;&#8203;.:</p>
+</li>
+</ul>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>use the installer provided in HiFiMagnet Salome plugin source,&#8230;&#8203;</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_building_from_scratch"><a class="anchor" href="#_building_from_scratch"></a>2. Building from scratch</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>First create a directory to hold salome tarball release:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">mkdir -p $HOME/Salome_Packages</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Prepare the archives directory in <code>SALOME-${VERSION}/ARCHIVES</code>
+that contains the sources tarballs of the pre-requisites</p>
+</li>
+<li>
+<p>Check or create a new application in <code>PROJECT/applications</code>,
+see for instance <a href="https://github.com/feelpp/hifimagnet/blob/Salome_8.3.0/docker/salome/PROJECT/applications/SALOME-8.3.0-native.pyconf">SALOME-8.3.0.pyconf</a></p>
+</li>
+<li>
+<p>Launch the building of salome</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">./build_salome_new.sh -v $VERSION -p \$DIST -m [-d]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where <code>-m</code> enable MPI support and -d is used for debugging purposes.</p>
+</div>
+<div class="paragraph">
+<p>The actual build process involves:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>the creation of a temporary docker image to hold
+the salomeTools suite that perform the installation.
+The prerequisites are:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>pyconf file describing the requested configuration</p>
+</li>
+<li>
+<p>directory SALOME_$VERSION: holding the archive tarball of the dependencies,</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>The Salome tarball is written into $HOME/Salome_Packages directory</p>
+</li>
+<li>
+<p>the creation of a docker image holding VERSION of Salome plus a graphic driver.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Only drive for nvidia is installed</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The image can be pushed to <a href="https://hub.docker.com/r/feelpp/salome/">feelpp/salome dockerhub</a>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">docker login
+docker tag ...
+docker push</code></pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>On Windows 10 Pro you have to:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>install MobaXterm to get a X11 server,</p>
+</li>
+<li>
+<p>install WSL,</p>
+</li>
+<li>
+<p>install Debian/Stretch from Windows Store,</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To install Salome in WSL Debian/Stretch:
+* start Debian
+* setup lncmi debian repository
+* install Salome binary for Debian/Stretch in Debian WSL.</p>
+</div>
+<div class="paragraph">
+<p>Then to run Salome:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>start MobaXterm to get X11 up and running</p>
+</li>
+<li>
+<p>launch Debian from menu or by typing debian.exe in a powershell</p>
+</li>
+<li>
+<p>from the "debian" terminal, run Salome</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Note that you may have to add some missing packages to get salome
+working.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_singularity_image"><a class="anchor" href="#_singularity_image"></a>3. Singularity image</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Supported Versions: <code>7.8.0</code> to <code>8.4.0</code></p>
+</li>
+<li>
+<p>Supported Graphic card: <code>nvidia</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The most common procedure to create a singularity image for Salome relies on Docker image and depends on Singularity version:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>for 2.3.1 version:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">DIST=$(docker run -it --rm trophime/salome-$VERSION:$TAG lsb_release -cs)
+sudo singularity create --size 6144 ./salome-$VERSION-$DIST-$TAG.simg
+sudo singularity --verbose import ./salome-$VERSION-$DIST-$TAG.simg docker://trophime/salome-$VERSION:$TAG</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where <code>VERSION</code> and <code>TAG</code> respectively stand for Salome version and graphics driver.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>for 2.4.1 version and higher:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">DIST=$(docker run -it --rm trophime/salome-$VERSION:$TAG lsb_release -cs)
+sudo -E singularity -vvv build --force --notest [--writable] "./salome-$VERSION-$DIST-$TAG.simg" "./salome-docker.def"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>An alternative is to build the image using the Salome binairies, for details see <a href="example$/cad/stretch.def">stretch.def</a> recipe:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">sudo -E singularity -vvv build --force --notest [--writable] "./salome-$VERSION-$TAG.simg" "./stretch.def"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We also provide a <a href="examples/cad/build_singularity.sh">bash script</a> to automate the creation of Salome singularity image:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">#! /bin/bash -x
+
+usage(){
+   echo ""
+   echo "Description:"
+   echo "               Builds Salome Singularity container from official release "
+   echo ""
+   echo "Usage:"
+   echo "               build.sh [ &lt;option&gt; ] ... ]"
+   echo ""
+   echo "Options:"
+   echo ""
+   echo "-i &lt;dockerimage&gt; Specify the name of docker image. Default is hifimagnet-from-scratch"
+   echo ""
+   echo "-t &lt;tag&gt;         Specify tag to use"
+   echo ""
+   echo "-b &lt;bootstrap.def&gt; Specify the name of bootstrap.def file. Default is hifimagnet-docker.def"
+   echo ""
+   echo "-h              Prints this help information"
+   echo ""
+   exit 1
+}
+
+TESTSUITE=0
+
+#########################################################
+## parse parameters
+##########################################################
+while getopts "hb:t:i:s:u:p:" option ; do
+   case $option in
+       h ) usage ;;
+       b ) BOOTSTRAP=$OPTARG ;;
+       t ) DOCKERTAG=$OPTARG ;;
+       i ) DOCKERIMAGE=$OPTARG ;;
+       s ) TESTSUITE=1 ;;
+       u ) DOCKER_USER=$OPTARG ;;
+       p ) DOCKER_PASSWD=$OPTARG ;;
+       ? ) usage ;;
+   esac
+done
+# shift to have the good number of other args
+shift $((OPTIND - 1))
+
+# Optionally set VERSION and others if none is defined.
+: ${RELEASE:="yakkety"}
+: ${BOOTSTRAP:="hifimagnet-docker.def"}
+: ${DOCKERFILE="Dockerfile"}
+: ${BRANCH:="develop"}
+: ${DOCKERTAG=${BRANCH}-${RELEASE}}
+: ${DOCKERIMAGE="hifimagnet"}
+
+: ${DOCKER_USER=${DOCKER_LOGIN}}
+: ${DOCKER_PASSWD=${DOCKER_PASSWORD}}
+
+if [ -f  hifimagnet-${DOCKERTAG}.simg ]; then
+    echo "hifimagnet-${DOCKERTAG}.simg already exists"
+    exit 1
+fi
+
+# Check dockerhub credential
+if [ ! -z ${DOCKER_USER} ] &amp;&amp; [ ! -z ${DOCKER_PASSWD} ] ; then
+    docker login --username=${DOCKER_USER} --password="${DOCKER_PASSWD}"
+    isOK=$?
+    if [ "$isOK" != "0" ]; then
+        echo "credentials for dockerhub are invalid"
+        echo "username=${DOCKER_USER}"
+        echo "password=${DOCKER_PASSWD}"
+        exit 1
+    fi
+else
+    echo "Docker environment variable not set: [ DOCKER_PASSWORD , DOCKER_LOGIN ] !"
+    exit 1
+fi
+
+# Set credentials for singularity
+export SINGULARITY_DOCKER_USERNAME=${DOCKER_USER}
+export SINGULARITY_DOCKER_PASSWORD=${DOCKER_PASSWD}
+
+# Check existence of docker image
+# if [[ "$(docker images -q feelpp/${DOCKERIMAGE}:${DOCKERTAG} 2&gt; /dev/null)" == "" ]]; then
+#     docker pull feelpp/${DOCKERIMAGE}:${DOCKERTAG}
+# fi
+
+# TODO:
+# Get Release from Dockerfile: requires lbs-release to be installed
+# Set Os to Release in BOOSTRAP file or Check Os/Release are consistent
+
+# Get singularity version
+SINGULARITY_BIN=$(which singularity)
+
+SINGULARITY_MAJOR_VERSION=`${SINGULARITY_BIN} --version | sed 's/\([0-9]*\)[.]*[0-9]*[.]*[0-9]*.*/\1/'`
+SINGULARITY_MINOR_VERSION=`${SINGULARITY_BIN} --version | sed 's/[0-9]*[.]*\([0-9]*\)[.]*[0-9]*.*/\1/'`
+SINGULARITY_PATCH_VERSION=`${SINGULARITY_BIN} --version | sed 's/[0-9]*[.]*[0-9]*[.]*\([0-9]*\).*/\1/'`
+
+# Get image size if singularity is less than 2.4
+if [ $SINGULARITY_MAJOR_VERSION -eq 2 ] &amp;&amp; [ $SINGULARITY_MINOR_VERSION -le 3 ] ; then
+    SAFETY=1.1
+    SIZE_MB=""
+    SIZE=$(docker images feelpp/${DOCKERIMAGE}:${DOCKERTAG}  --format "{{.Size}}")
+    isGB=$(echo $SIZE | grep GB)
+    if [ -n "$isGB" ] ; then
+        SIZE=$(echo $SIZE | tr -d "GB")
+        echo "feelpp/${DOCKERIMAGE}:${DOCKERTAG}: ${SIZE} GB"
+        SIZE_MB=$(echo "(${SAFETY}*${SIZE}*1024+0.5)/1" | bc)
+    else
+        isMB=$(echo $SIZE | grep GB)
+        if [ -n "$isMB" ] ; then
+            SIZE_MB=$(echo "(${SAFETY}*${SIZE}+0.5)/1" | bc)
+            echo "feelpp/${DOCKERIMAGE}:${DOCKERTAG}: ${SIZE_MB}"
+        fi
+    fi
+
+    ${SINGULARITY_BIN} create --size ${SIZE_MB} ${DOCKERIMAGE}-${DOCKERTAG}.simg
+    ${SINGULARITY_BIN} -vvv import ${DOCKERIMAGE}-${DOCKERTAG}.simg docker://feelpp/${DOCKERIMAGE}:${DOCKERTAG}
+
+    # NB user should be a sudoer at least for singularity
+    # sudo -E ${SINGULARITY_BIN} -vvv  bootstrap ${DOCKERIMAGE}-${DOCKERTAG}.img ${BOOTSTRAP}
+
+else
+    # echo "singularity 2.4 and above are not supported right now"
+    # exit 1
+
+    # NB user should be a sudoer at least for singularity
+    sudo -E ${SINGULARITY_BIN} -vvv build --force --notest --writable "./${DOCKERIMAGE}-${DOCKERTAG}.simg" "./${BOOTSTRAP}"
+
+    # add option -w to have a "compatible" singularity image
+fi
+
+# where to store Singularity images??
+
+# clear singularity cache ??
+rm -rf $HOME/.singularity
+#sudo rm -rf /root/.singularity???
+
+docker logout</code></pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>!! Watch out for kernel limitations when using latest Debian/Ubuntu releases !!
+(eg on cesga Ubuntu 18.04 LTS images won&#8217;t run, same for Debian buster)</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The obtained singularity images may be pushed to a Sregistry service like <a href="https://sregistry.srv.cesga.es/">cesga registry</a>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">export SREGISTRY_CLIENT=registry
+export SREGISTRY_CLIENT_SECRETS=~/.sregistry-cesga
+[export SREGISTRY_STORAGE=...]
+
+sregistry push --name hifimagnet/salome --tag 8.4.0 salome-8.4.0.simg</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The token that needs to be stored in <code>$SREGISTRY_CLIENT_SECRETS</code> file can be obtained following the procedure below:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>connect to the Sregistry service (eg <a href="https://sregistry.srv.cesga.es/">cesga sregistry</a> use the FiWare authentification})</p>
+</li>
+<li>
+<p>in the top right scrolling menu with your user id, select <strong>Token</strong></p>
+</li>
+<li>
+<p>copy the line to a <code>$SREGISTRY_CLIENT_SECRETS</code> in your home directory</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The token looks like that:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">{ "registry": { "token": "xxxxxxx", "username": "user", "base": "http://sregistry.lcmi.local" } }</code></pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>To download the image from Sregistry:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">export SREGISTRY_CLIENT=registry
+export SREGISTRY_CLIENT_SECRETS=~/.sregistry-cesga
+[export SREGISTRY_STORAGE=...]
+
+sregistry pull --name salome-8.4.0.simg hifimagnet/salome:8.4.0</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The image may be renamed using:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">[sregistry rename hifimagnet/salome:8.4.0 salome-8.4.0.simg]</code></pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>On cesga, as sregistry is not installed you should instead use sregistry-cli image :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>singularity run -B /mnt shub://sregistry.srv.cesga.es/mso4sc/sregistry pull hifimagnet/salome:8.4.0
+singularity run -B /mnt shub://sregistry.srv.cesga.es/mso4sc/sregistry rename hifimagnet/salome:8.4.0 salome-8.4.0.simg</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that you may reveive some harmless warnings like that:</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>To run Salome from the image:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">singularity shell [--nv] "./salome-$VERSION-$DIST-$TAG.simg salome"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">singularity run [--nv] "./salome-$VERSION-$DIST-$TAG.simg"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>--nv</code> to use nvidia driver for host (option is only valid for 2.4.1 and later).</p>
+</div>
+</div>
+</div>
+<h1 id="install_magnettools" class="sect0"><a class="anchor" href="#install_magnettools"></a>MagnetTools</h1>
+<div class="sect2">
+<h3 id="_prerequis"><a class="anchor" href="#_prerequis"></a>.1. Prerequis</h3>
+<div class="paragraph">
+<p>MagnetTools relies on the following software :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>popt</code>,</p>
+</li>
+<li>
+<p><code>gsl</code>, <code>freesteam</code>,</p>
+</li>
+<li>
+<p><code>spherepack, expokit</code>,</p>
+</li>
+<li>
+<p><code>sundials</code>,</p>
+</li>
+<li>
+<p><code>yamlcpp</code>, <code>json-spirit</code></p>
+</li>
+<li>
+<p><code>nag</code> (only required for Optimization)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_from_scratch"><a class="anchor" href="#_from_scratch"></a>.2. From scratch</h3>
+
+</div>
+<h1 id="install_hifimagnet" class="sect0"><a class="anchor" href="#install_hifimagnet"></a>HiFiMagnet</h1>
+<div class="sect2">
+<h3 id="_prerequisites"><a class="anchor" href="#_prerequisites"></a>.1. PREREQUISITES</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>MagnetTools: for Optimization and Analytical calc.</p>
+</li>
+<li>
+<p>Feel++: for Numerical Axi and 3D Modeling</p>
+<div class="ulist">
+<ul>
+<li>
+<p>toolbox: CSM</p>
+</li>
+<li>
+<p>RB framework</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Salome: for GUI/TUI CAD and Meshing features</p>
+</li>
+<li>
+<p>gmsh: for converting Mesh format</p>
+</li>
+<li>
+<p>MeshGems: for Meshing features</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_using_containers"><a class="anchor" href="#_using_containers"></a>2. Using containers</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_docker"><a class="anchor" href="#_docker"></a>2.1. Docker</h3>
+<div class="sect3">
+<h4 id="_feel_containers"><a class="anchor" href="#_feel_containers"></a>2.1.1. Feel++ Containers</h4>
+
+</div>
+<div class="sect3">
+<h4 id="_hifimagnet_containers"><a class="anchor" href="#_hifimagnet_containers"></a>2.1.2. HiFiMagnet Containers</h4>
+
+</div>
+</div>
+<div class="sect2">
+<h3 id="_singularity"><a class="anchor" href="#_singularity"></a>2.2. Singularity</h3>
+<div class="sect3">
+<h4 id="_feel_containers_2"><a class="anchor" href="#_feel_containers_2"></a>2.2.1. Feel++ Containers</h4>
+
+</div>
+<div class="sect3">
+<h4 id="_hifimagnet_containers_2"><a class="anchor" href="#_hifimagnet_containers_2"></a>2.2.2. HiFiMagnet Containers</h4>
+
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_from_scratch_2"><a class="anchor" href="#_from_scratch_2"></a>3. From scratch</h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<h1 id="mso4sc-dev" class="sect0"><a class="anchor" href="#mso4sc-dev"></a>MSO4SC Portal</h1>
+<div class="sect2">
+<h3 id="create_app"><a class="anchor" href="#create_app"></a>.1. Creating an App in MSO Portal</h3>
+<div class="paragraph">
+<p>An application for MSO4SC portal is basically a workflow
+described using TOSCA. The application atually consists in:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>a blueprint file, describing the workflow</p>
+</li>
+<li>
+<p>some scripts to perform specific operations at bootstrap and end</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>An helper script is also provided to:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>package the app for the portal,</p>
+</li>
+<li>
+<p>&#8230;&#8203;</p>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="_blueprint_workflow_tosca"><a class="anchor" href="#_blueprint_workflow_tosca"></a>.1.1. blueprint: workflow TOSCA</h4>
+
+</div>
+<div class="sect3">
+<h4 id="_running_in_the_orchestrator_cli"><a class="anchor" href="#_running_in_the_orchestrator_cli"></a>.1.2. Running in the orchestrator CLI</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Create a <code>local-blueprint-inputs.yaml</code> from the template file.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Define the HPC ressource you are planning to use.</p>
+</li>
+<li>
+<p>Enter your credentials (<code>user/passwd</code>)</p>
+</li>
+<li>
+<p>Setup <a href="#inputs">input parameters</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Connect to the cloudify client via docker:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>docker pull mso4sc/msoorchestrator-cli
+docker run -it --rm \
+    -v $HOME/MSO4SC/resources:/resources \
+     mso4sc/msoorchestrator-cli</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Within the docker:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>cfy profiles use  ORCHESTRATOR_IP -t  default_tenant -u USER -p PASSWD</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then you can simply deploy your application using:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>./deploy up</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To undeploy on the orchestrator, just:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>./deploy down</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If the application fails during one step of the deploy up process, you&#8217;ll have to
+force cancel execution by hands. <code>cfy executions list</code>, <code>cfy executions cancel -f &lt;id&gt;</code>
+in the orchestrator client (*docker).
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Some useful commands :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>cfy status</code></p>
+</li>
+<li>
+<p><code>cfy deployment list</code></p>
+</li>
+<li>
+<p><code>cfy deployment delete -f &lt;name&gt;</code></p>
+</li>
+<li>
+<p><code>cfy execution list</code></p>
+</li>
+<li>
+<p>`cfy execution cancel -f &lt;id&gt;</p>
+</li>
+<li>
+<p><code>cfy deployment delete -f &lt;name&gt;</code></p>
+</li>
+<li>
+<p><code>cfy blueprint list</code></p>
+</li>
+<li>
+<p><code>cfy blueprint delete &lt;name&gt;</code></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>See <a href="https://github.com/MSO4SC/MSOOrchestrator-CLI/blob/master/README.adoc#remote-mode">here</a> for details</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_package_workflow_for_mso4sc_portal"><a class="anchor" href="#_package_workflow_for_mso4sc_portal"></a>.1.3. Package workflow for MSO4SC portal</h4>
+<div class="paragraph">
+<p>To package the workflow for latter use in the portal, just create a gzipped archive using :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>./deploy pkg</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_register_app_in_mso4sc_portal"><a class="anchor" href="#_register_app_in_mso4sc_portal"></a>.1.4. Register App in  MSO4SC portal</h4>
+<div class="paragraph">
+<p>To register the app, following instructions in this <a href="../mso4sc/dev.html#registerapp" class="page">section</a>.
+Remember that you have a choice:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>add the app in the <a href="http://portal.mso4sc.eu/marketplace/"><strong>Marketplace</strong></a></p>
+</li>
+<li>
+<p>or make it available to every user of the platform</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="create_portal"><a class="anchor" href="#create_portal"></a>.2. Creating your own MSO Portal</h3>
+
+</div>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <div class="container">
+    <div class="footer-links">
+      <div class="col">
+        <div class="footer-logo">
+          <a href="https://www.cemosis.fr" class="icon">
+            <img src="../../../_/img/logoCemosisTransparent.png" alt="Cemosis">
+          </a>
+        </div>
+      </div>
+      <div class="col">
+        <ul>
+          <li><a href="https://docs.cemosis.fr" target="_blank" rel="noopener">Projects Documentation</a></li>
+          <li><a href="https://join.slack.com/t/feelpp/shared_invite/zt-2qe0q9hw-4pVbhohCXUE6Po9Ma8dbiQ" target="_blank" rel="noopener">Forums(Slack)</a></li>
+        </ul>
+      </div>
+      <div class="col">
+        <ul>
+          <li><a href="https://www.cemosis.fr" target="_blank" rel="noopener">Cemosis</a></li>
+          <li><a href="https://www.cemosis.fr/news" target="_blank" rel="noopener">News</a></li>
+          <li><a href="https://www.cemosis.fr/projects" target="_blank" rel="noopener">Projects</a></li>
+        </ul>
+      </div>
+      <div class="col">
+        <ul>
+          <li><a href="https://docs.feelpp.org" target="_blank" rel="noopener">Feel++ Documentation</a></li>
+          <li><a href="http://docs.feelpp.org/user/">Get Started</a></li>
+          <li><a href="http://docs.feelpp.org/user//install/distributions/">Downloads</a></li>
+        </ul>
+      </div>
+      <div class="col">
+        <ul class="social-icons">
+          <li>
+            <svg  width="14" height="14" viewBox="0 0 32 32"> <path id="facebook" class="cls-1" d="M29,0H3A2.652,2.652,0,0,0,0,3V29a2.652,2.652,0,0,0,3,3H16V18H12V14h4V12a6.452,6.452,0,0,1,6-6h4v4H22a2.151,2.151,0,0,0-2,2v2h6l-1,4H20V32h9a2.652,2.652,0,0,0,3-3V3A2.652,2.652,0,0,0,29,0Z"/></svg>
+            <a href="https://www.facebook.com/cemosis.fr" class="icon">
+            Facebook
+            </a>
+          </li>
+          <li>
+            <svg  width="14" height="14" viewBox="0 0 32.1 26.1"> <path id="twitter" class="cls-1" d="M32,7.1a11.836,11.836,0,0,1-3.8,1,6.462,6.462,0,0,0,2.9-3.6,12.606,12.606,0,0,1-4.2,1.6A6.492,6.492,0,0,0,22.1,4a6.594,6.594,0,0,0-6.6,6.6,7.719,7.719,0,0,0,.2,1.5A18.458,18.458,0,0,1,2.2,5.2a6.294,6.294,0,0,0-.9,3.3A6.765,6.765,0,0,0,4.2,14a6.109,6.109,0,0,1-3-.8v.1a6.543,6.543,0,0,0,5.3,6.4,4.678,4.678,0,0,1-1.7.2,4.869,4.869,0,0,1-1.2-.1,6.679,6.679,0,0,0,6.1,4.6,12.917,12.917,0,0,1-8.2,2.8,9.151,9.151,0,0,1-1.6-.1,18.438,18.438,0,0,0,10.1,3c12.1,0,18.7-10,18.7-18.7v-.8A13.336,13.336,0,0,0,32,7.2Z" transform="translate(0.1 -4)"/></svg>
+            <a href="https://twitter.com/cemosis" class="icon">
+              Twitter
+            </a>
+          </li>
+          <li>
+          <svg  width="14" height="14" viewBox="0 0 32 32"> <path id="linkedin" class="cls-1" d="M29,0H3A3.076,3.076,0,0,0,0,3V29a3.009,3.009,0,0,0,3,3H29a2.946,2.946,0,0,0,3-3V3A3.009,3.009,0,0,0,29,0ZM12,26H8V12h4ZM10,10a2,2,0,1,1,2-2A2.006,2.006,0,0,1,10,10ZM26,26H22V18a2,2,0,0,0-4,0v8H14V12h4v2.5c.8-1.1,2.1-2.5,3.5-2.5A4.736,4.736,0,0,1,26,17Z"/></svg>
+              <a href="https://www.linkedin.com/company/cemosis" class="icon">
+             Linkedin
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-terms">
+      <div class="footer-terms-copyright">
+          <span>© 2020 Cemosis, Université de Strasbourg</span>
+      </div>
+      <div class="footer-terms-links">
+        <a href="https://www.cemosis.fr/terms-of-use">Terms of Use</a>
+        <a href="https://www.cemosis.fr/privacy-policy">Privacy Policy</a>
+        <a href="https://www.cemosis.fr/cookie-policy">Cookie Policy</a>
+        <a href="https://www.cemosis.fr/support-policy">Support Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+<script src="../../../_/js/site.js"></script>
+<script async src="../../../_/js/vendor/fontawesome-icon-defs.js"></script>
+<script async src="../../../_/js/vendor/fontawesome.js"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+
+<script async id="search-script" src="../../../_/js/vendor/docsearch.js" data-app-id="FIPLENFG5M" data-api-key="489d96aa4ae574ec7ad1f23741a2d46d" data-index-name="cemosis" data-stylesheet="../../../_/css/vendor/docsearch.css">
+</script>
+
+  </body>
+</html>

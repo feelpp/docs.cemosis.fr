@@ -144,6 +144,8 @@ MathJax.Hub.Config({
                   
               <a class="navbar-item" href="/hemotumpp/0.1/index.html"> HemoTum++ </a>
                   
+              <a class="navbar-item" href="/hifimagnet/stable/index.html"> HiFiMagnet Documentation </a>
+                  
               <a class="navbar-item" href="/holo3/latest/index.html"> Holo3 </a>
                     
               <a class="navbar-item" href="/ibat/latest/index.html"> IBat </a>
@@ -554,6 +556,14 @@ MathJax.Hub.Config({
       </ul>
     </li>
     <li class="component">
+      <span class="title">HiFiMagnet Documentation</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../../hifimagnet/stable/index.html">stable</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
       <span class="title">Holo3</span>
       <ul class="versions">
         <li class="version is-latest">
@@ -648,7 +658,7 @@ MathJax.Hub.Config({
 </div>
 <div id="time_serie"></div>
 <script type="text/javascript">
-    Plotly.d3.csv("https://girder.math.unistra.fr/api/v1/file/5f2d9f12b0e95704a75f8606/download",
+    Plotly.d3.csv("https://girder.math.unistra.fr/api/v1/file/5f314056b0e95704a75f861d/download",
     function(err,rows) {
             var data =
                     [{
@@ -690,16 +700,76 @@ MathJax.Hub.Config({
 <div class="ulist">
 <ul>
 <li>
-<p>The dataset contains \(1441\) rows, the first \(1200\) rows of the data will be the training dataset, and there remaining will be the validation dataset. This amounts to \(~50\) days worth of training data and \(10\) days of validation data. (more information on the operating process of machine learning methods is presented in this <a href="http://docs.cemosis.fr/ibat/latest/methods/machine_learning/ml/">link</a>).</p>
+<p>The dataset contains \(1441\) rows, the first \(1200\) rows of the data will be the training dataset (\(TRAIN\_SPLIT = 1200\)), and there remaining will be the validation dataset. This amounts to \(~50\) days worth of training data and \(10\) days of validation data. (more information on the operating process of machine learning methods is presented in this <a href="http://docs.cemosis.fr/ibat/latest/methods/machine_learning/ml/">link</a>).</p>
 </li>
 <li>
 <p>It is important to <a href="http://docs.cemosis.fr/ibat/latest/methods/machine_learning/tools/#_scaling">scale</a> features before training a <a href="http://docs.cemosis.fr/ibat/latest/methods/machine_learning/ml/#_neural_networks_nn">neural network</a>. Standardization is a common way of doing this scaling by subtracting the mean and dividing by the standard deviation of each feature of the training data.</p>
 </li>
 </ul>
 </div>
-<div id="sample_example"></div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>uni_train_mean = uni_data[:TRAIN_SPLIT].mean()
+uni_train_std = uni_data[:TRAIN_SPLIT].std()
+uni_data = (uni_data-uni_train_mean)/uni_train_std</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The function below returns the windows of time for the model to train on. The parameter history_size is the size of the past window of information. The target_size is how far in the future does the model need to learn to predict. The target_size is the label that needs to be predicted:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>def univariate_data(dataset, start_index, end_index, history_size, target_size):
+  data = []
+  labels = []
+
+  start_index = start_index + history_size
+  if end_index is None:
+    end_index = len(dataset) - target_size
+
+  for i in range(start_index, end_index):
+    indices = range(i-history_size, i)
+    # Reshape data from (history_size,) to (history_size, 1)
+    data.append(np.reshape(dataset[indices], (history_size, 1)))
+    labels.append(dataset[i+target_size])
+  return np.array(data), np.array(labels)</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Then comes the creation of the data. The model will be given the last 20 recorded temperature observations, and needs to learn to predict the temperature at the next time step:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>univariate_past_history = 20
+univariate_future_target = 0
+
+x_train_uni, y_train_uni = univariate_data(uni_data, 0, TRAIN_SPLIT,
+                                           univariate_past_history,
+                                           univariate_future_target)
+x_val_uni, y_val_uni = univariate_data(uni_data, TRAIN_SPLIT, None,
+                                       univariate_past_history,
+                                       univariate_future_target)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_baseline"><a class="anchor" href="#_baseline"></a>2. Baseline</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Before proceeding to train a model, a simple baseline was first established. Given an input point, the baseline method looks at all the history (the information given to the network is given in pink, and it must predict the value at the red cross) and predicts the next point to be the average of the last 20 observations ():</p>
+</div>
+<div id="baseline"></div>
 <script type="text/javascript">
-    Plotly.d3.csv("https://girder.math.unistra.fr/api/v1/file/5f2dd65bb0e95704a75f8612/download",
+    Plotly.d3.csv("https://girder.math.unistra.fr/api/v1/file/5f31407bb0e95704a75f8621/download",
     function(err,rows) {
             var data = [{
                 name: 'History',
@@ -713,16 +783,28 @@ MathJax.Hub.Config({
                 name: 'True future',
                 type: 'scatter',
                 mode: 'markers',
+                marker : {
+                  color: 'red',
+                  symbol: 'x' },
                 x: [0],
                 y: [26.79553992336018],
                 showlegend: true,
-                line: { color: '#CC3333' }
+            },{
+                name: 'Model Prediction',
+                type: 'scatter',
+                mode: 'markers',
+                marker : {
+                  color: 'blue',
+                  symbol: 'x' },
+                x: [0],
+                y: [27.363905662804875],
+                showlegend: true,
             }];
             var layout =
                     {
                     xaxis:
                     { showgrid: true,
-                      zeroline: true,
+                      zeroline: false,
                       showline: true,
                       automargin: true,
                       title: {
@@ -742,12 +824,60 @@ MathJax.Hub.Config({
                     },
                     title: 'Sample example'
     };
-    Plotly.plot("sample_example",data,layout,{ showLink: false });
+    Plotly.plot("baseline",data,layout,{ showLink: false });
 
-    feelpp_add_redimensionable_plot("sample_example");
+    feelpp_add_redimensionable_plot("baseline");
     }
     );
 </script>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_recurrent_neural_networkrnn"><a class="anchor" href="#_recurrent_neural_networkrnn"></a>3. Recurrent neural network(RNN)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In order to beat this baseline, a <a href="http://docs.cemosis.fr/ibat/latest/methods/machine_learning/ml/#RNN">recurrent neural network</a> was used to predict the temperature at time \(t\) based on the last 20 observations.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>We use \(tf.data\) to shuffle, batch, and cache the dataset:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>BATCH_SIZE = 32
+BUFFER_SIZE = 1000
+
+train_univariate = tf.data.Dataset.from_tensor_slices((x_train_uni, y_train_uni))
+train_univariate = train_univariate.cache().shuffle(BUFFER_SIZE).batch(BATCH_SIZE).repeat()
+
+val_univariate = tf.data.Dataset.from_tensor_slices((x_val_uni, y_val_uni))
+val_univariate = val_univariate.batch(BATCH_SIZE).repeat()</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="ulist">
+<ul>
+<li>
+<p><strong>The batch size</strong> is a term used in <a href="http://docs.cemosis.fr/ibat/latest/data/processing/#_machine_learning">machine learning</a> and refers to the number of training examples utilized in one iteration. It defines the number of samples that will be propagated through the network. It can have a significant impact on the model&#8217;s performance and training time.</p>
+</li>
+<li>
+<p><strong>The buffer size</strong> represents the maximum number elements that will be buffered when prefetching. It is important to make it large enough, or else shuffling will not be very effective. We have to shuffle the data with a buffer size nearly equal to the length of the dataset. This ensures good shuffling.</p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
 </div>
 </div>
 <div class="sect1">
