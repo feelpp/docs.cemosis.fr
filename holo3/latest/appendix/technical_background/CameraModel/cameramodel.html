@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Untitled :: Cemosis Docs</title>
+    <link rel="canonical" href="https://feelpp.github.io/docs.cemosis.fr/holo3/latest/appendix/technical_background/CameraModel/cameramodel.html">
+    <meta name="generator" content="Antora 2.3.3">
+    <link rel="stylesheet" href="../../../../../_/css/site.css">
+<link rel="icon" href="../../../../../_/img/favicon.ico" type="image/x-icon">    
+<script>!function(l,p){if(l.protocol!==p&&l.host=="docs.antora.org"){l.protocol=p}else if(/\.gitlab\.io$/.test(l.host)){l.replace(p+"//docs.antora.org"+l.pathname.substr(l.pathname.indexOf("/",1))+l.search+l.hash)}}(location,"https:")</script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\\[','\\]']],
+    processEscapes: true,
+    processEnvironments: true, 
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+
+  TeX: {
+      Macros: {
+      RR: "{\\mathbb R}",
+      NN: "{\\mathbb N}",
+      Nso: "{N_{\\mathrm{so}}}",
+      Nma: "{N_{\\mathrm{ma}}}",
+      Nno: "{N_{\\mathrm{no}}}",
+      Ne: "{N_{\\mathrm{e}}}",
+      Ilag: ["{\\mathcal{I}^{\\mathrm{lag}}_{#1}}",1],
+      calTh: "{\\mathcal{T}_h}",
+      Ck: ["{\\mathcal{C}^{#1}}",1],
+      Pk: ["{\\mathcal{P}^{#1}}",1],
+      Qk: ["{\\mathcal{Q}^{#1}}",1],
+      Pch: ["{P^{#1}_{c,h}}",1],
+      Pcho: ["{P^{#1}_{c,h,0}}",1],
+      Qch: ["{Q^{#1}_{c,h}}",1],
+      Ich: ["{\\mathcal{I}^{#1}_{c,h}#2}",2],
+      poly: ["{\\mathbb{#1}}",1],
+      nf: "{n_f}",
+      ngeo: "{n_{\\mathrm{geo}}}",
+      geo: "{\\mathrm{geo}}",
+      card: ["{\\operatorname{card}(#1)}",1],
+      dim: ["{\\operatorname{dim}(#1)}",1],
+      opdim: "{\\operatorname{dim}}",
+      card: ["{\\operatorname{card}(#1)}",1],
+      poly: ["{\\mathbb{#1}",1],
+      R: ["{\\mathbb{R}^{#1}}",1],
+      set: ["{\\left\\{#1\\right\\}}",1],
+      diam: "{\\operatorname{diam}}",
+      jump: ["{[\\![ #1 ]\\!]}",1],
+      Next: "{\\mathrm{n}}",
+      essinf: "{\\operatorname{ess}\\, \\operatorname{inf}}",
+      tr: "{\\operatorname{tr}}",
+      Id: "{\\mathcal{I}}",
+      disp: ["{\\mathbf{#1}}",1],
+      stresst: ["{\\mathbf{\\sigma(#1)}}",1],
+      deformt: ["{\\mathbf{\\varepsilon(#1)}}",1],
+      domain: "{\\Omega}",
+      prect: ["{\\left\\(#1\\right\\)}",1],
+      ds: "",
+      bold: ["{\\bf #1}",1],
+      p: "{\\mathrm{p}}",
+      q:"{\\mathbf{q}}",
+      n:"{\\mathbf{n}}",
+      T:"{\\mathcal{T}}",
+      F:"{\\mathcal{F}}",
+      P:"{\\mathcal{P}}",
+      v:"{\\mathbf{v}}"
+  },
+  extensions: ["mhchem.js"] }
+});
+</script>
+<!--<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/MathJax.js?config=TeX-MML-AM_CHTML"></script>-->
+<!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML' async></script> -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_CHTML'>
+</script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.0/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>-->
+
+<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" integrity="sha384-TEMocfGvRuD1rIAacqrknm5BQZ7W7uWitoih+jMNFXQIbNl16bO8OZmylH/Vi/Ei" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js" integrity="sha384-jmxIlussZWB7qCuB+PgKG1uLjjxbVVIayPJwi6cG6Zb4YKq0JIw+OMnkkEC7kYCq" crossorigin="anonymous"></script>-->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-65761593-2"></script>
+    <script>function gtag(){dataLayer.push(arguments)};window.dataLayer=window.dataLayer||[];gtag('js',new Date());gtag('config','UA-65761593-2')</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar  navbar-expand-sm bg-dark navbar-dark">
+    <div class="navbar-brand">
+      <div class="navbar-item">
+         <!--  <a href="https://book.feelpp.org">Feel++ documentation</a> -->
+           <a href="https://feelpp.github.io/docs.cemosis.fr">Cemosis Docs</a>
+      </div>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://feelpp.github.io/docs.cemosis.fr">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <div class="navbar-link">Docs</div>
+          <div class="navbar-dropdown">
+            <div class="navbar-item"><strong>Latest Version</strong></div>
+
+            <!-- this code allow to manage ordering of navbar item -->
+               
+              <a class="navbar-item" href="/cemosis/latest/index.html"> Cemosis Documentation </a>
+                  
+              <a class="navbar-item" href="/antora-ui-default/index.html"> Cemosis Documentation UI </a>
+                  
+              <a class="navbar-item" href="/eye2brain/current/index.html"> Eye2Brain Manual </a>
+                  
+              <a class="navbar-item" href="/feelpp-cfd/latest/index.html"> Feel++ CFD </a>
+                  
+              <a class="navbar-item" href="/mqs/latest/index.html"> Feel++ Maxwell Quasi Static </a>
+                  
+              <a class="navbar-item" href="/hemotumpp/0.1/index.html"> HemoTum++ </a>
+                  
+              <a class="navbar-item" href="/holo3/latest/index.html"> Holo3 </a>
+                    
+              <a class="navbar-item" href="/ibat/latest/index.html"> IBat </a>
+                  
+              <a class="navbar-item" href="/msqab/0.1/index.html"> msqab </a>
+                  
+              <a class="navbar-item" href="/swimmer/latest/index.html"> Swimmer Docs </a>
+               
+
+            <hr class="navbar-divider">
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <div class="navbar-link">Feel++</div>
+          <div class="navbar-dropdown">
+            <div class="navbar-item"><strong>GitHub</strong></div>
+            <a class="navbar-item" href="http://github.com/feelpp/feelpp">GitHub Repository</a>
+            <a class="navbar-item" href="http://github.com/feelpp/feelpp/issues">GitHub Issue Tracker</a>
+            <hr class="navbar-divider">
+            <div class="navbar-item"><strong>Documentation</strong></div>
+            <a class="navbar-item" href="http://docs.feelpp.org/user/">User Manual</a>
+            <a class="navbar-item" href="http://docs.feelpp.org/dev/">Developer Manual</a>
+            <a class="navbar-item" href="http://docs.feelpp.org/toolbox/">Toolbox Manual</a>
+            
+          </div>
+        </div>
+        <div class="primary-action">
+            <form class="navbar-item search">
+              <input type="text" placeholder="Search Cemosis Docs" class="query" id="search-query">
+              <button type="button" class="search-btn"><i class="fas fa-search"></i></button>
+            </form>
+        </div>
+        <div class="navbar-item">
+          <a class="navbar-brand" href="https://join.slack.com/t/feelpp/shared_invite/zt-2qe0q9hw-4pVbhohCXUE6Po9Ma8dbiQ">
+            <img src="../../../../../_/img/slack.png" alt="slack" style="width:30px;"></a>
+        </div>
+        <div class="navbar-item">
+          <a class="navbar-brand"  href="http://docs.feelpp.org">
+            <img src="../../../../../_/img/logoFeelpp.png" alt="Feel++" style="width:60px;">
+          </a>
+        </div>
+        <div class="navbar-item">
+          <a class="navbar-brand"  href="http://www.cemosis.fr">
+            <img src="../../../../../_/img/logoCemosisTransparent.png" alt="Cemosis" style="width:60px;">
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="holo3" data-version="latest">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../../../index.html">Holo3</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../../modeling/deflectometry.html">Introduction</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../../polymap/polymap.html">Polymap</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../../../methodology/index.html">Methodology</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Domain Definition</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../../methodology/uniformmesh.html">Uniform mesh</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../../methodology/deformedmesh.html">Deformed mesh</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../../methodology/meshpoly.html">Mesh extraction with polygons</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../../methodology/meshls.html">Mesh extraction with levelset</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Reconstruction</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../../methodology/problemformulation.html">Problem formulation</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../../methodology/meshoptimization.html">Mesh optimization</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../../methodology/nonlinearproblem.html">Non linear problem</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../../methodology/solver.html">Solver</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../../methodology/serialcontrol.html">Serial control</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Data Selection</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../../../indicators/indicators.html">Indicators</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../../../indicators/low-contrast.html">Low Contrast</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../../../indicators/phase-spike.html">Phase Spike</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../../../indicators/phase-border.html">Phase Border</a>
+  </li>
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="../../../indicators/combine.html">Indicators combined</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="#methodology/mesureetalon.adoc">Mesure Etalon</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../../client-server/index.html">Client Server</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Numerical Experiments</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../../experiments/serialbench.html">Serial Benchmark</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../../experiments/standardbench.html">Standard Benchmark</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../../experiments/testsuite.html">Testsuite</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../../experiments/validation.html">Validation</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Report</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../../report/report.html">Report 2020</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Holo3</span>
+    <span class="version">latest</span>
+  </div>
+  <ul class="components">
+    <li class="component">
+      <span class="title">Cemosis Documentation</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../../../cemosis/latest/index.html">latest</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Cemosis Documentation UI</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../../../antora-ui-default/index.html">master</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Eye2Brain Manual</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../../../eye2brain/current/index.html">current</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Feel++ CFD</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../../../feelpp-cfd/latest/index.html">latest</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Feel++ Maxwell Quasi Static</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../../../mqs/latest/index.html">latest</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">HemoTum++</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../../../hemotumpp/0.1/index.html">0.1</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component is-current">
+      <span class="title">Holo3</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../../../index.html">latest</a>
+        </li>
+        <li class="version">
+          <a href="../../../../doc-pierre/index.html">doc-pierre</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">IBat</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../../../ibat/latest/index.html">latest</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">msqab</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../../../msqab/0.1/index.html">0.1</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Swimmer Docs</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../../../swimmer/latest/index.html">latest</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../../../../../cemosis/latest/index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+</nav>
+<div class="page-versions">
+  <button class="version-menu-toggle" title="Show other versions of page">latest</button>
+  <div class="version-menu">
+    <a class="version is-current" href="cameramodel.html">latest</a>
+    <a class="version" href="../../../../doc-pierre/appendix/technical_background/CameraModel/cameramodel.html">doc-pierre</a>
+  </div>
+</div>
+</div>
+  <div class="content">
+<article class="doc">
+<div class="sect1">
+<h2 id="_definitions_notations_calibration_and_slopes_calculation"><a class="anchor" href="#_definitions_notations_calibration_and_slopes_calculation"></a>1. Definitions, Notations, calibration and slopes calculation</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_definitions_and_notations"><a class="anchor" href="#_definitions_and_notations"></a>1.1. Definitions and notations</h3>
+<div class="paragraph">
+<p>The components of the deflectometry system are the following ones:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>the sensor</p>
+</li>
+<li>
+<p>the imaging system (camera + lens)</p>
+</li>
+<li>
+<p>the pattern</p>
+</li>
+<li>
+<p>the sample to be measured</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For each of these element some referential and calibration data can be associated.</p>
+</div>
+<div class="sect3">
+<h4 id="_the_pinhole_model"><a class="anchor" href="#_the_pinhole_model"></a>1.1.1. The pinhole model</h4>
+<div class="paragraph">
+<p>The pinhole model is a model based on the fact that all rays incoming into the image plane are passing threw a point called optical center.</p>
+</div>
+<div class="paragraph">
+<p>Thus for this projection we define a 3D referential, called camera referential \mathcal{R_c} (O,\vec{i_c},\vec{j_c},\vec{k_c}), centered on the optical center O and whose \vec{k_c} axis define the optical axis.</p>
+</div>
+<div class="paragraph">
+<p>The image plane is located at the focal length f from the point O and is colinear to the optical axis.</p>
+</div>
+<div class="paragraph">
+<p>Therefore the coordinates in the image plane (x,y) can be calculated from the coordinates of a 3D points in the camera referentail (X_c, Y_c, Z_c) by the following formula:</p>
+</div>
+<div class="paragraph">
+<p>x = f*\dfrac{X_c}{Z_c} and y = f*\dfrac{Y_c}{Z_c}</p>
+</div>
+<div class="paragraph">
+<p>The camera sensor is an assembly of pixel into a regular rectangular grid. The parameter of this grid are the number column and rows (W : width and H : heigth in pixels). The coordinates in pixels (u, v) are gived in the sensor referential. The top left of the top left pixel has the (0,0) coordinates.</p>
+</div>
+<div class="paragraph">
+<p>The image referential is a metric referential centered at the intersection of the optical axis and located at a given distance called focallength.</p>
+</div>
+<div class="paragraph">
+<p>To transform the coordinates (x,y) into the sensor coordinates (u,v) we need the pixel_size (p_x,p_y) and the position (c_x, c_y) of the optical sensor projection in pixel and then:</p>
+</div>
+<div class="paragraph">
+<p>u = \dfrac{x}{p_x} - c_x and v = \dfrac{y}{p_y} - c_y</p>
+</div>
+<div class="paragraph">
+<p>The parameters f, c_x, c_y are called intrinsics parameters. They are dependent of a given assembly of an imaging system and a sensor but not of the position of this system in the world.</p>
+</div>
+<div class="paragraph">
+<p>To perform the calculation of the projection of a 3D world points on the sensor we need to be able to transform the world coordinates into camera coordinates. For this transformation we use extrinsics parameters that consists into a rotation matrix R and a translation vector \vec{T}.</p>
+</div>
+<div class="paragraph">
+<p>\vec{X_c} = R\vec{X_w} + \vec{T}</p>
+</div>
+<div class="paragraph">
+<p>The instrics and the extrinsics parameter are computed by the used of the pictures of a known 2D pattern (dot or chessboard) in different position in front of the camera.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_calculations_and_calibration_in_polymap"><a class="anchor" href="#_calculations_and_calibration_in_polymap"></a>1.1.2. Calculations and calibration in POLYMAP</h4>
+<div class="paragraph">
+<p>As decribed in the introduction chapter, the calculation of the slopes in Polymap is done by using the formula
+\overrightarrow{V_r} = 2(\overrightarrow{V_i}\cdot\overrightarrow{n})\overrightarrow{n} - \overrightarrow{V_i} expressed in the following manner
+\lambda \vec{n} = \dfrac{\vec{V_r}}{\Vert \vec{V_r}\Vert} + \dfrac{\vec{V_i}}{\Vert \vec{V_i}\Vert}  </p>
+</div>
+<div class="paragraph">
+<p>To perform this calculation we need to compute the two Vector \vec{V_r} and \vec{V_i} in the same referential.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>\vec{V_r} is easy because we know that, according to the pinhole model every ray is passing threw a unique point O. By knowing the observed pixel, we can compute the ray eqaution and a colinear vector in \mathcal{R_c}.</p>
+</li>
+<li>
+<p>\vec{V_i} is the Vector colinear to the segment that joint two points: P : the observed points on the surface (obviously located on the ray) and the M the points viwed by reflection.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>the point P is comput by using the assumption we have made for Polymap and described previously: all the points of the surface are located in a plane.
+A calibration is made to determine a referential \mathcal{R_o} (O_o, \vec{i_o}, \vec{j_o}, \vec{k_o})  (o for object) where the object plane is define by (O_o, \vec{i_o}, \vec{j_o}). The extrinsics parameter R,\vec{T} permits to exprim the point in \mathcal{R_o} and \mathcal{R_c}. The point P is then simply the intersection between the considered ray and the Z=0 plane in \mathcal{R_o}.</p>
+</li>
+<li>
+<p>the point M is compute in the following manner:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>\varphi_x and \varphi_y are calculated using the image taken by the camera.</p>
+</li>
+<li>
+<p>In a 2D referential, linked to the screen plane we can compute the pixel of the screen coordinates. Knowing the pixels&#8217;s dimension we can work in a 3D referential \mathcal{R_{m}} (O_m, \vec{i_m}, \vec{j_m}, \vec{k_m}) (m stand for mire) and set the screen&#8217;s plane as the (O_m, \vec{i_m}, \vec{j_m}) plane. Previously calibration have been made to determine the extrinsics parameters that allows to pass from \mathcal{R_{m}}  to \mathcal{R_{c}} (and by consequence to \mathcal{R_{o}}.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Since both points P and M can be expressed in the same referential the vector \vec{V_i} can then be calculate.</p>
+</div>
+<div class="paragraph">
+<p>The data obtained are then for each pixel the \vec{n} and the P point coordinates. P 's z coordinate is set to 0 and won&#8217;t be used because it would assume that the object is nothing just flat.</p>
+</div>
+<div class="paragraph">
+<p>For the surface reconstruction, using the FEM whose aim is to compute the Z(x,y) function above the consider, the 2D mesh is built using the P&#8217;x and y coordinates. The input value of the computation are calculated from \vec{n} coordinates : \dfrac{\partial Z}{\partial x} = -\dfrac{n_x}{n_z} and \dfrac{\partial Z}{\partial y} = -\dfrac{n_y}{n_z}.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_non_uniformity_of_the_mesh"><a class="anchor" href="#_non_uniformity_of_the_mesh"></a>1.1.3. Non-uniformity of the mesh</h4>
+<div class="paragraph">
+<p>In the actual way the mesh is build, a recantgular mesh with regulary spaced node is used. This allow a quicker construction of the mesh because the node is trivial. This also simplify the use of parrallelism for the reconstruction.</p>
+</div>
+<div class="paragraph">
+<p>But the calculation of Z is performed in the object referential, the data acquired from the sensor are effectively obtained in a regular spaced grid (the pixel matrix) but in the object referential the coordinates associate to each pixel are not regular for two reasons:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>the perspective effect
+We assume that the perpective projection from the object space on the image plane is perfect, if a tilt exist between the object plane (we rememebr for P_x and P_y calculation that the surface is plane) and the image plane, wich is likely to occur, then the perspective effect will that the points closer to the camera are less spaced than the points far from the camera. Add figure***</p>
+</li>
+<li>
+<p>the distorsion effect
+    The imperfections of the imaging system creates a non-linear distorsion of the projection. in practice the hyptohesis that line on the world space remains line on the image plane is not true. Therefore an intermediate referential is defined between the image plane and the sensor plane.
+The pixel coordinates can&#8217;t be compute by a linear formula from the image plane coordinates. We use intermediate coordinates called (\hat{x}, \hat{y})</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The perfect image plane is called the perfect retinian referential in opposition to the real image plane.</p>
+</div>
+<div class="paragraph">
+<p>Two effect of distorsion are modelized tangeantial effect and radial effect. These effects can be expressed as followed:
+    \hat{x} = x*(1 + k_1r^2 + k_2r^4 + k_3r^6 + 2p_1xy + p_2(r^2 + 2x^2))
+    \hat{y} = y*(1 + k_1r^2 + k_2r^4 + k_3r^6 + p_1(r^2 + 2y^2) + p_2xy</p>
+</div>
+<div class="paragraph">
+<p>where (x,y) are the point coordinates in the image plane and r = \sqrt{x^2 + y^2}</p>
+</div>
+<div class="paragraph">
+<p>The set of values (k_1, k_2, k_3, p_1, p_2) represent the distorsion coefficients. Some other models can include more than 5 coeff but in our application the quality of the lens make it sufficient.</p>
+</div>
+<div class="paragraph">
+<p>knowing the value (\hat{x}, \hat{y}), the pixel in the sensor plane can then be compute using the previously seen formula reffTODO.</p>
+</div>
+<div class="paragraph">
+<p>The distorsion effect can be seen using a simple lens, were the deformation of t
+TODO : Add examples.</p>
+</div>
+<div class="paragraph">
+<p>it remains clear that knowing the (x,y) the (\hat{x}, \hat{y}) can be directly compute but to achieve the inverse operation a non-linear eaquation system must be solve. The algorithm usually implemented uses the Newton-Raphson method.
+Thus knowing a given point in the 3D space the 2D projection on the sensor can be easyly compute by the succesive application of the formulas 1,2,3,4. TODO: add number . But for a given pixel, the determination of the camera ray implies the non-linear equation resolution.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <div class="container">
+    <div class="footer-links">
+      <div class="col">
+        <div class="footer-logo">
+          <a href="https://www.cemosis.fr" class="icon">
+            <img src="../../../../../_/img/logoCemosisTransparent.png" alt="Cemosis">
+          </a>
+        </div>
+      </div>
+      <div class="col">
+        <ul>
+          <li><a href="https://docs.cemosis.fr" target="_blank" rel="noopener">Projects Documentation</a></li>
+          <li><a href="https://join.slack.com/t/feelpp/shared_invite/zt-2qe0q9hw-4pVbhohCXUE6Po9Ma8dbiQ" target="_blank" rel="noopener">Forums(Slack)</a></li>
+        </ul>
+      </div>
+      <div class="col">
+        <ul>
+          <li><a href="https://www.cemosis.fr" target="_blank" rel="noopener">Cemosis</a></li>
+          <li><a href="https://www.cemosis.fr/news" target="_blank" rel="noopener">News</a></li>
+          <li><a href="https://www.cemosis.fr/projects" target="_blank" rel="noopener">Projects</a></li>
+        </ul>
+      </div>
+      <div class="col">
+        <ul>
+          <li><a href="https://docs.feelpp.org" target="_blank" rel="noopener">Feel++ Documentation</a></li>
+          <li><a href="http://docs.feelpp.org/user/">Get Started</a></li>
+          <li><a href="http://docs.feelpp.org/user//install/distributions/">Downloads</a></li>
+        </ul>
+      </div>
+      <div class="col">
+        <ul class="social-icons">
+          <li>
+            <svg  width="14" height="14" viewBox="0 0 32 32"> <path id="facebook" class="cls-1" d="M29,0H3A2.652,2.652,0,0,0,0,3V29a2.652,2.652,0,0,0,3,3H16V18H12V14h4V12a6.452,6.452,0,0,1,6-6h4v4H22a2.151,2.151,0,0,0-2,2v2h6l-1,4H20V32h9a2.652,2.652,0,0,0,3-3V3A2.652,2.652,0,0,0,29,0Z"/></svg>
+            <a href="https://www.facebook.com/cemosis.fr" class="icon">
+            Facebook
+            </a>
+          </li>
+          <li>
+            <svg  width="14" height="14" viewBox="0 0 32.1 26.1"> <path id="twitter" class="cls-1" d="M32,7.1a11.836,11.836,0,0,1-3.8,1,6.462,6.462,0,0,0,2.9-3.6,12.606,12.606,0,0,1-4.2,1.6A6.492,6.492,0,0,0,22.1,4a6.594,6.594,0,0,0-6.6,6.6,7.719,7.719,0,0,0,.2,1.5A18.458,18.458,0,0,1,2.2,5.2a6.294,6.294,0,0,0-.9,3.3A6.765,6.765,0,0,0,4.2,14a6.109,6.109,0,0,1-3-.8v.1a6.543,6.543,0,0,0,5.3,6.4,4.678,4.678,0,0,1-1.7.2,4.869,4.869,0,0,1-1.2-.1,6.679,6.679,0,0,0,6.1,4.6,12.917,12.917,0,0,1-8.2,2.8,9.151,9.151,0,0,1-1.6-.1,18.438,18.438,0,0,0,10.1,3c12.1,0,18.7-10,18.7-18.7v-.8A13.336,13.336,0,0,0,32,7.2Z" transform="translate(0.1 -4)"/></svg>
+            <a href="https://twitter.com/cemosis" class="icon">
+              Twitter
+            </a>
+          </li>
+          <li>
+          <svg  width="14" height="14" viewBox="0 0 32 32"> <path id="linkedin" class="cls-1" d="M29,0H3A3.076,3.076,0,0,0,0,3V29a3.009,3.009,0,0,0,3,3H29a2.946,2.946,0,0,0,3-3V3A3.009,3.009,0,0,0,29,0ZM12,26H8V12h4ZM10,10a2,2,0,1,1,2-2A2.006,2.006,0,0,1,10,10ZM26,26H22V18a2,2,0,0,0-4,0v8H14V12h4v2.5c.8-1.1,2.1-2.5,3.5-2.5A4.736,4.736,0,0,1,26,17Z"/></svg>
+              <a href="https://www.linkedin.com/company/cemosis" class="icon">
+             Linkedin
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-terms">
+      <div class="footer-terms-copyright">
+          <span>© 2020 Cemosis, Université de Strasbourg</span>
+      </div>
+      <div class="footer-terms-links">
+        <a href="https://www.cemosis.fr/terms-of-use">Terms of Use</a>
+        <a href="https://www.cemosis.fr/privacy-policy">Privacy Policy</a>
+        <a href="https://www.cemosis.fr/cookie-policy">Cookie Policy</a>
+        <a href="https://www.cemosis.fr/support-policy">Support Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+<script src="../../../../../_/js/site.js"></script>
+<script async src="../../../../../_/js/vendor/fontawesome-icon-defs.js"></script>
+<script async src="../../../../../_/js/vendor/fontawesome.js"></script>
+<script async src="../../../../../_/js/vendor/highlight.js"></script>
+
+<script async id="search-script" src="../../../../../_/js/vendor/docsearch.js" data-app-id="FIPLENFG5M" data-api-key="489d96aa4ae574ec7ad1f23741a2d46d" data-index-name="cemosis" data-stylesheet="../../../../../_/css/vendor/docsearch.css">
+</script>
+
+  </body>
+</html>
