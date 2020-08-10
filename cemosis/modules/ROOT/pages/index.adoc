@@ -23,9 +23,38 @@ Here you will find the documentation of some {cemosis} projects in different app
 [.labels]
 [.edition]##{enterprise}##
 
+Collaborations with enterprises can be setup at three levels:
+
+* [x] Level 1, short term less than a year
+* [x] Level 2, medium term 6 months to two years
+* [x] Level 3, long term up to three years
+
+The means implemented
+
+* [x] A team of experts
+* [x] Methodological and technological assistance in the areas of our expertise
+* [x] Optional :
+** One PhD student advisor (maximum 32 days/year)
+** Acessing small to large HPC computing ressources
+** Access to training (continuing education, etc.)
+
+Funding assistance that can be provided
+
+* [x] Support of the {amies} structure (PEPS programme, ...)
+* [x] Public funding through regional, national and european agencies
+* [x] Private direct contracting
+* [x] Double research tax credit
+* [x] HPC/SME programme: financial support for access to high-performance computing
+
 === Multidisciplinary Collaborations
 [.labels]
 [.edition]##{multidisciplinary}##
+
+Multidisciplinary collaborations start typically with a short term project like a master internship to explore the collaborative research possibilities.
+Various ways to follow on the first step are:
+
+* [x] Co-Advised Ph.D. 
+* [x] Public funded project through regional or national agencies e.g. ANR.
 
 === National and International Relations
 
