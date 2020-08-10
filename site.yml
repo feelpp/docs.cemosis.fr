@@ -27,9 +27,9 @@ content:
   - url: https://github.com/feelpp/holo3.git
     branches: [master, doc*]
     start_path: 'docs/holo3'
-#  - url: https://github.com/feelpp/book.hifimagnet
-#    branches: master
-#    start_path: 'docs/docs'
+  - url: https://github.com/feelpp/book.hifimagnet
+    branches: master
+    start_path: 'docs/docs'
   - url: https://github.com/feelpp/mqs
     branches: master
     start_path: 'docs/'    
