@@ -789,7 +789,7 @@ MathJax.Hub.Config({
     \STATE $N_r$ number of ray from one source point
 
     \STATE $$rea_i \leftarrow 0$ : area of surface $A_i$
-    \STATE $sum_2 \leftarrow 0$
+    \STATE $\Sigma_2 \leftarrow 0$
 
     \FOR $e^i_k$ in set of element of surface $A_i$ :
 
@@ -800,23 +800,23 @@ MathJax.Hub.Config({
             \ENDFOR
         \ENDFOR
 
-        $sum_1 \leftarrow 0$
+        $\Sigma_1 \leftarrow 0$
         \FOR $e^j_l$ in set of element of surface $A_j$ :
             \IF $e^j_k$ visible from $e^i_l$ :
-                $n \leftarrow 0$ : number of ray intercept
+                \STATE $n \leftarrow 0$ : number of ray intercept
                 \FOR ray $r$ in set of ray :
                     \IF $r$ is intercept by $e^j_k$:
-                        $n \leftarrow n + 1$
+                        \STATE $n \leftarrow n + 1$
                     \ENDIF
                 \ENDFOR
-                $F_{local} \leftarrow \frac{n}{N_s N_r}$
-                $sum_1 \leftarrow sum_1 + F_{local}$
+                \STATE $F_{local} \leftarrow \frac{n}{N_s N_r}$
+                \STATE $\Epsilon_1 \leftarrow \Sigma_1 + F_{local}$
             \ENDIF
         \ENDFOR
-        $Area_i \leftarrow Area_i + Area(e^i_k)$
-        $sum_2 \leftarrow sum_2 + Area(e^i_k) sum_1$
+        \STATE $Area_i \leftarrow Area_i + Area(e^i_k)$
+        \STATE $\Sigma_2 \leftarrow \Sigma_2 + Area(e^i_k) \Sigma_1$
     \ENDFOR
-    $F_{global} \leftarrow \frac{1}{Area(A_i)} sum_2$
+    \STATE $F_{global} \leftarrow \frac{1}{Area(A_i)} \Sigma_2$
     \RETURN $F_{global}$
     \ENDPROCEDURE
     \end{algorithmic}
@@ -901,37 +901,37 @@ The interception must contain the visibility between \(e^i_k\) and \(e^j_l\).
 \begin{algorithm}
     \caption{Calculation of View Factor}
     \begin{algorithmic}
-    \PROCEDURE{Calculation of view factor($A_i$, $A_j$, $N_s$, $N_r$)}
-    $A_i$ is surface decomposed by finite element $e^i_k$
-    $A_j$ is surface decomposed by finite element $e^j_l$
-    $N_s$ number of source point of one element
-    $N_r$ number of ray from one source point
+    \PROCEDURE{Calculation of view factor}{$A_i$, $A_j$, $N_s$, $N_r$}
+    \STATE $A_i$ is surface decomposed by finite element $e^i_k$
+    \STATE $A_j$ is surface decomposed by finite element $e^j_l$
+    \STATE $N_s$ number of source point of one element
+    \STATE $N_r$ number of ray from one source point
 
-    $Area_i \leftarrow 0$ : area of surface $A_i$
-    $sum_2 \leftarrow 0$
+    \STATE $Area_i \leftarrow 0$ : area of surface $A_i$
+    \STATE $\Sigma_2 \leftarrow 0$
 
     \FOR $e^i_k$ in set of element of surface $A_i$ :
-        $sum_1 \leftarrow 0$
+        \STATE $\Sigma_1 \leftarrow 0$
         \FOR $e^j_l$ in set of element of surface $A_j$:
             \IF $e^i_k$ and $e^j_l$ are visible
-                $n \leftarrow 0$
+                \STATE $n \leftarrow 0$
                 \FOR $1 \leq i_s \leq N_s$ :
-                    generate source point $s$
+                    \STATE generate source point $s$
                     \FOR $1 \leq i_r \leq N_r$ :
-                        generate ray $r$
+                        \STATE generate ray $r$
                         \IF $r$ is intercept by $e^j_l$
-                            $n \leftarrow n + 1$
+                            \STATE $n \leftarrow n + 1$
                         \ENDIF
                     \ENDFOR
                 \ENDFOR
-                $F_{e^i_k \rightarrow e^j_l} \leftarrow \frac{n}{N_s N_r}$
+                \STATE $F_{e^i_k \rightarrow e^j_l} \leftarrow \frac{n}{N_s N_r}$
             \ENDIF
-            $sum_1 \leftarrow sum_1 + F_{e^i_k \rightarrow e^j_l}$
+            \STATE $\Sigma_1 \leftarrow \Sigma_1 + F_{e^i_k \rightarrow e^j_l}$
         \ENDFOR
-        $Area_i \leftarrow Area_i + Area(e^i_k)$
-        $sum_2 \leftarrow sum_2 + Area(e^i_k) sum_1
+        \STATE $Area_i \leftarrow Area_i + Area(e^i_k)$
+        \STATE $\Sigma_2 \leftarrow \Sigma_2 + Area(e^i_k) \Sigma_1
     \ENDFOR
-    $F_{global} \leftarrow \frac{1}{Area(A_i)} sum_2$
+    \STATE $F_{global} \leftarrow \frac{1}{Area(A_i)} \Sigma_2$
     \RETURN $F_{global}$
     \ENDPROCEDURE
     \end{algorithmic}

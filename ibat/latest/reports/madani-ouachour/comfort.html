@@ -14,6 +14,20 @@
 
 
 
+    <script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script type="text/javascript">
+        function feelpp_unpack(rows, key) {
+           return rows.map(function(row) { return row[key] });
+        }
+          function feelpp_add_redimensionable_plot(plot) {
+            var oldResize = window.onresize;
+            window.onresize = function() {
+              if(typeof oldResize === 'function')
+                oldResize();
+              Plotly.Plots.resize(plot);
+            };
+          }
+      </script>
 
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -595,7 +609,383 @@ MathJax.Hub.Config({
   <div class="content">
 <article class="doc">
 <h1 class="page">Comfort and discomfort criteria</h1>
-
+<div class="sect1">
+<h2 id="_introduction"><a class="anchor" href="#_introduction"></a>1. Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Thermal comfort in the building is an essential requirement. What differentiates modern architecture in terms of the energy problem from the architecture of any era is not only the reduction in the availability of energy resources but rather the demand for thermal comfort.</p>
+</div>
+<div class="paragraph">
+<p>Energy optimization in buildings is considered a major area of interest in the modern era of scientific research. Energy consumption in buildings has increased from \(24\%\) to \(40\%\) in developed countries. A significant amount of this energy is used to provide a sufficient level of comfort for the building&#8217;s occupants. Moreover, given recent increases in global temperatures due to climate change and the associated decrease in comfort levels, it is increasingly important to provide adequate levels of comfort in indoor spaces. However, finding a balance between reducing the energy consumption of buildings and providing adequate levels of comfort is a major challenge (cf.<a href="#Gilani2015">[Gilani2015]</a>)</p>
+</div>
+<div class="paragraph">
+<p>According to ASHRAE Standard 55, thermal comfort is defined as the condition of mind that expresses satisfaction with the thermal environment and is estimated by subjective evaluation. The World Health Organization (WHO) also defines thermal comfort as the condition when people are satisfied with the thermal environment. There are two well-known thermal comfort models that are used internationally to establish the thermal comfort conditions in a building(cf.<a href="#Sarah2015">[Sarah2015]</a>):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Fanger Model</p>
+</li>
+<li>
+<p>Adaptive model .</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>During our internship, we became interested in the Fanger Model which is a static approach based on the thermal equilibrium of the human body by introducing two indices: <a href="../../applications/comfort/index.html#PMV" class="page">the predicted mean Vote</a> (PMV) and the <a href="../../applications/comfort/index.html#PPD" class="page">predicted percentage of dissatisfied</a> (PPD). To get more informations about the comfort thermique, you can follow the  <a href="../../applications/comfort/index.html" class="page">link</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_model"><a class="anchor" href="#_model"></a>2. Model</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Within the framework of our internship we are interested in the study of thermal comfort of the building located in Illkirch studied in 4 fastsim-ibat project.</p>
+</div>
+<div class="sect2">
+<h3 id="_validation"><a class="anchor" href="#_validation"></a>2.1. Validation</h3>
+<div class="paragraph">
+<p>The first step of our study consists in implementing a general thermal comfort <a href="https://github.com/feelpp/synapse-data/blob/Project_2020/ibat/tools/query/comfort_test.py">model</a>, in which we have calculated the PPMV and pdd indices whose parameter values are given according to the norm ISO 77033.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>\(M\) [\(\text{W}/\text{m}^2\)] : the metabolic rate.</p>
+</li>
+<li>
+<p>\(W\) [\(\text{W}/\text{m}^2\)] : the effective mechanical power ( W=0).</p>
+</li>
+<li>
+<p>\(I_{cl}\) [\(\text{m}^2\text{K}/\text{W}\)] : the clothing insulation</p>
+</li>
+<li>
+<p>\(f_{cl}\) [–] : the <a href="../../applications/comfort/index.html#PMV" class="page">clothing surface area factor</a> :</p>
+</li>
+<li>
+<p>\(T_a\) [°C] : the air temperature</p>
+</li>
+<li>
+<p>\(T_{mr}\) [°C] : the mean radiant temperature</p>
+</li>
+<li>
+<p>\(v_{ar}\) [m/s] : the relative air velocity</p>
+</li>
+<li>
+<p>\(p_a\) [Pa] : the <a href="http://docs.cemosis.fr/ibat/latest/models/heat-moisture/cen2007/#_required_data">water vapor partial pressure</a></p>
+</li>
+<li>
+<p>\(h_c\) [\(\text{W}\,\text{m}^{-2}\text{K}^{-1}\)] : the convective heat transfer coefficient  with :</p>
+</li>
+</ul>
+</div>
+<div class="stemblock">
+<div class="content">
+\[h_c=12.1\sqrt{v_{ar}}\]
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>\(T_{cl}\) [°C] : the <a href="../../applications/comfort/index.html#PMV" class="page">clothing surface temperature</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To verify the efficiency and performance of the previous model we will compare the results we have obtained with the results of the <a href="#table ">table</a> given according to the norm ISO 77033.</p>
+</div>
+<div id="table" class="paragraph">
+<p>.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 8.3333%;">
+<col style="width: 8.3333%;">
+<col style="width: 8.3333%;">
+<col style="width: 8.3333%;">
+<col style="width: 8.3333%;">
+<col style="width: 8.3333%;">
+<col style="width: 8.3333%;">
+<col style="width: 8.3333%;">
+<col style="width: 8.3333%;">
+<col style="width: 8.3333%;">
+<col style="width: 8.3333%;">
+<col style="width: 8.3337%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Run no.</th>
+<th class="tableblock halign-left valign-top">\(T_a\) (°C)</th>
+<th class="tableblock halign-left valign-top">\(T_{mr}\) (°C)</th>
+<th class="tableblock halign-left valign-top">\(v_{ar}\) (m/s)</th>
+<th class="tableblock halign-left valign-top">RH (%)</th>
+<th class="tableblock halign-left valign-top">M (met)</th>
+<th class="tableblock halign-left valign-top">\(I_{cl}\) (clo)</th>
+<th class="tableblock halign-left valign-top">PMV</th>
+<th class="tableblock halign-left valign-top">PPD</th>
+<th class="tableblock halign-left valign-top">Calculated PMV</th>
+<th class="tableblock halign-left valign-top">Calculated PPD</th>
+<th class="tableblock halign-left valign-top">Verify</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">22.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">22.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">60</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-0.75</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-0.75</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">16.85</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">correct value</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">27.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">27.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">60</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.77</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.76</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">17.17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">correct value</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">27.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">27.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">60</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.44</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.43</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8.86</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">correct value</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">23.5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">25.5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">60</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-0.01</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-0.02</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.01</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">correct value</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">23.5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">25.5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">60</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-0.55</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-0.56</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">11.57</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">correct value</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">40</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-0.6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">13</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-0.61</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">12.80</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">correct value</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">23.5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">23.5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">40</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.36</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7.70</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">incorrect value</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">23.5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">23.5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">40</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.25</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">correct value</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">23.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">21.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">40</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.05</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.05</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.05</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">correct value</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">23.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">21.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">40</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-0.16</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-.17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.60</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">correct value</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">22.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">22.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">60</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.05</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.04</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.03</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">correct value</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">27.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">27.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">60</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">34</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">33.79</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">correct value</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">13</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">27.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">27.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">60</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.95</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">24</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.95</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">24.06</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">correct value</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>For the case 7, we did not find the same results, it could be a typing error in the results of the table given by the nome ISO 77033.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_application"><a class="anchor" href="#_application"></a>2.2. Application</h3>
+<div class="paragraph">
+<p>To calculate the comfort of the building we will proceed as follows:
+use the values obtained by the captors installed in the building and for the parameters not calculated by the captors we will modify their  value so that they are consistent with the building configuration.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="http://docs.cemosis.fr/ibat/latest/applications/comfort/#_metabolic_production">Metabolic rate</a> (\(M\))</p>
+</li>
+<li>
+<p>Effective mechanical power (W=0).</p>
+</li>
+<li>
+<p>Clothing insulation (\(I_{cl}\)) equal to \(0.5\) clo in summer and \(1.0\) clo in winter.</p>
+</li>
+<li>
+<p><a href="../../applications/comfort/index.html#PMV" class="page">Clothing surface area factor</a> (\(f_{cl}\))</p>
+</li>
+<li>
+<p>Air temperature (\(T_a\)) (calculated by captors)</p>
+</li>
+<li>
+<p>Mean radiant temperature (\(T_{mr}\))</p>
+</li>
+<li>
+<p><a href="http://docs.cemosis.fr/ibat/latest/applications/comfort/#_convective_effect">Relative air velocity</a> (\(v_{ar}\))</p>
+</li>
+<li>
+<p><a href="http://docs.cemosis.fr/ibat/latest/models/heat-moisture/cen2007/#_required_data">Water vapor partial pressure</a> (\(p_a\))</p>
+</li>
+<li>
+<p><a href="http://docs.cemosis.fr/ibat/latest/applications/comfort/#_convective_effect">Convective heat transfer coefficient</a>(\(h_c\) )</p>
+</li>
+<li>
+<p><a href="../../applications/comfort/index.html#PMV" class="page">Clothing surface temperature</a> (\(T_{cl}\))</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_reference"><a class="anchor" href="#_reference"></a>Reference</h2>
+<div class="sectionbody">
+<div class="ulist bibliography">
+<ul class="bibliography">
+<li>
+<p><a id="Gilani2015"></a>[Gilani2015]Syed Ihtsham ul Haq Gilani, Muhammad Hammad Khan and William Pao, Thermal comfort analysis of PMV model Prediction in Air
+conditioned and Naturally Ventilated Buildings,2015.</p>
+</li>
+<li>
+<p><a id="Sarah2015"></a>[Sarah2015]Sarah Benharkat and Djamila Rouag-Saffidine, Approche adaptative du confort thermique dans les espaces d’enseignement universitaire à Constantine,2015</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
   <div class="toc-menu"></div>
