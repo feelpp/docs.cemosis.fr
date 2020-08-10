@@ -922,9 +922,7 @@ The interception must contain the visibility between \(e^i_k\) and \(e^j_l\).
 <div class="paragraph">
 <p>Here, we take all couple of element \(e^i_l\) and \(e^j_k\) and we calculate the correspondant view factor.</p>
 </div>
-<div class="exampleblock">
-<div class="content">
-<pre id="viewfactor" style="display:hidden;">
+<pre id="viewfactor-3" style="display:hidden;">
 \begin{algorithm}
     \caption{Calculation of View Factor}
     \begin{algorithmic}
@@ -963,8 +961,6 @@ The interception must contain the visibility between \(e^i_k\) and \(e^j_l\).
     \end{algorithmic}
 \end{algorithm}
 </pre>
-</div>
-</div>
 <div class="paragraph">
 <p><strong>Complexity</strong> : \(O\left( K L N_s N_r \right)\), with \(K\) number of element of \(A_i\), \(L\) number of element of \(A_j\), \(N_s\) number of source point and \(N_r\) number of ray from one source point.</p>
 </div>
@@ -1083,7 +1079,7 @@ The interception must contain the visibility between \(e^i_k\) and \(e^j_l\).
 </script>
 
 <script type="text/javascript">
-const codes = JSON.parse('["quicksort", "viewfactor", "viewfactor-2"]');
+const codes = JSON.parse('["quicksort", "viewfactor", "viewfactor-2", "viewfactor-3"]');
 codes.forEach((item) => {
  pseudocode.renderElement(document.getElementById(item));
 });
