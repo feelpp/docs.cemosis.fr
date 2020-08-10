@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>MonteCarlo :: Cemosis Docs</title>
-    <link rel="canonical" href="https://feelpp.github.io/docs.cemosis.fr/ibat/latest/models/heat/radiative-heat-transfer/montecarlo.html">
+    <link rel="canonical" href="https://docs.cemosis.fr/ibat/latest/models/heat/radiative-heat-transfer/montecarlo.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../../../../../_/css/site.css">
 <link rel="icon" href="../../../../../_/img/favicon.ico" type="image/x-icon">    
@@ -103,7 +103,7 @@ MathJax.Hub.Config({
     <div class="navbar-brand">
       <div class="navbar-item">
          <!--  <a href="https://book.feelpp.org">Feel++ documentation</a> -->
-           <a href="https://feelpp.github.io/docs.cemosis.fr">Cemosis Docs</a>
+           <a href="https://docs.cemosis.fr">Cemosis Docs</a>
       </div>
       <button class="navbar-burger" data-target="topbar-nav">
         <span></span>
@@ -113,7 +113,7 @@ MathJax.Hub.Config({
     </div>
     <div id="topbar-nav" class="navbar-menu">
       <div class="navbar-end">
-        <a class="navbar-item" href="https://feelpp.github.io/docs.cemosis.fr">Home</a>
+        <a class="navbar-item" href="https://docs.cemosis.fr">Home</a>
         <div class="navbar-item has-dropdown is-hoverable">
           <div class="navbar-link">Docs</div>
           <div class="navbar-dropdown">
@@ -806,25 +806,28 @@ MathJax.Hub.Config({
 <div class="paragraph">
 <p>Here, for all element \(e^i_k\) of surface \(A_i\), we generate once a set of ray and for all element \(e^i_l\), we browse the set of ray to know wich ray is intercept.</p>
 </div>
+<div class="paragraph">
+<p>Algorithm of calculation of view factor</p>
+</div>
 <pre id="viewfactor" style="display:hidden;">
 \begin{algorithm}
-    \caption{Calculation of View Factor}
+    \caption{ViewFactor}
     \begin{algorithmic}
-    \PROCEDURE{Calculation of view factor($A_i$, $A_j$, $N_s$, $N_r$)}
-    $A_i$ is surface decomposed by finite element $e^i_k$
-    $A_j$ is surface decomposed by finite element $e^j_l$
-    $N_s$ number of source point of one element
-    $N_r$ number of ray from one source point
+    \PROCEDURE{Calculation of view factor}{$A_i, A_j, N_s, N_r$}
+    \STATE $A_i$ is surface decomposed by finite element $e^i_k$
+    \STATE $A_j$ is surface decomposed by finite element $e^j_l$
+    \STATE $N_s$ number of source point of one element
+    \STATE $N_r$ number of ray from one source point
 
-    $Area_i \leftarrow 0$ : area of surface $A_i$
-    $sum_2 \leftarrow 0$
+    \STATE $$rea_i \leftarrow 0$ : area of surface $A_i$
+    \STATE $sum_2 \leftarrow 0$
 
     \FOR $e^i_k$ in set of element of surface $A_i$ :
 
         \FOR $1 \leq i_s \leq N_s$ :
-            generate a source point $s$
+            \STATE generate a source point $s$
             \FOR $1 \leq i_r \leq N_r$:
-                generate a ray $r$ from source point $s$
+                \STATE generate a ray $r$ from source point $s$
             \ENDFOR
         \ENDFOR
 
@@ -846,6 +849,7 @@ MathJax.Hub.Config({
     \ENDFOR
     $F_{global} \leftarrow \frac{1}{Area(A_i)} sum_2$
     \RETURN $F_{global}$
+    \ENDPROCEDURE
     \end{algorithmic}
 \end{algorithm}
 </pre>
@@ -866,38 +870,40 @@ MathJax.Hub.Config({
 </div>
 <pre id="viewfactor-2" style="display:hidden;">
 \begin{algorithm}
-    \caption{Calculation of View Factor}
+    \caption{ViewFactor}
     \begin{algorithmic}
-    \PROCEDURE{Calculation of view factor($A_i$, $A_j$, $N_s$, $N_r$)}
-    $A_i$ is surface decomposed by $K$ finite element $e^i_k$
-    $A_j$ is surface decomposed by $L$ finite element $e^j_l$
-    $N_s$ number of source point of one element
-    $N_r$ number of ray from one source point
+    \PROCEDURE{ViewFactor}{$A_i, A_j, N_s, N_r$}
+    \STATE $A_i$ is surface decomposed by $K$ finite element $e^i_k$
+    \STATE $A_j$ is surface decomposed by $L$ finite element $e^j_l$
+    \STATE $N_s$ number of source point of one element
+    \STATE $N_r$ number of ray from one source point
 
-    $Area_i \leftarrow 0$ : area of surface $A_i$
-    $sum_2 \leftarrow 0$
+    \STATE $Area_i \leftarrow 0$ : area of surface $A_i$
+    \STATE $\Sigma_2 \leftarrow 0$
 
-    \FOR $e^i_k$ in set of element of surface $A_i$ :
-        $n \leftarrow \{n_l\}_{1\leq l \leq L}$ is a list of zeros
-        \FOR $1 \leq i_s \leq N_s$ :
-            generate a source point $s$
-            \FOR $1 \leq i_r \leq N_r$:
-                generate a ray $r$ from source point $s$
-                $l \leftarrow 0$
-                \WHILE $r$ isn't intercept by $e^j_l$ and $l \leq L$:
-                    $l lefttarrow l+1$
+    \FOR{$e^i_k$ in set of element of surface $A_i$}
+        \STATE $n \leftarrow \{n_l\}_{1\leq l \leq L}$ is a list of zeros
+        \FOR{$1 \leq i_s \leq N_s$}
+            \STATE generate a source point $s$
+            \FOR{$1 \leq i_r \leq N_r$}
+                \STATE generate a ray $r$ from source point $s$
+                \STATE $l \leftarrow 0$
+                \WHILE{$r$ isn't intercept by $e^j_l$ and $l \leq L$}
+                    \STATE $l \leftarrow l+1$
                 \ENDWHILE
-                \IF $l \leq L$
-                    $n_j \lefttarrow n_j+1$
+                \IF{$l \leq L$}
+                    \STATE $n_j \leftarrow n_j+1$
                 \ENDIF
+            \ENDFOR
         \ENDFOR
-        $Area_i \leftarrow Area_i + Area(e^i_k)$
-        ($F_{e^i_k \righarrow e^j_l} \leftarrow  \frac{n_j}{N_s N_r}$)
-        $F_{e^i_k \righarrow A_j} \leftarrow \frac{sum(n_j)}{N_s N_r}$ or $= sum($F_{e^i_k \righarrow e^j_l} )$
-        $sum_2 \leftarrow sum_2 + Area(e^i_k) F_{local} $
+        \STATE $Area_i \leftarrow Area_i + Area(e^i_k)$
+        \STATE ($F_{e^i_k \rightarrow e^j_l} \leftarrow  \frac{n_j}{N_s N_r}$)
+        \STATE $F_{e^i_k \rightarrow A_j} \leftarrow \frac{\Sigma(n_j)}{N_s N_r} \mbox{ or } = \Sigma(F_{e^i_k \rightarrow e^j_l} )$
+        \STATE $\Sigma_2 \leftarrow \Sigma_2 + Area(e^i_k) F_{local} $
     \ENDFOR
-    $F_{global} \leftarrow F_{global} + \frac{1}{Area(A_i)} sum_2$
+    \STATE $F_{global} \leftarrow F_{global} + \frac{1}{Area(A_i)} \Sigma_2$
     \RETURN $F_{global}$
+    \ENDPROCEDURE
     \end{algorithmic}
 \end{algorithm}
 </pre>
@@ -958,6 +964,7 @@ The interception must contain the visibility between \(e^i_k\) and \(e^j_l\).
     \ENDFOR
     $F_{global} \leftarrow \frac{1}{Area(A_i)} sum_2$
     \RETURN $F_{global}$
+    \ENDPROCEDURE
     \end{algorithmic}
 \end{algorithm}
 </pre>
@@ -1079,7 +1086,7 @@ The interception must contain the visibility between \(e^i_k\) and \(e^j_l\).
 </script>
 
 <script type="text/javascript">
-const codes = JSON.parse('["quicksort", "viewfactor", "viewfactor-2", "viewfactor-3"]');
+const codes = JSON.parse('["quicksort", "viewfactor-2", "viewfactor-3", "viewfactor"]');
 codes.forEach((item) => {
  pseudocode.renderElement(document.getElementById(item));
 });
