@@ -4,7 +4,7 @@
 :page-edition: enterprise
 
 
-== Welcome to {cemosis} documentation! 
+== Welcome to Cemosis documentation! 
 
 {cemosis} is the technological platform in mathematics of University of Strasbourg.
 {Cemosis} aims at fostering collaborations between mathematicians and enterprises as well as other disciplines.

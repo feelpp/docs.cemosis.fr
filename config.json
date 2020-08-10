@@ -2,7 +2,7 @@
   "index_name": "cemosis",
   "start_urls": [
     {
-      "url": "https://docs.cemosis.fr/(?P<component>.*?)/(?P<version>.*?)/",
+      "url": "https://feelpp.github.io/docs.cemosis.fr/(?P<component>.*?)/(?P<version>.*?)/",
       "variables": {
         "component": [
             "ibat",
@@ -22,7 +22,7 @@
     }
   ],
   "sitemap_urls": [
-    "https://docs.cemosis.fr/sitemap.xml"
+    "https://feelpp.github.io/docs.cemosis.fr/sitemap.xml"
   ],
   "scrape_start_urls": false,
   "stop_urls": [],
