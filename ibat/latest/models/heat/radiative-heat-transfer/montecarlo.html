@@ -806,9 +806,6 @@ MathJax.Hub.Config({
 <div class="paragraph">
 <p>Here, for all element \(e^i_k\) of surface \(A_i\), we generate once a set of ray and for all element \(e^i_l\), we browse the set of ray to know wich ray is intercept.</p>
 </div>
-<div class="exampleblock">
-<div class="title">Example 1. Algorithm of calculation of view factor</div>
-<div class="content">
 <pre id="viewfactor" style="display:hidden;">
 \begin{algorithm}
     \caption{Calculation of View Factor}
@@ -852,8 +849,6 @@ MathJax.Hub.Config({
     \end{algorithmic}
 \end{algorithm}
 </pre>
-</div>
-</div>
 <div class="paragraph">
 <p><strong>Complexity</strong> : \(O\left( K (L+1) N_s N_r \right) = O\left( K L N_s N_r \right)\), with \(K\) number of element of \(A_i\), \(L\) number of element of \(A_j\), \(N_s\) number of source point and \(N_r\) number of ray from one source point.</p>
 </div>
@@ -866,10 +861,10 @@ MathJax.Hub.Config({
 <div class="paragraph">
 <p>Here, for all element \(e^i_k\) of surface \(A_i\), we generate once a set of ray and for all ray, we browse the set of element \(e^j_l\) to know wich element intercept the ray.</p>
 </div>
-<div class="exampleblock">
-<div class="title">Example 2. Algorithm of calculation of view factor</div>
-<div class="content">
-<pre id="viewfactor" style="display:hidden;">
+<div class="paragraph">
+<p>Algorithm of calculation of view factor</p>
+</div>
+<pre id="viewfactor-2" style="display:hidden;">
 \begin{algorithm}
     \caption{Calculation of View Factor}
     \begin{algorithmic}
@@ -906,8 +901,6 @@ MathJax.Hub.Config({
     \end{algorithmic}
 \end{algorithm}
 </pre>
-</div>
-</div>
 <div class="admonitionblock warning">
 <table>
 <tr>
@@ -1090,7 +1083,7 @@ The interception must contain the visibility between \(e^i_k\) and \(e^j_l\).
 </script>
 
 <script type="text/javascript">
-const codes = JSON.parse('["quicksort", "viewfactor"]');
+const codes = JSON.parse('["quicksort", "viewfactor", "viewfactor-2"]');
 codes.forEach((item) => {
  pseudocode.renderElement(document.getElementById(item));
 });
