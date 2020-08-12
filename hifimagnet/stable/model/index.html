@@ -135,7 +135,7 @@ MathJax.Hub.Config({
                   
               <a class="navbar-item" href="/holo3/latest/index.html"> Holo3 </a>
                     
-              <a class="navbar-item" href="/ibat/latest/index.html"> IBat </a>
+              <a class="navbar-item" href="/ibat/latest/index.html"> IBat Docs </a>
                   
               <a class="navbar-item" href="/msqab/0.1/index.html"> msqab </a>
                   
@@ -536,7 +536,7 @@ MathJax.Hub.Config({
       </ul>
     </li>
     <li class="component">
-      <span class="title">IBat</span>
+      <span class="title">IBat Docs</span>
       <ul class="versions">
         <li class="version is-latest">
           <a href="../../../ibat/latest/index.html">latest</a>
@@ -930,8 +930,7 @@ used mostly for quick calculations and optimzation.</p>
 </td>
 <td class="content">
 <div class="paragraph">
-<p>By abuse, we often refer to \(\mathbf B\) as the magnetic field.
-The relationship</p>
+<p>By abuse, we often refer to \(\mathbf B\) as the magnetic field.</p>
 </div>
 </td>
 </tr>
@@ -963,7 +962,7 @@ The relationship</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">\(Pa\)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">\({\bar{\bar{\sigma}}}\)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">\({\bar{\bar{\epsilon}}}\)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">strain</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
 </tr>
@@ -1034,7 +1033,7 @@ This leads to the following equation:</p>
 </div>
 <div class="stemblock">
 <div class="content">
-\[\epsilon \frac{\partial^2 \mathbf{A}}{\partial t^2} + \sigma \frac{\partial \mathbf{A}}{\partial t} - \sigma \mathbf{u} \times (\nabla \times \mathbf{A}) + \nabla \times (\frac{1}{\mu} \nabla \times \mathbf{A}) = -\sigma \nabla V  \qquad \text{in} \,  \mathbf{R}^3\]
+\[\epsilon \frac{\partial^2 \mathbf{A}}{\partial t^2} + \sigma \frac{\partial \mathbf{A}}{\partial t} - \sigma \mathbf{u} \times (\nabla \times \mathbf{A}) + \nabla \times (\frac{1}{\mu} \nabla \times \mathbf{A}) = -\sigma \nabla V - \frac{\partial}{\partial t}\left(\epsilon \nabla V\right) \qquad \text{in} \,  \mathbf{R}^3\]
 </div>
 </div>
 <div class="paragraph">
@@ -1042,7 +1041,7 @@ This leads to the following equation:</p>
 </div>
 <div class="stemblock">
 <div class="content">
-\[\nabla \cdot \left( \sigma ( -\nabla V + \mathbf{u} \times (\nabla \times \mathbf{A}) \right) = 0 \qquad \text{in} \,  \Omega.\]
+\[\nabla \cdot \left( \sigma ( -\nabla V + \mathbf{u} \times (\nabla \times \mathbf{A}) - \frac{\partial \mathbf{A}}{\partial t}\right) = 0 \qquad \text{in} \,  \Omega.\]
 </div>
 </div>
 <div class="admonitionblock note">
@@ -1073,7 +1072,7 @@ The final system of EDP to be solved is:</p>
 </div>
 <div class="stemblock">
 <div class="content">
-\[\nabla \cdot \left( \sigma ( -\nabla V + \mathbf{u} \times (\nabla \times \mathbf{A}) \right) = 0 \qquad \text{in} \,  \Omega.\]
+\[\nabla \cdot \left( \sigma ( -\nabla V + \mathbf{u} \times (\nabla \times \mathbf{A}) - \frac{\partial \mathbf{A}}{\partial t} \right) = 0 \qquad \text{in} \,  \Omega.\]
 </div>
 </div>
 </div>
@@ -1202,7 +1201,7 @@ This equation may be also expressed by:</p>
 <h3 id="cooling"><a class="anchor" href="#cooling"></a>8.4. ThermoHydraulics</h3>
 <div class="paragraph">
 <p>Cooling the magnet is mandatory to evacuate Joules losses and to keep magnet temperature bellow some
-heuristic limit as some copper alloys can have poorer mechanical behavior at high temperature. The cooling
+heuristic limit as some copper alloys can have poor mechanical behavior at high temperature. The cooling
 is ensured by a forced water flow with a volumic flow rate \(Q\) up to 150 l/s.</p>
 </div>
 <div class="paragraph">
@@ -1257,7 +1256,13 @@ These quantities are defined by cooling channels:</p>
 \(P_{in}\) and \(P_{out}\) are additionnal hydraulic pressure drop at the input and output of the magnet.</p>
 </div>
 <div class="paragraph">
-<p>In practice&#8230;&#8203;</p>
+<p>In practice, an alternative correlation named after B. Montgomery,
+who has been a pionnering engineer in the field of Magnet design, is commonly used:</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[h = 1426*(1+1.5e-2 T_w) u^{0.8} / D_h^{0.2}.\]
+</div>
 </div>
 </div>
 </div>

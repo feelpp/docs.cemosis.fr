@@ -134,7 +134,7 @@ MathJax.Hub.Config({
                   
               <a class="navbar-item" href="/holo3/latest/index.html"> Holo3 </a>
                     
-              <a class="navbar-item" href="/ibat/latest/index.html"> IBat </a>
+              <a class="navbar-item" href="/ibat/latest/index.html"> IBat Docs </a>
                   
               <a class="navbar-item" href="/msqab/0.1/index.html"> msqab </a>
                   
@@ -188,8 +188,15 @@ MathJax.Hub.Config({
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
   <nav class="nav-menu">
-    <h3 class="title"><a href="../../index.html">IBat</a></h3>
+    <h3 class="title"><a href="../../index.html">IBat Docs</a></h3>
 <ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../index.html">Introduction</a>
+  </li>
+</ul>
+  </li>
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
@@ -446,10 +453,16 @@ MathJax.Hub.Config({
     <a class="nav-link" href="geometry.html">Geometry tools</a>
   </li>
   <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="random.html">Probability tools</a>
+  </li>
+  <li class="nav-item" data-depth="3">
     <a class="nav-link" href="moose.html">Details of MOOSE</a>
   </li>
   <li class="nav-item" data-depth="3">
     <a class="nav-link" href="visonaray.html">Detail of Visonaray</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="implementation.html">Implementation of Monte Carlo</a>
   </li>
   <li class="nav-item" data-depth="3">
     <a class="nav-link" href="benchmarks.html">Benchmarks</a>
@@ -489,7 +502,7 @@ MathJax.Hub.Config({
 </div>
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
-    <span class="title">IBat</span>
+    <span class="title">IBat Docs</span>
     <span class="version">latest</span>
   </div>
   <ul class="components">
@@ -561,7 +574,7 @@ MathJax.Hub.Config({
       </ul>
     </li>
     <li class="component is-current">
-      <span class="title">IBat</span>
+      <span class="title">IBat Docs</span>
       <ul class="versions">
         <li class="version is-current is-latest">
           <a href="../../index.html">latest</a>
@@ -595,7 +608,7 @@ MathJax.Hub.Config({
   <a href="../../../../cemosis/latest/index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
-    <li><a href="../../index.html">IBat</a></li>
+    <li><a href="../../index.html">IBat Docs</a></li>
     <li><a href="../index.html">Reports</a></li>
     <li><a href="index.html">Romain&#8217;s Report</a></li>
     <li><a href="geometry.html">Geometry tools</a></li>
@@ -619,7 +632,98 @@ MathJax.Hub.Config({
 <p>In this section, we detail how an point of plan is in geometrical object (square, traingle) of this plan.</p>
 </div>
 <div class="sect2">
-<h3 id="_point_in_square"><a class="anchor" href="#_point_in_square"></a>1.1. Point in square</h3>
+<h3 id="_point_in_triangle"><a class="anchor" href="#_point_in_triangle"></a>1.1. Point in triangle</h3>
+<div class="paragraph">
+<p>Set a triangle \(\mathcal{T}\) (origin point \(P\), directional vector \(\mathbf{e_1}\) and \(\mathbf{e_2}\)) and point \(Q\) in plan of the square.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="stemblock">
+<div class="content">
+\[Q \in \mathcal{T} \Longleftrightarrow
+\left\{
+    \begin{eqnarray}
+    0 \leq u \leq 1 \\
+    0 \leq v \leq 1 \\
+    u + v \leq 1
+    \end{eqnarray}
+\right.\]
+</div>
+</div>
+<div class="paragraph">
+<p>With :</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{eqnarray}
+u &amp;=&amp; \frac{(\mathbf{e_2} \cdot \mathbf{e_2}) (\vec{PQ} \cdot \mathbf{e_1}) - (\mathbf{e_1} \cdot \mathbf{e_2}) (\vec{PQ} \cdot \mathbf{e_2}) }{(\mathbf{e_1} \cdot \mathbf{e_1})(\mathbf{e_2} \cdot \mathbf{e_2})-(\mathbf{e_1} \cdot \mathbf{e_2})^2} \\
+v &amp;=&amp; \frac{(\mathbf{e_1} \cdot \mathbf{e_1}) (\vec{PQ} \cdot \mathbf{e_2}) - (\mathbf{e_1} \cdot \mathbf{e_2}) (\vec{PQ} \cdot \mathbf{e_1}) }{(\mathbf{e_1} \cdot \mathbf{e_1})(\mathbf{e_2} \cdot \mathbf{e_2})-(\mathbf{e_1} \cdot \mathbf{e_2})^2}
+\end{eqnarray}\]
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Proof</strong> :</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{eqnarray}
+Q = P + u \mathbf{e_1} + v \mathbf{e_2} \\
+\vec{PQ} = u \mathbf{e_1} + v \mathbf{e_2}
+\end{eqnarray}\]
+</div>
+</div>
+<div class="paragraph">
+<p>We have :</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{eqnarray}
+\vec{PQ} \cdot \mathbf{e_1} &amp;=&amp; \left( u \mathbf{e_1} + v \mathbf{e_2} \right) \cdot \mathbf{e_1} \\
+&amp;=&amp; u \mathbf{e_1} \cdot \mathbf{e_1} + v \mathbf{e_1} \cdot \mathbf{e_2}
+\end{eqnarray}\]
+</div>
+</div>
+<div class="paragraph">
+<p>And :</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{eqnarray}
+\vec{PQ} \cdot \mathbf{e_2} &amp;=&amp; \left( u \mathbf{e_1} + v \mathbf{e_2} \right) \cdot \mathbf{e_2} \\
+&amp;=&amp; u \mathbf{e_2} \cdot \mathbf{e_2} + v \mathbf{e_1} \cdot \mathbf{e_2}
+\end{eqnarray}\]
+</div>
+</div>
+<div class="paragraph">
+<p>We have an linear equation with two unknowns :</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{eqnarray}
+u &amp;=&amp; \frac{(\mathbf{e_2} \cdot \mathbf{e_2}) (\vec{PQ} \cdot \mathbf{e_1}) - (\mathbf{e_1} \cdot \mathbf{e_2}) (\vec{PQ} \cdot \mathbf{e_2}) }{(\mathbf{e_1} \cdot \mathbf{e_1})(\mathbf{e_2} \cdot \mathbf{e_2})-(\mathbf{e_1} \cdot \mathbf{e_2})^2} \\
+v &amp;=&amp; \frac{(\mathbf{e_1} \cdot \mathbf{e_1}) (\vec{PQ} \cdot \mathbf{e_2}) - (\mathbf{e_1} \cdot \mathbf{e_2}) (\vec{PQ} \cdot \mathbf{e_1}) }{(\mathbf{e_1} \cdot \mathbf{e_1})(\mathbf{e_2} \cdot \mathbf{e_2})-(\mathbf{e_1} \cdot \mathbf{e_2})^2}
+\end{eqnarray}\]
+</div>
+</div>
+<div class="paragraph">
+<p>And to have \(Q\) is in \(\mathcal{T}\), we have the condition :</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\left\{
+\begin{eqnarray}
+0 \leq u \leq 1 \\
+0 \leq v \leq 1 \\
+u + v \leq 1
+\end{eqnarray}
+\right.\]
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_point_in_square"><a class="anchor" href="#_point_in_square"></a>1.2. Point in square</h3>
 <div class="paragraph">
 <p>Set a square \(\mathcal{R}\) (origin point \(P\), directional vector \(\mathbf{e_1}\) and \(\mathbf{e_2}\)) and point \(Q\) in plan of the square.</p>
 </div>
@@ -631,9 +735,9 @@ MathJax.Hub.Config({
 \left\{
     \begin{eqnarray}
     0 \leq \frac{\vec{QP} \cdot \mathbf{e_1}}{||\mathbf{e_1}||^2} \leq 1 \\
-    0 \leq \frac{\vec{QP} \cdot \mathbf{e_2}}{||\mathbf{e_2||^2} \leq 1
+    0 \leq \frac{\vec{QP} \cdot \mathbf{e_2}}{||\mathbf{e_2}||^2} \leq 1
     \end{eqnarray}
-\right.}\]
+\right.\]
 </div>
 </div>
 </div>
@@ -649,7 +753,7 @@ MathJax.Hub.Config({
 \[\begin{eqnarray}
 Q = P + u \mathbf{e_1} + v \mathbf{e_2} \\
 \vec{QP} = u \mathbf{e_1} + v \mathbf{e_2} \\
-\vect{QP} \cdot \mathbf{e_1} = u \mathbf{e_1} \cdot \mathbf{e_1} + 0 \\
+\vec{QP} \cdot \mathbf{e_1} = u \mathbf{e_1} \cdot \mathbf{e_1} + 0 \\
 u = \frac{\vec{QP} \cdot \mathbf{e_1}}{||\mathbf{e_1}||^2}
 \end{eqnarray}\]
 </div>
@@ -797,8 +901,8 @@ t_{far} &amp;= min \left( max \left( x_{t_1}, x_{t_2} \right), max \left(  y_{t_
 <div class="stemblock">
 <div class="content">
 \[\begin{eqnarray}
-0 \leq \frac{\vec{OP} \cdot (\mathbf{v} \wedge \mathbf{e_2})}{ (\mathbf{v} \wedge \mathbf{e_2}) \cdot \mathbf{e_1} } \leq 1 \\
-0 \leq \frac{\vec{OP} \cdot (\mathbf{v} \wedge \mathbf{e_1})}{ (\mathbf{v} \wedge \mathbf{e_1}) \cdot \mathbf{e_2} } \leq 1
+0 \leq \frac{\vec{PO} \cdot (\mathbf{v} \wedge \mathbf{e_2})}{ (\mathbf{v} \wedge \mathbf{e_2}) \cdot \mathbf{e_1} } \leq 1 \\
+0 \leq \frac{\vec{PO} \cdot (\mathbf{v} \wedge \mathbf{e_1})}{ (\mathbf{v} \wedge \mathbf{e_1}) \cdot \mathbf{e_2} } \leq 1
 \end{eqnarray}\]
 </div>
 </div>
@@ -846,7 +950,7 @@ t_{far} &amp;= min \left( max \left( x_{t_1}, x_{t_2} \right), max \left(  y_{t_
 \left( t \mathbf{e_1} \wedge \mathbf{v} \right) \cdot \mathbf{e_1} + \left( u \mathbf{e_2} \wedge \mathbf{v} \right) \cdot \mathbf{e_1} + \left( \vec{OP} \wedge \mathbf{v} \right) \cdot \mathbf{e_1}  &amp;= 0 \\
 t \left( \mathbf{e_1} \wedge \mathbf{e_1} \right) \cdot \mathbf{v} + \left( u \mathbf{e_2} \wedge \mathbf{v} \right) \cdot \mathbf{e_1} + \left( \vec{OP} \wedge \mathbf{v} \right) \cdot \mathbf{e_1}  &amp;= 0 \\
 0 + \left( u \mathbf{e_2} \wedge \mathbf{v} \right) \cdot \mathbf{e_1} + \left( \vec{OP} \wedge \mathbf{v} \right) \cdot \mathbf{e_1}  &amp;= 0 \\
-u = \frac{\left( \mathbf{v} \wedge \vec{OP} \right) \cdot \mathbf{e_1}}{\left( \mathbf{e_2} \wedge \mathbf{v} \right) \cdot \mathbf{e_1}} \\
+u = - \frac{\left( \vec{OP} \wedge \mathbf{v} \right) \cdot \mathbf{e_1}}{\left( \mathbf{e_2} \wedge \mathbf{v} \right) \cdot \mathbf{e_1}} \\
 u = \frac{ \vec{OP}  \cdot \left( \mathbf{e_1} \wedge \mathbf{v} \right)}{\left( \mathbf{e_1} \wedge \mathbf{v} \right) \cdot \mathbf{e_2} }
 \end{eqnarray}\]
 </div>
@@ -868,7 +972,7 @@ u = \frac{ \vec{OP}  \cdot \left( \mathbf{e_1} \wedge \mathbf{v} \right)}{\left(
 \begin{eqnarray}
 0 \leq t &amp;= \frac{ \vec{OP}  \cdot \left( \mathbf{e_2} \wedge \mathbf{v} \right)}{\left( \mathbf{e_2} \wedge \mathbf{v} \right) \cdot \mathbf{e_1} } \leq 1 \\
 0 \leq u &amp;= \frac{ \vec{OP}  \cdot \left( \mathbf{e_1} \wedge \mathbf{v} \right)}{\left( \mathbf{e_1} \wedge \mathbf{v} \right) \cdot \mathbf{e_2} } \leq 1 \\
-t+u &amp;= \frac{ \vec{OP}  \cdot \left( \left(\mathbf{e_1+e_2}\right) \wedge \mathbf{v} \right)}{\left( \mathbf{e_1} \wedge \mathbf{v} \right) \cdot \mathbf{e_2} } \leq 1
+t+u &amp;= \frac{ \vec{OP}  \cdot \left( \mathbf{e_1} \wedge \mathbf{v} \right)}{\left( \mathbf{e_1} \wedge \mathbf{v} \right) \cdot \mathbf{e_2} } + \frac{ \vec{OP}  \cdot \left( \mathbf{e_2} \wedge \mathbf{v} \right)}{\left( \mathbf{e_1} \wedge \mathbf{v} \right) \cdot \mathbf{e_2} } \leq 1
 \end{eqnarray}
 \right.\]
 </div>
@@ -885,7 +989,7 @@ t+u &amp;= \frac{ \vec{OP}  \cdot \left( \left(\mathbf{e_1+e_2}\right) \wedge \m
     \left( \mathbf{v} \wedge \mathbf{e_2} \right) \cdot \mathbf{e_1} \ne 0 \\
     0 \leq \frac{ \vec{OP}  \cdot \left( \mathbf{e_2} \wedge \mathbf{v} \right)}{\left( \mathbf{e_2} \wedge \mathbf{v} \right) \cdot \mathbf{e_1} } \leq 1 \\
     0 \leq \frac{ \vec{OP}  \cdot \left( \mathbf{e_1} \wedge \mathbf{v} \right)}{\left( \mathbf{e_1} \wedge \mathbf{v} \right) \cdot \mathbf{e_2} } \leq 1 \\
-    \frac{ \vec{OP}  \cdot \left( \left(\mathbf{e_1+e_2}\right) \wedge \mathbf{v} \right)}{\left( \mathbf{e_1} \wedge \mathbf{v} \right) \cdot \mathbf{e_2} } \leq 1
+    \frac{ \vec{OP}  \cdot \left( \mathbf{e_1} \wedge \mathbf{v} \right)}{\left( \mathbf{e_1} \wedge \mathbf{v} \right) \cdot \mathbf{e_2} } + \frac{ \vec{OP}  \cdot \left( \mathbf{e_2} \wedge \mathbf{v} \right)}{\left( \mathbf{e_1} \wedge \mathbf{v} \right) \cdot \mathbf{e_2} } \leq 1
 \end{eqnarray}
 \right.\]
 </div>
@@ -897,6 +1001,12 @@ t+u &amp;= \frac{ \vec{OP}  \cdot \left( \left(\mathbf{e_1+e_2}\right) \wedge \m
 <h3 id="_interception_by_parallelogram"><a class="anchor" href="#_interception_by_parallelogram"></a>2.3. Interception by parallelogram</h3>
 <div class="paragraph">
 <p>We can adapt the <a href="#recap">recapitulation</a> to have the intersction between right and parallelogram \(\mathcal{R}\) (of origin point \(P\) and directional vector \(\mathbf{e_1}\) and \(\mathbf{e_2}\))</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../_images/romain-vallet/ray_square.png" alt="ray square">
+</div>
+<div class="title">Figure 3. Intersection of ray and square</div>
 </div>
 <div class="exampleblock">
 <div class="content">
@@ -929,7 +1039,7 @@ t+u &amp;= \frac{ \vec{OP}  \cdot \left( \left(\mathbf{e_1+e_2}\right) \wedge \m
 <div class="content">
 <img src="../_images/romain-vallet/ray_plan.png" alt="ray plan">
 </div>
-<div class="title">Figure 3. Intersection of ray and plan</div>
+<div class="title">Figure 4. Intersection of ray and plan</div>
 </div>
 <div class="paragraph">
 <p><strong>Proof</strong> : We have</p>
@@ -978,7 +1088,7 @@ t+u &amp;= \frac{ \vec{OP}  \cdot \left( \left(\mathbf{e_1+e_2}\right) \wedge \m
 <div class="content">
 <img src="../_images/romain-vallet/visibility.png" alt="visibility">
 </div>
-<div class="title">Figure 4. Visibility between two surface</div>
+<div class="title">Figure 5. Visibility between two surface</div>
 </div>
 </div>
 </div>
@@ -986,6 +1096,17 @@ t+u &amp;= \frac{ \vec{OP}  \cdot \left( \left(\mathbf{e_1+e_2}\right) \wedge \m
 <h2 id="_convertion_cartesianpolar"><a class="anchor" href="#_convertion_cartesianpolar"></a>4. Convertion cartesian/polar</h2>
 <div class="sectionbody">
 
+</div>
+</div>
+<div class="sect1">
+<h2 id="_detail_of_triangle"><a class="anchor" href="#_detail_of_triangle"></a>5. Detail of Triangle</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Thus a triangle \(\mathcal{T}\) of origin point \(P\) and directional vector \(\mathbf{e_1}\) and \(\mathbf{e_2}\).</p>
+</div>
+<div class="paragraph">
+<p>The center of \(\mathcal{T}\) is \(C = P + \frac{1}{3} \mathbf{e_1} + \frac{1}{3} \mathbf{e_2}\) and the ray of circumscribed circle \(R = ||\vec{CP}|| = \frac{1}{3} || \mathbf{e_1} + \mathbf{e_2}||\)</p>
+</div>
 </div>
 </div>
 </article>

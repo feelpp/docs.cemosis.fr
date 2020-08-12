@@ -134,7 +134,7 @@ MathJax.Hub.Config({
                   
               <a class="navbar-item" href="/holo3/latest/index.html"> Holo3 </a>
                     
-              <a class="navbar-item" href="/ibat/latest/index.html"> IBat </a>
+              <a class="navbar-item" href="/ibat/latest/index.html"> IBat Docs </a>
                   
               <a class="navbar-item" href="/msqab/0.1/index.html"> msqab </a>
                   
@@ -188,8 +188,15 @@ MathJax.Hub.Config({
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
   <nav class="nav-menu">
-    <h3 class="title"><a href="../../../index.html">IBat</a></h3>
+    <h3 class="title"><a href="../../../index.html">IBat Docs</a></h3>
 <ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../../index.html">Introduction</a>
+  </li>
+</ul>
+  </li>
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
@@ -446,10 +453,16 @@ MathJax.Hub.Config({
     <a class="nav-link" href="../../../reports/romain-vallet/geometry.html">Geometry tools</a>
   </li>
   <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../../reports/romain-vallet/random.html">Probability tools</a>
+  </li>
+  <li class="nav-item" data-depth="3">
     <a class="nav-link" href="../../../reports/romain-vallet/moose.html">Details of MOOSE</a>
   </li>
   <li class="nav-item" data-depth="3">
     <a class="nav-link" href="../../../reports/romain-vallet/visonaray.html">Detail of Visonaray</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../../reports/romain-vallet/implementation.html">Implementation of Monte Carlo</a>
   </li>
   <li class="nav-item" data-depth="3">
     <a class="nav-link" href="../../../reports/romain-vallet/benchmarks.html">Benchmarks</a>
@@ -489,7 +502,7 @@ MathJax.Hub.Config({
 </div>
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
-    <span class="title">IBat</span>
+    <span class="title">IBat Docs</span>
     <span class="version">latest</span>
   </div>
   <ul class="components">
@@ -561,7 +574,7 @@ MathJax.Hub.Config({
       </ul>
     </li>
     <li class="component is-current">
-      <span class="title">IBat</span>
+      <span class="title">IBat Docs</span>
       <ul class="versions">
         <li class="version is-current is-latest">
           <a href="../../../index.html">latest</a>
@@ -595,7 +608,7 @@ MathJax.Hub.Config({
   <a href="../../../../../cemosis/latest/index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
-    <li><a href="../../../index.html">IBat</a></li>
+    <li><a href="../../../index.html">IBat Docs</a></li>
     <li><a href="../../index.html">Models</a></li>
     <li><a href="../index.html">Heat Transfer</a></li>
     <li><a href="index.html">Radiative Heat Transfer</a></li>
@@ -609,7 +622,7 @@ MathJax.Hub.Config({
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>To compute radiation exchange between any two surfaces, the concept of a <em>view factor</em>  must be introducced.</p>
+<p>To compute radiation exchange between any two surfaces, the concept of a <em>view factor</em>  must be introducced, see <a href="#Modest">[Modest]</a>.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1025,10 +1038,22 @@ F_{A_1 \rightarrow A_2} = &amp; \frac{1}{\pi W} \left( W tan^{-1} \left( \frac{1
 <div class="ulist bibliography">
 <ul class="bibliography">
 <li>
-<p><a id="fundamentals"></a> <em>Fundamentals of Heat and Mass Transfer</em>, Theodore L. Bergman, Adrienne S. Lavine, Frank P. Incropera, David P. DeWitt, Wiley.</p>
+<p><a id="Incropera"></a>[Incropera] <em>Fundamentals of Heat and Mass Transfer</em>, Theodore L. Bergman, Adrienne S. Lavine, Frank P. Incropera, David P. DeWitt, Wiley.</p>
 </li>
 <li>
-<p><a id="radiative"></a> <em>Radiative heat transfer</em>, Michael F. Modest</p>
+<p><a id="Kumaran1996"></a>[Kumaran1996] Kumaran, M. Kumar, <em>Heat, Air and Moisture Transfer in Insulated Envelope Parts, Final Report</em>, Volume 3.</p>
+</li>
+<li>
+<p><a id="Ozturk"></a>[Ozturk] Abdurrahman Ozturk, <em>Implementation of View Factor Model and Radiative Heat Transfer Model in MOOSE</em>. University of South Carolina, <a href="../../_attachments/ImplementationOfViewFactorModelandRadiativeHeatTransferMoose.pdf">Download PDF</a></p>
+</li>
+<li>
+<p><a id="Modest"></a>[Modest] M.F. Modest, <em>Radiative Heat Transfet</em>. Elsevier Science, 2013, ISBN 9780123869906, Chapter 8</p>
+</li>
+<li>
+<p><a id="Visionary"></a>[Visionary] <em>Visionaray: A Cross-Platform Ray Tracing Template Library</em>, Zellmann, Stefan and Wickeroth, Daniel and Lang, Ulrich, <em>Proceedings of the 10th Workshop on Software Engineering and Architectures for Realtime Interactive Systems (IEEE SEARIS 2017)</em>, 2017</p>
+</li>
+<li>
+<p><a id="Visionary::github"></a>[Visionary::github] <em>Visionaray</em>, Zellman, <a href="https://github.com/szellmann/visionaray" class="bare">github.com/szellmann/visionaray</a></p>
 </li>
 </ul>
 </div>

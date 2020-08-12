@@ -91,6 +91,9 @@ MathJax.Hub.Config({
 <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" integrity="sha384-TEMocfGvRuD1rIAacqrknm5BQZ7W7uWitoih+jMNFXQIbNl16bO8OZmylH/Vi/Ei" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js" integrity="sha384-jmxIlussZWB7qCuB+PgKG1uLjjxbVVIayPJwi6cG6Zb4YKq0JIw+OMnkkEC7kYCq" crossorigin="anonymous"></script>-->
 
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pseudocode@latest/build/pseudocode.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/pseudocode@latest/build/pseudocode.min.js">
+  </script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-65761593-2"></script>
     <script>function gtag(){dataLayer.push(arguments)};window.dataLayer=window.dataLayer||[];gtag('js',new Date());gtag('config','UA-65761593-2')</script>
   </head>
@@ -134,7 +137,7 @@ MathJax.Hub.Config({
                   
               <a class="navbar-item" href="/holo3/latest/index.html"> Holo3 </a>
                     
-              <a class="navbar-item" href="/ibat/latest/index.html"> IBat </a>
+              <a class="navbar-item" href="/ibat/latest/index.html"> IBat Docs </a>
                   
               <a class="navbar-item" href="/msqab/0.1/index.html"> msqab </a>
                   
@@ -188,8 +191,15 @@ MathJax.Hub.Config({
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
   <nav class="nav-menu">
-    <h3 class="title"><a href="../../index.html">IBat</a></h3>
+    <h3 class="title"><a href="../../index.html">IBat Docs</a></h3>
 <ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../index.html">Introduction</a>
+  </li>
+</ul>
+  </li>
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
@@ -446,10 +456,16 @@ MathJax.Hub.Config({
     <a class="nav-link" href="geometry.html">Geometry tools</a>
   </li>
   <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="random.html">Probability tools</a>
+  </li>
+  <li class="nav-item" data-depth="3">
     <a class="nav-link" href="moose.html">Details of MOOSE</a>
   </li>
   <li class="nav-item" data-depth="3">
     <a class="nav-link" href="visonaray.html">Detail of Visonaray</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="3">
+    <a class="nav-link" href="implementation.html">Implementation of Monte Carlo</a>
   </li>
   <li class="nav-item" data-depth="3">
     <a class="nav-link" href="benchmarks.html">Benchmarks</a>
@@ -489,7 +505,7 @@ MathJax.Hub.Config({
 </div>
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
-    <span class="title">IBat</span>
+    <span class="title">IBat Docs</span>
     <span class="version">latest</span>
   </div>
   <ul class="components">
@@ -561,7 +577,7 @@ MathJax.Hub.Config({
       </ul>
     </li>
     <li class="component is-current">
-      <span class="title">IBat</span>
+      <span class="title">IBat Docs</span>
       <ul class="versions">
         <li class="version is-current is-latest">
           <a href="../../index.html">latest</a>
@@ -595,8 +611,10 @@ MathJax.Hub.Config({
   <a href="../../../../cemosis/latest/index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
-    <li><a href="../../index.html">IBat</a></li>
-    <li><a href="implementation.html">Implementation of Monte Carlo method</a></li>
+    <li><a href="../../index.html">IBat Docs</a></li>
+    <li><a href="../index.html">Reports</a></li>
+    <li><a href="index.html">Romain&#8217;s Report</a></li>
+    <li><a href="implementation.html">Implementation of Monte Carlo</a></li>
   </ul>
 </nav>
 </div>
@@ -606,7 +624,7 @@ MathJax.Hub.Config({
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>This page detail the implementation of Monte Carlo method.</p>
+<p>This page detail the implementation of Monte Carlo method, see <a href="#Modest">[Modest]</a> and <a href="#Ozturk">[Ozturk]</a> for more details.</p>
 </div>
 <div class="paragraph">
 <p>The code are in project : <a href="https://github.com/feelpp/hygrothermie" class="bare">github.com/feelpp/hygrothermie</a></p>
@@ -620,52 +638,298 @@ MathJax.Hub.Config({
 <h2 id="_algorithm_in_pseudo_code"><a class="anchor" href="#_algorithm_in_pseudo_code"></a>1. Algorithm in pseudo-code</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Rappel of algorithme :</p>
+<p>For this stage, I choose three algortihms (principle difference the order of execution of different <strong>element</strong>)</p>
 </div>
-<div class="exampleblock">
-<div class="title">Example 1. Calculation of view factor</div>
-<div class="content">
+<div class="sect2">
+<h3 id="_element"><a class="anchor" href="#_element"></a>1.1. Element</h3>
 <div class="paragraph">
-<p><strong>input</strong> surface \(A_i\), \(A_j\) and \(\mathcal{T}_i\)</p>
+<p>This section present different function use to global algorithm.</p>
+</div>
+<div class="sect3">
+<h4 id="_generate_source"><a class="anchor" href="#_generate_source"></a>1.1.1. Generate Source</h4>
+<pre id="source" style="display:hidden;">
+\begin{algorithm}
+    \caption{Source Point}
+    \begin{algorithmic}
+    \FUNCTION{IsInTriangle}{$\mathcal{T}$, $Q$}
+    \STATE $\mathcal{T}$ triangle of origin point $P$ and directional vectors $\mathbf{e_1}$ and $\mathbf{e_2}$
+    \STATE $u \leftarrow  \frac{(\mathbf{e_2} \cdot \mathbf{e_2}) (\vec{PQ} \cdot \mathbf{e_1}) - (\mathbf{e_1} \cdot \mathbf{e_2}) (\vec{PQ} \cdot \mathbf{e_2}) }{(\mathbf{e_1} \cdot \mathbf{e_1})(\mathbf{e_2} \cdot \mathbf{e_2})-(\mathbf{e_1} \cdot \mathbf{e_2})^2}$
+    \STATE $v \leftarrow \frac{(\mathbf{e_1} \cdot \mathbf{e_1}) (\vec{PQ} \cdot \mathbf{e_2}) - (\mathbf{e_1} \cdot \mathbf{e_2}) (\vec{PQ} \cdot \mathbf{e_1}) }{(\mathbf{e_1} \cdot \mathbf{e_1})(\mathbf{e_2} \cdot \mathbf{e_2})-(\mathbf{e_1} \cdot \mathbf{e_2})^2}$
+    \RETURN $(0 \leq u \leq 1)(0 \leq v \leq 1)$
+    \ENDFUNCTION
+
+    \FUNCTION{SourcePoint}{$\mathcal{T}$}
+    \STATE $\mathcal{T}$ triangle of origin point $P$ and directional vectors $\mathbf{e_1}$ and $\mathbf{e_2}$
+
+    \STATE $\xi_1$ and $\xi_2$ random number in $[0,1]$
+    \STATE $\phi \leftarrow 2\pi \xi_1$
+    \STATE $r \leftarrow R \sqrt{\xi_2}$
+    \STATE $Q \leftarrow \begin{pmatrix} x_C + r cos \phi \\ y_C + r sin \phi \end{pmatrix}$
+
+    \WHILE{ IsInTriangle($\mathcal{T}$, $Q$)}
+        \STATE $\xi_1$ and $\xi_2$ random number in $[0,1]$
+        \STATE $\phi \leftarrow 2\pi \xi_1$
+        \STATE $r \leftarrow R \sqrt{\xi_2}$
+        \STATE $Q \leftarrow \begin{pmatrix} x_C + r cos \phi \\ y_C + r sin \phi \end{pmatrix}$
+    \ENDWHILE
+    \RETURN $Q$
+    \ENDFUNCTION
+    \end{algorithmic}
+\end{algorithm}
+</pre>
+</div>
+<div class="sect3">
+<h4 id="_generate_ray"><a class="anchor" href="#_generate_ray"></a>1.1.2. Generate Ray</h4>
+<pre id="ray" style="display:hidden;">
+\begin{algorithm}
+    \caption{Ray}
+    \begin{algorithmic}
+    \FUNCTION{Ray}{$\mathcal{T}$, $s$}
+    \STATE $\mathcal{T}$ triangle of origin point $P$ and directional vectors $\mathbf{e_1}$ and $\mathbf{e_2}$
+    \STATE $s$ source point
+
+    \STATE $\phi_n \leftarrow $ incident angle of $normal(\mathcal{T})$
+    \STATE $\theta_n \leftarrow $ azimuthal angle of $normal(\mathcal{T})$
+
+    \STATE $\phi_{random} \leftarrow$ random number in $[0,\pi]$
+    \STATE $\theta_{random} \leftarrow$ random number in $[0,2\pi]$
+
+    \STATE $\phi \leftarrow \phi_n + \phi_{random}$
+    \STATE $\theta \leftarrow \theta_n + \theta_{random}$
+
+    \RETURN $\phi$, $\theta$
+    \ENDFUNCTION
+    \end{algorithmic}
+\end{algorithm}
+</pre>
+</div>
+<div class="sect3">
+<h4 id="_visibility"><a class="anchor" href="#_visibility"></a>1.1.3. Visibility</h4>
+<pre id="visible" style="display:hidden;">
+\begin{algorithm}
+    \caption{Visibility}
+    \begin{algorithmic}
+    \FUNCTION{Visibility}{$\mathcal{T}_1$, $\mathcal{T}_2$}
+
+    \STATE $\mathbf{n_1} \leftarrow$ $normal(\mathcal{T}_1)$
+    \STATE $\mathbf{n_2} \leftarrow$ $normal(\mathcal{T}_2)$
+
+    \RETURN $\left( \mathbf{n_1} \cdot \mathbf{n_2} < 0 \right)$
+    \ENDFUNCTION
+    \end{algoritmic}
+\end{algorithm}
+</pre>
+</div>
+<div class="sect3">
+<h4 id="_interception"><a class="anchor" href="#_interception"></a>1.1.4. Interception</h4>
+<pre id="interception" style="display:hidden;">
+\begin{algorithm}
+    \caption{Interception}
+    \begin{algorithmic}
+
+    \FUNCTION{Interception}{$r$,$\mathcal{T}$}
+
+    \STATE $\mathcal{T}$ triangle of origin point $P$ and directional vectors $\mathbf{e_1}$ and $\mathbf{e_2}$
+    \STATE $r$ is ray, compose by origin point $O$ and directional vector $\mathbf{v}$
+
+    \STATE $div = \left( \mathbf{v} \wedge \mathbf{e_2} \right) \cdot \mathbf{e_1} \ne 0$
+
+    \IF{$div \ne 0$}
+        \STATE $u = \frac{ \vec{OP}  \cdot \left( \mathbf{e_2} \wedge \mathbf{v} \right)}{div}$
+        \IF{$0 \leq u \leq 1$}
+            \STATE $t = \frac{ \vec{OP}  \cdot \left( \mathbf{e_1} \wedge \mathbf{v} \right)}{div}$
+            \IF{$0 \leq t \leq 1$}
+                \RETURN 1
+            \ENDIF
+        \ENDIF
+    \ENDIF
+
+    \RETURN 0
+    \ENDFUNCTION
+
+    \end{algorithmic}
+\end{algorithm}
+</pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_first_strategy"><a class="anchor" href="#_first_strategy"></a>1.2. First Strategy</h3>
+<div class="paragraph">
+<p>Here, for all element \(e^i_k\) of surface \(A_i\), we generate once a set of ray and for all element \(e^i_l\), we browse the set of ray to know wich ray is intercept.</p>
+</div>
+<pre id="viewfactor-1" style="display:hidden;">
+\begin{algorithm}
+    \caption{ViewFactor}
+    \begin{algorithmic}
+    \FUNCTION{ViewFactor1}{$A_i, A_j, N_s, N_r$}
+    \STATE $A_i$ is surface decomposed by finite element $e^i_k$
+    \STATE $A_j$ is surface decomposed by finite element $e^j_l$
+    \STATE $N_s$ number of source point of one element
+    \STATE $N_r$ number of ray from one source point
+
+    \STATE $Area_i \leftarrow 0$ : area of surface $A_i$
+    \STATE $\Sigma_2 \leftarrow 0$
+
+    \FOR{$e^i_k$ in set of element of surface $A_i$}
+
+        \FOR{$1 \leq i_s \leq N_s$}
+            \STATE generate a source point $s$
+            \FOR{$1 \leq i_r \leq N_r$}
+                \STATE generate a ray $r$ from source point $s$
+            \ENDFOR
+        \ENDFOR
+
+        \STATE $\Sigma_1 \leftarrow 0$
+        \FOR{$e^j_l$ in set of element of surface $A_j$}
+            \IF{$e^j_k$ visible from $e^i_l$}
+                \STATE $n \leftarrow 0$ : number of ray intercept
+                \FOR{ray $r$ in set of ray}
+                    \IF{$r$ is intercept by $e^j_k$}
+                        \STATE $n \leftarrow n + 1$
+                    \ENDIF
+                \ENDFOR
+                \STATE $F_{local} \leftarrow \frac{n}{N_s N_r}$
+                \STATE $\Sigma_1 \leftarrow \Sigma_1 + F_{local}$
+            \ENDIF
+        \ENDFOR
+        \STATE $Area_i \leftarrow Area_i + Area(e^i_k)$
+        \STATE $\Sigma_2 \leftarrow \Sigma_2 + Area(e^i_k) \Sigma_1$
+    \ENDFOR
+    \STATE $F_{global} \leftarrow \frac{1}{Area(A_i)} \Sigma_2$
+    \RETURN $F_{global}$
+    \ENDFUNCTION
+    \end{algorithmic}
+\end{algorithm}
+</pre>
+<div class="paragraph">
+<p><strong>Complexity</strong> : \(O\left( K (L+1) N_s N_r \right) = O\left( K L N_s N_r \right)\), with \(K\) number of element of \(A_i\), \(L\) number of element of \(A_j\), \(N_s\) number of source point and \(N_r\) number of ray from one source point.</p>
 </div>
 <div class="paragraph">
-<p><strong>for</strong> T <strong>in</strong> \(\mathcal{T}\) <strong>do</strong></p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>m = middle of T</pre>
-</div>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>source = random point in circumscribed circle of T</pre>
-</div>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>*while* s not in T *do*
-    source = random point in circumscribed circle of T</pre>
-</div>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>vector_rays = random unit vector</pre>
-</div>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>rays = half right pass by source and of direction vetor_rays</pre>
-</div>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>*if* rays is intercept by stem:[A_j]:
-    stem:[n \leftarrow n+1]</pre>
-</div>
+<p><strong>Complexity more precise</strong> : \(K \times \left(N_s \times complexity(\mathbf{SourcePoint}) \times N_r complexity(\mathbf{Ray}) + L \times complexity(\mathbf{Visibility}) \times N_r \times N_s \times complexity(\mathbf{Interception}) \right)\)</p>
 </div>
 <div class="paragraph">
-<p><strong>output</strong> \(\frac{n}{N_{\mathcal{T}_i}}\)</p>
+<p><strong>Disadvantage</strong> : demand more memories. (not really important)</p>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_second_strategy"><a class="anchor" href="#_second_strategy"></a>1.3. Second Strategy</h3>
+<div class="paragraph">
+<p>Here, for all element \(e^i_k\) of surface \(A_i\), we generate once a set of ray and for all ray, we browse the set of element \(e^j_l\) to know wich element intercept the ray.</p>
+</div>
+<pre id="viewfactor-2" style="display:hidden;">
+\begin{algorithm}
+    \caption{ViewFactor}
+    \begin{algorithmic}
+    \FUNCTION{ViewFactor2}{$A_i, A_j, N_s, N_r$}
+    \STATE $A_i$ is surface decomposed by $K$ finite element $e^i_k$
+    \STATE $A_j$ is surface decomposed by $L$ finite element $e^j_l$
+    \STATE $N_s$ number of source point of one element
+    \STATE $N_r$ number of ray from one source point
+
+    \STATE $Area_i \leftarrow 0$ : area of surface $A_i$
+    \STATE $\Sigma_2 \leftarrow 0$
+
+    \FOR{$e^i_k$ in set of element of surface $A_i$}
+        \STATE $n \leftarrow \{n_l\}_{1\leq l \leq L}$ is a list of zeros
+        \FOR{$1 \leq i_s \leq N_s$}
+            \STATE generate a source point $s$
+            \FOR{$1 \leq i_r \leq N_r$}
+                \STATE generate a ray $r$ from source point $s$
+                \STATE $l \leftarrow 0$
+                \WHILE{$r$ isn't intercept by $e^j_l$ and $l \leq L$}
+                    \STATE $l \leftarrow l+1$
+                \ENDWHILE
+                \IF{$l \leq L$}
+                    \STATE $n_j \leftarrow n_j+1$
+                \ENDIF
+            \ENDFOR
+        \ENDFOR
+        \STATE $Area_i \leftarrow Area_i + Area(e^i_k)$
+        \STATE ($F_{e^i_k \rightarrow e^j_l} \leftarrow  \frac{n_j}{N_s N_r}$)
+        \STATE $F_{e^i_k \rightarrow A_j} \leftarrow \frac{\Sigma(n_j)}{N_s N_r} \mbox{ or } = \Sigma(F_{e^i_k \rightarrow e^j_l} )$
+        \STATE $\Sigma_2 \leftarrow \Sigma_2 + Area(e^i_k) F_{local} $
+    \ENDFOR
+    \STATE $F_{global} \leftarrow F_{global} + \frac{1}{Area(A_i)} \Sigma_2$
+    \RETURN $F_{global}$
+    \ENDFUNCTION
+    \end{algorithmic}
+\end{algorithm}
+</pre>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+The interception must contain the visibility between \(e^i_k\) and \(e^j_l\).
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><strong>Complexity</strong> : worst case \(O\left( KN_sN_r \frac{L(L+1)}{1} \right)\), with \(K\) number of element of \(A_i\), \(L\) number of element of \(A_j\), \(N_s\) number of source point and \(N_r\) number of ray from one source point.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_third_strategy"><a class="anchor" href="#_third_strategy"></a>1.4. Third Strategy</h3>
+<div class="paragraph">
+<p>Here, we take all couple of element \(e^i_l\) and \(e^j_k\) and we calculate the correspondant view factor.</p>
+</div>
+<pre id="viewfactor-3" style="display:hidden;">
+\begin{algorithm}
+    \caption{Calculation of View Factor}
+    \begin{algorithmic}
+    \FUNCTION{ViewFactor3}{$A_i$, $A_j$, $N_s$, $N_r$}
+    \STATE $A_i$ is surface decomposed by finite element $e^i_k$
+    \STATE $A_j$ is surface decomposed by finite element $e^j_l$
+    \STATE $N_s$ number of source point of one element
+    \STATE $N_r$ number of ray from one source point
+
+    \STATE $Area_i \leftarrow 0$ : area of surface $A_i$
+    \STATE $\Sigma_2 \leftarrow 0$
+
+    \FOR{$e^i_k$ in set of element of surface $A_i$}
+        \STATE $\Sigma_1 \leftarrow 0$
+        \FOR{$e^j_l$ in set of element of surface $A_j$}
+            \IF{$e^i_k$ and $e^j_l$ are visible}
+                \STATE $n \leftarrow 0$
+                \FOR{$1 \leq i_s \leq N_s$}
+                    \STATE generate source point $s$
+                    \FOR{$1 \leq i_r \leq N_r$}
+                        \STATE generate ray $r$
+                        \IF{$r$ is intercept by $e^j_l$}
+                            \STATE $n \leftarrow n + 1$
+                        \ENDIF
+                    \ENDFOR
+                \ENDFOR
+                \STATE $F_{e^i_k \rightarrow e^j_l} \leftarrow \frac{n}{N_s N_r}$
+            \ENDIF
+            \STATE $\Sigma_1 \leftarrow \Sigma_1 + F_{e^i_k \rightarrow e^j_l}$
+        \ENDFOR
+        \STATE $Area_i \leftarrow Area_i + Area(e^i_k)$
+        \STATE $\Sigma_2 \leftarrow \Sigma_2 + Area(e^i_k) \Sigma_1$
+    \ENDFOR
+    \STATE $F_{global} \leftarrow \frac{1}{Area(A_i)} \Sigma_2$
+    \RETURN  $F_{global}$
+    \ENDFUNCTION
+    \end{algorithmic}
+\end{algorithm}
+</pre>
+<div class="paragraph">
+<p><strong>Complexity</strong> : \(O\left( K L N_s N_r \right)\), with \(K\) number of element of \(A_i\), \(L\) number of element of \(A_j\), \(N_s\) number of source point and \(N_r\) number of ray from one source point.</p>
+</div>
+<div class="paragraph">
+<p><strong>Complexity more precise</strong> : \(K \times L \times N_s \times complexity(\mathbf{SourcePoint}) \times N_r \times complexity(\mathbf{Ray}) \times complexity(\mathbf{Interception})\)</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_choose_the_algorithm"><a class="anchor" href="#_choose_the_algorithm"></a>1.5. Choose the algorithm</h3>
+<div class="paragraph">
+<p>Tout dépend de la complexity de Source.</p>
+</div>
+<div class="paragraph">
+<p>I choose the first strategy&#8230;&#8203;</p>
 </div>
 </div>
 </div>
@@ -807,6 +1071,33 @@ MathJax.Hub.Config({
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_references"><a class="anchor" href="#_references"></a>References</h2>
+<div class="sectionbody">
+<div class="ulist bibliography">
+<ul class="bibliography">
+<li>
+<p><a id="Incropera"></a>[Incropera] <em>Fundamentals of Heat and Mass Transfer</em>, Theodore L. Bergman, Adrienne S. Lavine, Frank P. Incropera, David P. DeWitt, Wiley.</p>
+</li>
+<li>
+<p><a id="Kumaran1996"></a>[Kumaran1996] Kumaran, M. Kumar, <em>Heat, Air and Moisture Transfer in Insulated Envelope Parts, Final Report</em>, Volume 3.</p>
+</li>
+<li>
+<p><a id="Ozturk"></a>[Ozturk] Abdurrahman Ozturk, <em>Implementation of View Factor Model and Radiative Heat Transfer Model in MOOSE</em>. University of South Carolina, <a href="../_attachments/ImplementationOfViewFactorModelandRadiativeHeatTransferMoose.pdf">Download PDF</a></p>
+</li>
+<li>
+<p><a id="Modest"></a>[Modest] M.F. Modest, <em>Radiative Heat Transfet</em>. Elsevier Science, 2013, ISBN 9780123869906, Chapter 8</p>
+</li>
+<li>
+<p><a id="Visionary"></a>[Visionary] <em>Visionaray: A Cross-Platform Ray Tracing Template Library</em>, Zellmann, Stefan and Wickeroth, Daniel and Lang, Ulrich, <em>Proceedings of the 10th Workshop on Software Engineering and Architectures for Realtime Interactive Systems (IEEE SEARIS 2017)</em>, 2017</p>
+</li>
+<li>
+<p><a id="Visionary::github"></a>[Visionary::github] <em>Visionaray</em>, Zellman, <a href="https://github.com/szellmann/visionaray" class="bare">github.com/szellmann/visionaray</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
   <div class="toc-menu"></div>
@@ -889,5 +1180,11 @@ MathJax.Hub.Config({
 <script async id="search-script" src="../../../../_/js/vendor/docsearch.js" data-app-id="FIPLENFG5M" data-api-key="489d96aa4ae574ec7ad1f23741a2d46d" data-index-name="cemosis" data-stylesheet="../../../../_/css/vendor/docsearch.css">
 </script>
 
+<script type="text/javascript">
+const codes = JSON.parse('["source", "ray", "visible", "interception", "viewfactor-1", "viewfactor-2", "viewfactor-3"]');
+codes.forEach((item) => {
+ pseudocode.renderElement(document.getElementById(item));
+});
+</script>
   </body>
 </html>

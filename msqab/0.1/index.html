@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>MSQAB :: Cemosis Docs</title>
+    <title>Modeling and Simulation of Air Quality in Bamako :: Cemosis Docs</title>
     <link rel="canonical" href="https://docs.cemosis.fr/msqab/0.1/index.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../../_/css/site.css">
@@ -134,7 +134,7 @@ MathJax.Hub.Config({
                   
               <a class="navbar-item" href="/holo3/latest/index.html"> Holo3 </a>
                     
-              <a class="navbar-item" href="/ibat/latest/index.html"> IBat </a>
+              <a class="navbar-item" href="/ibat/latest/index.html"> IBat Docs </a>
                   
               <a class="navbar-item" href="/msqab/0.1/index.html"> msqab </a>
                   
@@ -321,7 +321,7 @@ MathJax.Hub.Config({
       </ul>
     </li>
     <li class="component">
-      <span class="title">IBat</span>
+      <span class="title">IBat Docs</span>
       <ul class="versions">
         <li class="version is-latest">
           <a href="../../ibat/latest/index.html">latest</a>
@@ -356,13 +356,77 @@ MathJax.Hub.Config({
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">msqab</a></li>
-    <li><a href="index.html">MSQAB</a></li>
+    <li><a href="index.html">Modeling and Simulation of Air Quality in Bamako</a></li>
   </ul>
 </nav>
 </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">MSQAB</h1>
+<h1 class="page">Modeling and Simulation of Air Quality in Bamako</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>The air pollution is one of the biggest killers in the world <a href="#WHO">[WHO]</a>.
+Since the monitoring of urban pollutants is very expensive, the modeling
+of the pollutants dispersion is an alternative that offers good results in
+the study of air quality <a href="#Kumar">[Kumar]</a> and covers the pollution transport and diffusion
+in the atmosphere, its dry and wet deposition and chemical reactions and depends on
+pollutant properties, meteorological conditions, emission data and terrain parameters.</p>
+</div>
+<div class="paragraph">
+<p>Let \(c\) be a vector of concentration fields, where each element \(c_i\)
+corresponds to the scalar field of concentration of the chemical species (pollutant)
+labelled by \(i\) in the air.
+The spatio-temporal evolution of the concentration \(c_i\) is described by the following
+advection-diffusion-reaction</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[ \dfrac{\partial c_i}{\partial t} = - \underbrace{\nabla \cdot \left ( \mathbf{u} c_i \right)\
+}_{\text{advection}}
+      + \underbrace{\nabla \cdot \left ( \rho K \nabla \left ( \dfrac{c_i}{\rho} \right) \right )}_{\text{turbulent diffusion}} + \underbrace{\chi_i (c)}_{\text{chemistry}}
+      - \underbrace{\Lambda_i(x,t)c_i}_{\text{deposit}}
+      + \underbrace{S_i(x,t)}_{\text{volumic sources}}\]
+</div>
+</div>
+<div class="paragraph">
+<p>where</p>
+</div>
+<div class="ulist square">
+<ul class="square">
+<li>
+<p>\(\rho\): air density</p>
+</li>
+<li>
+<p>\(K\): diffusion coefficient</p>
+</li>
+<li>
+<p>\(\mathbf{u}\): wind velocity</p>
+</li>
+<li>
+<p>\(\chi_i\): chemical source term that describes the chemical reactions</p>
+</li>
+<li>
+<p>\(\Lambda_i\): scavenging coefficient</p>
+</li>
+<li>
+<p>\(S_i\): source terms</p>
+</li>
+<li>
+<p>\(x\): spatial coordinates</p>
+</li>
+<li>
+<p>\(t\): time coordinates</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The advection corresponds to transport by the wind field, and the diffusion describes the
+turbulent mixing. The reaction corresponds to the physical and chemical processes of
+transformation of pollutants.</p>
+</div>
+</div>
+</div>
 <div class="sect1">
 <h2 id="_presentation"><a class="anchor" href="#_presentation"></a>1. <a href="Presentation/README.html" class="page">Presentation</a></h2>
 <div class="sectionbody">
@@ -379,6 +443,21 @@ MathJax.Hub.Config({
 <h2 id="_methodology"><a class="anchor" href="#_methodology"></a>3. <a href="Methodology/README.html" class="page">Methodology</a></h2>
 <div class="sectionbody">
 
+</div>
+</div>
+<div class="sect1">
+<h2 id="_bibliography"><a class="anchor" href="#_bibliography"></a>4. Bibliography</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>[WHO] W.H.Organization, Air pollution, <a href="http://www.who.int/phe" class="bare">www.who.int/phe</a>, 2020.</p>
+</li>
+<li>
+<p>[Kumar] S.Kumar, R.Kumar, Air Quality: Monitoring and Modeling, BoD-Books on Demand, 2012.</p>
+</li>
+</ul>
+</div>
 </div>
 </div>
 </article>

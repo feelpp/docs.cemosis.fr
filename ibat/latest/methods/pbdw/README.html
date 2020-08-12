@@ -134,7 +134,7 @@ MathJax.Hub.Config({
                   
               <a class="navbar-item" href="/holo3/latest/index.html"> Holo3 </a>
                     
-              <a class="navbar-item" href="/ibat/latest/index.html"> IBat </a>
+              <a class="navbar-item" href="/ibat/latest/index.html"> IBat Docs </a>
                   
               <a class="navbar-item" href="/msqab/0.1/index.html"> msqab </a>
                   
@@ -188,8 +188,15 @@ MathJax.Hub.Config({
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
   <nav class="nav-menu">
-    <h3 class="title"><a href="../../index.html">IBat</a></h3>
+    <h3 class="title"><a href="../../index.html">IBat Docs</a></h3>
 <ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../index.html">Introduction</a>
+  </li>
+</ul>
+  </li>
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
@@ -446,10 +453,16 @@ MathJax.Hub.Config({
     <a class="nav-link" href="../../reports/romain-vallet/geometry.html">Geometry tools</a>
   </li>
   <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../reports/romain-vallet/random.html">Probability tools</a>
+  </li>
+  <li class="nav-item" data-depth="3">
     <a class="nav-link" href="../../reports/romain-vallet/moose.html">Details of MOOSE</a>
   </li>
   <li class="nav-item" data-depth="3">
     <a class="nav-link" href="../../reports/romain-vallet/visonaray.html">Detail of Visonaray</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../reports/romain-vallet/implementation.html">Implementation of Monte Carlo</a>
   </li>
   <li class="nav-item" data-depth="3">
     <a class="nav-link" href="../../reports/romain-vallet/benchmarks.html">Benchmarks</a>
@@ -489,7 +502,7 @@ MathJax.Hub.Config({
 </div>
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
-    <span class="title">IBat</span>
+    <span class="title">IBat Docs</span>
     <span class="version">latest</span>
   </div>
   <ul class="components">
@@ -561,7 +574,7 @@ MathJax.Hub.Config({
       </ul>
     </li>
     <li class="component is-current">
-      <span class="title">IBat</span>
+      <span class="title">IBat Docs</span>
       <ul class="versions">
         <li class="version is-current is-latest">
           <a href="../../index.html">latest</a>
@@ -595,7 +608,7 @@ MathJax.Hub.Config({
   <a href="../../../../cemosis/latest/index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
-    <li><a href="../../index.html">IBat</a></li>
+    <li><a href="../../index.html">IBat Docs</a></li>
     <li>Methodologies</li>
     <li><a href="README.html">PBDW</a></li>
   </ul>
@@ -1139,744 +1152,742 @@ u^{bk}_N(\textbf{p}) = \sum^{N}_{i=1}\beta_i(\textbf{p}) u^{bk}_N(\textbf{p}_i)
 <div class="listingblock">
 <div class="title">Main.cpp</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">     /* -*- mode: c++; coding: utf-8; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4; show-trailing-whitespace: t -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4*/
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">/* -*- mode: c++; coding: utf-8; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4; show-trailing-whitespace: t -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4*/
 
-     #include &lt;feel/feelmodels/heatfluid/heatfluid.hpp&gt;
-     #include &lt;feel/feelmodels/heat/heat.hpp&gt;
-     #include &lt;Eigen/Core&gt;
-     #include &lt;Eigen/Eigenvalues&gt;
-     #include &lt;stdlib.h&gt;
-     #include &lt;complex&gt;
-     #include &lt;algorithm&gt;
-     #include &lt;cstdlib&gt;
+#include &lt;feel/feelmodels/heatfluid/heatfluid.hpp&gt;
+#include &lt;feel/feelmodels/heat/heat.hpp&gt;
+#include &lt;Eigen/Core&gt;
+#include &lt;Eigen/Eigenvalues&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;complex&gt;
+#include &lt;algorithm&gt;
+#include &lt;cstdlib&gt;
 
 
-     namespace Feel
+namespace Feel
+{
+  static const int nDim = 2;
+  static const int OrderT = 1;
+  static const int OrderV = 2;
+  static const int OrderP = 1;
+  typedef FeelModels::Heat&lt; Simplex&lt;nDim,1&gt;,
+                           Lagrange&lt;OrderT, Scalar,Continuous,PointSetFekete&gt; &gt; model_heat_type;
+
+  typedef FeelModels::FluidMechanics&lt; Simplex&lt;nDim,1&gt;,
+                                     Lagrange&lt;OrderV, Vectorial,Continuous,PointSetFekete&gt;,
+                                     Lagrange&lt;OrderP, Scalar,Continuous,PointSetFekete&gt; &gt; model_fluid_type;
+  typedef FeelModels::HeatFluid&lt; model_heat_type,model_fluid_type&gt; model_heatfluid_type;
+
+  template &lt;typename HeatFluidType&gt;
+  std::map&lt;std::string,double&gt;
+  runApplicationHeatFluid( boost::shared_ptr&lt;HeatFluidType&gt; heatFluid, std::map&lt;std::string,double&gt; const&amp; params )
+  {
+     for ( auto const&amp; param : params ) //param in params
+         heatFluid-&gt;addParameterInModelProperties( param.first, param.second);
+
+     heatFluid-&gt;solve();
+     heatFluid-&gt;exportResults();
+     if ( heatFluid-&gt;isStationary() )
      {
-       static const int nDim = 2;
-       static const int OrderT = 1;
-       static const int OrderV = 2;
-       static const int OrderP = 1;
-       typedef FeelModels::Heat&lt; Simplex&lt;nDim,1&gt;,
-                                 Lagrange&lt;OrderT, Scalar,Continuous,PointSetFekete&gt; &gt; model_heat_type;
+         heatFluid-&gt;solve();
+         heatFluid-&gt;exportResults();
+     }
+     else
+         {
+  #if 1
+             auto heatModel = heatFluid-&gt;heatModel();
+             auto fluidModel = heatFluid-&gt;fluidModel();
+             if ( true )
+                 {
+                     auto myexpr = expr( soption(_prefix=heatModel-&gt;prefix(),_name="initial-solution.temperature"),
+                                         "",heatModel-&gt;worldComm(),heatModel-&gt;repository().expr() );
+                     heatModel-&gt;fieldTemperaturePtr()-&gt;on(_range=heatModel-&gt;rangeMeshElements(),_expr=myexpr);
+                 }
+             fluidModel-&gt;fieldVelocityPressurePtr()-&gt;setConstant(0);
+             heatModel-&gt;timeStepBdfTemperature()-&gt;start( heatModel-&gt;fieldTemperature() );
+             fluidModel-&gt;timeStepBDF()-&gt;start( *fluidModel-&gt;fieldVelocityPressurePtr() );
+             heatModel-&gt;updateTime( heatFluid-&gt;heatModel()-&gt;timeStepBase()-&gt;time() );
+             fluidModel-&gt;updateTime( heatFluid-&gt;heatModel()-&gt;timeStepBase()-&gt;time() );
+             heatFluid-&gt;updateTime( heatFluid-&gt;heatModel()-&gt;timeStepBase()-&gt;time() );
+             fluidModel-&gt;blockVectorSolution().updateVectorFromSubVectors();
+             heatModel-&gt;blockVectorSolution().updateVectorFromSubVectors();
+  #endif
+             for ( ; !heatFluid-&gt;timeStepBase()-&gt;isFinished(); heatFluid-&gt;updateTimeStep() )
+                 {
+                     if (heatFluid-&gt;worldComm().isMasterRank())
+                         {
+                             std::cout &lt;&lt; "============================================================\n";
+                             std::cout &lt;&lt; "time simulation: " &lt;&lt; heatFluid-&gt;time() &lt;&lt; "s \n";
+                             std::cout &lt;&lt; "============================================================\n";
+                         }
 
-       typedef FeelModels::FluidMechanics&lt; Simplex&lt;nDim,1&gt;,
-                                           Lagrange&lt;OrderV, Vectorial,Continuous,PointSetFekete&gt;,
-                                           Lagrange&lt;OrderP, Scalar,Continuous,PointSetFekete&gt; &gt; model_fluid_type;
-       typedef FeelModels::HeatFluid&lt; model_heat_type,model_fluid_type&gt; model_heatfluid_type;
+                     heatFluid-&gt;solve();
+                     //heatFluid-&gt;exportResults();
+                 }
+             heatFluid-&gt;heatModel()-&gt;exportMeasures( 0 );
+         }
 
-       template &lt;typename HeatFluidType&gt;
-       std::map&lt;std::string,double&gt;
-       runApplicationHeatFluid( boost::shared_ptr&lt;HeatFluidType&gt; heatFluid, std::map&lt;std::string,double&gt; const&amp; params )
-       {
-           for ( auto const&amp; param : params ) //param in params
-               heatFluid-&gt;addParameterInModelProperties( param.first, param.second);
+     std::map&lt;std::string,double&gt; res;
+     for ( std::string const&amp; s : std::vector&lt;std::string&gt;({ "temperature_pointA", "temperature_pointB" ,"temperature_pointC","temperature_pointD","temperature_pointE","temperature_pointF","temperature_pointG","temperature_pointH","temperature_pointI","temperature_pointK","temperature_pointL","temperature_pointM"}) )
+         res[s] = heatFluid-&gt;heatModel()-&gt;postProcessMeasuresIO().measure( s );
+     return res;
+  }
 
-           heatFluid-&gt;solve();
-           heatFluid-&gt;exportResults();
-           if ( heatFluid-&gt;isStationary() )
-           {
-               heatFluid-&gt;solve();
-               heatFluid-&gt;exportResults();
-           }
-           else
-               {
-       #if 1
-                   auto heatModel = heatFluid-&gt;heatModel();
-                   auto fluidModel = heatFluid-&gt;fluidModel();
-                   if ( true )
-                       {
-                           auto myexpr = expr( soption(_prefix=heatModel-&gt;prefix(),_name="initial-solution.temperature"),
-                                               "",heatModel-&gt;worldComm(),heatModel-&gt;repository().expr() );
-                           heatModel-&gt;fieldTemperaturePtr()-&gt;on(_range=heatModel-&gt;rangeMeshElements(),_expr=myexpr);
-                       }
-                   fluidModel-&gt;fieldVelocityPressurePtr()-&gt;setConstant(0);
-                   heatModel-&gt;timeStepBdfTemperature()-&gt;start( heatModel-&gt;fieldTemperature() );
-                   fluidModel-&gt;timeStepBDF()-&gt;start( *fluidModel-&gt;fieldVelocityPressurePtr() );
-                   heatModel-&gt;updateTime( heatFluid-&gt;heatModel()-&gt;timeStepBase()-&gt;time() );
-                   fluidModel-&gt;updateTime( heatFluid-&gt;heatModel()-&gt;timeStepBase()-&gt;time() );
-                   heatFluid-&gt;updateTime( heatFluid-&gt;heatModel()-&gt;timeStepBase()-&gt;time() );
-                   fluidModel-&gt;blockVectorSolution().updateVectorFromSubVectors();
-                   heatModel-&gt;blockVectorSolution().updateVectorFromSubVectors();
-       #endif
-                   for ( ; !heatFluid-&gt;timeStepBase()-&gt;isFinished(); heatFluid-&gt;updateTimeStep() )
-                       {
-                           if (heatFluid-&gt;worldComm().isMasterRank())
-                               {
-                                   std::cout &lt;&lt; "============================================================\n";
-                                   std::cout &lt;&lt; "time simulation: " &lt;&lt; heatFluid-&gt;time() &lt;&lt; "s \n";
-                                   std::cout &lt;&lt; "============================================================\n";
-                               }
+  template &lt;typename HeatType&gt;
+  auto runApplicationHeat( boost::shared_ptr&lt;HeatType&gt; heat, std::map&lt;std::string,double&gt; const&amp; params )
+  {
+     for ( auto const&amp; param : params )
+         heat-&gt;addParameterInModelProperties( param.first, param.second );
 
-                           heatFluid-&gt;solve();
-                           //heatFluid-&gt;exportResults();
-                       }
-                   heatFluid-&gt;heatModel()-&gt;exportMeasures( 0 );
-               }
+         heat-&gt;solve();
+         heat-&gt;exportResults();
+         auto const&amp; e = heat-&gt;fieldTemperature();
 
-           std::map&lt;std::string,double&gt; res;
-           for ( std::string const&amp; s : std::vector&lt;std::string&gt;({ "temperature_pointA", "temperature_pointB" ,"temperature_pointC","temperature_pointD","temperature_pointE","temperature_pointF","temperature_pointG","temperature_pointH","temperature_pointI","temperature_pointK","temperature_pointL","temperature_pointM"}) )
-               res[s] = heatFluid-&gt;heatModel()-&gt;postProcessMeasuresIO().measure( s );
-           return res;
-       }
+     return e; //neu muon them dk kiem tra if thi can khai bao e o ngoai, vay no la type gi?
+  }
 
-       template &lt;typename HeatType&gt;
-       auto runApplicationHeat( boost::shared_ptr&lt;HeatType&gt; heat, std::map&lt;std::string,double&gt; const&amp; params )
-       {
-           for ( auto const&amp; param : params )
-               heat-&gt;addParameterInModelProperties( param.first, param.second );
+  template &lt;typename HeatType&gt;
+  double produitscalair(boost::shared_ptr&lt;HeatType&gt; heat, model_heat_type::element_temperature_type const&amp; u, model_heat_type::element_temperature_type const&amp; v)
+  {
+   double Lg = 2.;
+   double g = integrate(_range=elements( heat-&gt;mesh()), _expr= inner(gradv(u),gradv(v))).evaluate()(0,0);
+   double p = integrate(_range=elements( heat-&gt;mesh()), _expr= inner(idv(u),idv(v))).evaluate()(0,0);
+   double val = g + Lg*p;
+   //double val = inner_product( u,v);
+   return val;
+  }
 
-               heat-&gt;solve();
-               heat-&gt;exportResults();
-               auto const&amp; e = heat-&gt;fieldTemperature();
+  template &lt;typename HeatType&gt;
+  double produit(boost::shared_ptr&lt;HeatType&gt; heat, model_heat_type::element_temperature_type const&amp; u, model_heat_type::element_temperature_type const&amp; v)
+  {
+   double val = inner_product( u,v);
+   return val;
+  }
 
-           return e; //neu muon them dk kiem tra if thi can khai bao e o ngoai, vay no la type gi?
-       }
-
-       template &lt;typename HeatType&gt;
-       double produitscalair(boost::shared_ptr&lt;HeatType&gt; heat, model_heat_type::element_temperature_type const&amp; u, model_heat_type::element_temperature_type const&amp; v)
-       {
-         double Lg = 2.;
-         double g = integrate(_range=elements( heat-&gt;mesh()), _expr= inner(gradv(u),gradv(v))).evaluate()(0,0);
-         double p = integrate(_range=elements( heat-&gt;mesh()), _expr= inner(idv(u),idv(v))).evaluate()(0,0);
-         double val = g + Lg*p;
-         //double val = inner_product( u,v);
-         return val;
-       }
-
-       template &lt;typename HeatType&gt;
-       double produit(boost::shared_ptr&lt;HeatType&gt; heat, model_heat_type::element_temperature_type const&amp; u, model_heat_type::element_temperature_type const&amp; v)
-       {
-         double val = inner_product( u,v);
-         return val;
-       }
-
-       template &lt;typename HeatType&gt;
-       auto proj(boost::shared_ptr&lt;HeatType&gt; heat,model_heat_type::element_temperature_type const&amp; u, model_heat_type::element_temperature_type const&amp; v)
-       {
-         double uv = produit(heat, u, v);
-         double uu = produit(heat,u,u);
-         double scalar = uv / uu;
-         std::cout &lt;&lt; "scalar = "&lt;&lt; scalar &lt;&lt; "\n";
-         auto proju = heat-&gt;spaceTemperature()-&gt;element( scalar*idv(u) );
-         return proju;
-       }
+  template &lt;typename HeatType&gt;
+  auto proj(boost::shared_ptr&lt;HeatType&gt; heat,model_heat_type::element_temperature_type const&amp; u, model_heat_type::element_temperature_type const&amp; v)
+  {
+   double uv = produit(heat, u, v);
+   double uu = produit(heat,u,u);
+   double scalar = uv / uu;
+   std::cout &lt;&lt; "scalar = "&lt;&lt; scalar &lt;&lt; "\n";
+   auto proju = heat-&gt;spaceTemperature()-&gt;element( scalar*idv(u) );
+   return proju;
+  }
 
 
-     } // namespace Feel
+} // namespace Feel
 
-     int myrandom (int i) { return std::rand()%i;}
+int myrandom (int i) { return std::rand()%i;}
 
-     struct Coordinate
+struct Coordinate
+{
+   double x, y;
+}pointA,pointB,pointC,pointD,pointE,pointF,pointG,pointH,pointI,pointK,pointL,pointM;
+
+
+
+int main( int argc, char** argv )
+{
+   using namespace Feel;
+   int N;
+   int M;
+   double r;
+
+   po::options_description pbdwdatafromaerooptions( "application pbdw datafromaero options" );
+   pbdwdatafromaerooptions.add( toolboxes_options("heat-fluid") );
+   pbdwdatafromaerooptions.add( toolboxes_options("heat") );
+   pbdwdatafromaerooptions.add_options()
+       ("case.dimension", Feel::po::value&lt;int&gt;()-&gt;default_value( 3 ), "dimension")
+       ("case.discretization", Feel::po::value&lt;std::string&gt;()-&gt;default_value( "P1-P2P1" ), "discretization : P1-P2P1")
+       ("M", Feel::po::value&lt;int&gt;(&amp;M)-&gt;default_value( 1), "nbObservation")
+       ("N", Feel::po::value&lt;int&gt;(&amp;N)-&gt;default_value( 2), "nbParameters")
+       ("r", Feel::po::value&lt;double&gt;(&amp;r)-&gt;default_value( 0.15), "rayon")
+    ;
+
+  Environment env( _argc=argc, _argv=argv,
+                    _desc=pbdwdatafromaerooptions,
+                    _about=about(_name="feelpp_ibat_pbdw_datafromaero",
+                                 _author="Feel++ Consortium",
+                                 _email="feelpp-devel@feelpp.org"));
+
+
+
+   boost::shared_ptr&lt;model_heatfluid_type&gt; heatFluid( new model_heatfluid_type("heat-fluid") );
+   heatFluid-&gt;init();
+   heatFluid-&gt;printAndSaveInfo();
+
+   boost::shared_ptr&lt;model_heat_type&gt; heat( new model_heat_type("heat",false) );
+   heat-&gt;setMesh( heatFluid-&gt;mesh() );
+   heat-&gt;setStationary( true );
+   heat-&gt;init();
+   heat-&gt;printAndSaveInfo();
+
+
+   tic();
+
+    //Creat Sample SN
+    std::vector&lt;std::map&lt;std::string,double&gt;&gt; SN;
+    std::map&lt;std::string,double&gt; params0;
+    params0["T_heater"] = 310;
+    params0["T_ext"] = 280;
+    params0["h"] = 1.0/(0.06+0.01/0.5 + 0.3/0.8 + 0.20/0.032 +0.016/0.313 +0.14);
+    SN.push_back(params0 );
+
+    std::map&lt;std::string,double&gt; params1;
+    params1["T_heater"] = 300;
+    params1["T_ext"] = 280;
+    params1["h"] = 1.0/(0.06+0.01/0.5 + 0.3/0.8 + 0.20/0.032 +0.016/0.313 +0.14);
+    SN.push_back(params1);
+
+    std::map&lt;std::string,double&gt; params2;
+    params2["T_heater"] = 300; //330
+    params2["T_ext"] = 290; //310
+    params2["h"] = 0.1;
+    SN.push_back(params2);
+
+   //std::vector&lt;std::map&lt;std::string,double&gt;&gt; SN;
+   //for(int i=0; i&lt; N; i++)
+   //  SN[i] = DN[i];
+
+   using element_temperature_type = typename model_heat_type::element_temperature_type;
+   std::vector&lt; element_temperature_type &gt; ZN;
+
+
+   for (int i=0; i&lt;N; i++)
+   {
+     auto params = SN[i];
+     auto u = runApplicationHeat( heat, params );
+     ZN.push_back(u);
+     //std::cout &lt;&lt; "Zn " &lt;&lt; ZN.back().size() &lt;&lt; " vs " &lt;&lt; u.size() &lt;&lt; "\n";
+     //std::cout &lt;&lt; "Zn " &lt;&lt; ZN.back().sum() &lt;&lt; " vs " &lt;&lt; u.sum() &lt;&lt; "\n";
+   }
+
+   //Build Background space ZN_orthn/////////////////////////////////////////////////////////////////////////
+   std::vector&lt; element_temperature_type &gt; ZN_orth( ZN.size(),heat-&gt;spaceTemperature()-&gt;element() );
+   ZN_orth[0] = ZN[0];
+   for(int i = 1; i &lt; N; i++)
+   {
+     auto s = heat-&gt;spaceTemperature()-&gt;element();
+     for(int j = 0; j &lt; i; j++)
      {
-         double x, y;
-     }pointA,pointB,pointC,pointD,pointE,pointF,pointG,pointH,pointI,pointK,pointL,pointM;
+       s += proj(heat, ZN_orth[j], ZN[i]);
+     }
+     ZN_orth[i] = ZN[i] - s;
+   }
+   for(int i = 0; i &lt; ZN_orth.size(); i++)
+   {
+     double norm = std::sqrt(produitscalair(heat, ZN_orth[i], ZN_orth[i]));
+     ZN_orth[i].scale( 1./norm);
+   }
 
-
-
-     int
-     main( int argc, char** argv )
+   //check
+   for (int i = 0; i &lt; ZN_orth.size(); i++)
+   {
+     for (int j = 0; j &lt; ZN_orth.size(); j++)
      {
-         using namespace Feel;
-         int N;
-         int M;
-         double r;
-
-         po::options_description pbdwdatafromaerooptions( "application pbdw datafromaero options" );
-         pbdwdatafromaerooptions.add( toolboxes_options("heat-fluid") );
-         pbdwdatafromaerooptions.add( toolboxes_options("heat") );
-         pbdwdatafromaerooptions.add_options()
-             ("case.dimension", Feel::po::value&lt;int&gt;()-&gt;default_value( 3 ), "dimension")
-             ("case.discretization", Feel::po::value&lt;std::string&gt;()-&gt;default_value( "P1-P2P1" ), "discretization : P1-P2P1")
-             ("M", Feel::po::value&lt;int&gt;(&amp;M)-&gt;default_value( 1), "nbObservation")
-             ("N", Feel::po::value&lt;int&gt;(&amp;N)-&gt;default_value( 2), "nbParameters")
-             ("r", Feel::po::value&lt;double&gt;(&amp;r)-&gt;default_value( 0.15), "rayon")
-          ;
-
-     	Environment env( _argc=argc, _argv=argv,
-                          _desc=pbdwdatafromaerooptions,
-                          _about=about(_name="feelpp_ibat_pbdw_datafromaero",
-                                       _author="Feel++ Consortium",
-                                       _email="feelpp-devel@feelpp.org"));
-
-
-
-         boost::shared_ptr&lt;model_heatfluid_type&gt; heatFluid( new model_heatfluid_type("heat-fluid") );
-         heatFluid-&gt;init();
-         heatFluid-&gt;printAndSaveInfo();
-
-         boost::shared_ptr&lt;model_heat_type&gt; heat( new model_heat_type("heat",false) );
-         heat-&gt;setMesh( heatFluid-&gt;mesh() );
-         heat-&gt;setStationary( true );
-         heat-&gt;init();
-         heat-&gt;printAndSaveInfo();
-
-
-         tic();
-
-          //Creat Sample SN
-          std::vector&lt;std::map&lt;std::string,double&gt;&gt; SN;
-          std::map&lt;std::string,double&gt; params0;
-          params0["T_heater"] = 310;
-          params0["T_ext"] = 280;
-          params0["h"] = 1.0/(0.06+0.01/0.5 + 0.3/0.8 + 0.20/0.032 +0.016/0.313 +0.14);
-          SN.push_back(params0 );
-
-          std::map&lt;std::string,double&gt; params1;
-          params1["T_heater"] = 300;
-          params1["T_ext"] = 280;
-          params1["h"] = 1.0/(0.06+0.01/0.5 + 0.3/0.8 + 0.20/0.032 +0.016/0.313 +0.14);
-          SN.push_back(params1);
-
-          std::map&lt;std::string,double&gt; params2;
-          params2["T_heater"] = 300; //330
-          params2["T_ext"] = 290; //310
-          params2["h"] = 0.1;
-          SN.push_back(params2);
-
-         //std::vector&lt;std::map&lt;std::string,double&gt;&gt; SN;
-         //for(int i=0; i&lt; N; i++)
-         //  SN[i] = DN[i];
-
-         using element_temperature_type = typename model_heat_type::element_temperature_type;
-         std::vector&lt; element_temperature_type &gt; ZN;
-
-
-         for (int i=0; i&lt;N; i++)
-         {
-           auto params = SN[i];
-           auto u = runApplicationHeat( heat, params );
-           ZN.push_back(u);
-           //std::cout &lt;&lt; "Zn " &lt;&lt; ZN.back().size() &lt;&lt; " vs " &lt;&lt; u.size() &lt;&lt; "\n";
-           //std::cout &lt;&lt; "Zn " &lt;&lt; ZN.back().sum() &lt;&lt; " vs " &lt;&lt; u.sum() &lt;&lt; "\n";
-         }
-
-         //Build Background space ZN_orthn/////////////////////////////////////////////////////////////////////////
-         std::vector&lt; element_temperature_type &gt; ZN_orth( ZN.size(),heat-&gt;spaceTemperature()-&gt;element() );
-         ZN_orth[0] = ZN[0];
-         for(int i = 1; i &lt; N; i++)
-         {
-           auto s = heat-&gt;spaceTemperature()-&gt;element();
-           for(int j = 0; j &lt; i; j++)
-           {
-             s += proj(heat, ZN_orth[j], ZN[i]);
-           }
-           ZN_orth[i] = ZN[i] - s;
-         }
-         for(int i = 0; i &lt; ZN_orth.size(); i++)
-         {
-           double norm = std::sqrt(produitscalair(heat, ZN_orth[i], ZN_orth[i]));
-           ZN_orth[i].scale( 1./norm);
-         }
-
-         //check
-         for (int i = 0; i &lt; ZN_orth.size(); i++)
-         {
-           for (int j = 0; j &lt; ZN_orth.size(); j++)
-           {
-               double scar = produitscalair(heat, ZN_orth[i], ZN_orth[j]);
-               if ( Environment::isMasterRank() )
-                 std::cout &lt;&lt; "i="&lt;&lt;i&lt;&lt;"; j="&lt;&lt;j&lt;&lt;"; scar=" &lt;&lt; scar &lt;&lt; "\n";
-           }
-         }
-
-
-         std::vector&lt; element_temperature_type &gt; ZN_orthn( ZN_orth.size(),heat-&gt;spaceTemperature()-&gt;element() );
-         ZN_orthn[0] = ZN_orth[0];
-         for(int i = 1; i &lt; N; i++)
-         {
-           auto s = heat-&gt;spaceTemperature()-&gt;element();
-           for(int j = 0; j &lt; i; j++)
-           {
-             s += proj(heat, ZN_orthn[j], ZN_orth[i]);
-           }
-           ZN_orthn[i] = ZN_orth[i] - s;
-         }
-         for(int i = 0; i &lt; ZN_orthn.size(); i++)
-         {
-           double norm = std::sqrt(produitscalair(heat, ZN_orthn[i], ZN_orthn[i]));
-           ZN_orthn[i].scale( 1./norm);
-         }
-
-
-         //check ZnOrthn?
-         for (int i = 0; i &lt; ZN_orthn.size(); i++)
-         {
-           for (int j = 0; j &lt; ZN_orthn.size(); j++)
-           {
-               double scar = produitscalair(heat, ZN_orthn[i], ZN_orthn[j]);
-               if ( Environment::isMasterRank() )
-                 std::cout &lt;&lt; "i="&lt;&lt;i&lt;&lt;"; j="&lt;&lt;j&lt;&lt;"; scar=" &lt;&lt; scar &lt;&lt; "\n";
-           }
-         }
-
-
-
-         //Buil update space UM////////////////////////////////////////////////////////////////////////////////////////
-         //Creat List of points
-         std::vector&lt;Coordinate&gt; points;
-         pointA.x = 0.05;
-         pointA.y = 0.25;
-         points.push_back(pointA);
-
-         pointB.x = 0.55;
-         pointB.y = 0.25;
-         points.push_back(pointB);
-
-         pointC.x = 1.05;
-         pointC.y = 0.25;
-         points.push_back(pointC);
-
-         pointD.x = 1.55;
-         pointD.y = 0.25;
-         points.push_back(pointD);
-
-         pointE.x = 0.05;
-         pointE.y = 0.5;
-         points.push_back(pointE);
-
-         pointF.x = 0.55;
-         pointF.y = 0.5;
-         points.push_back(pointF);
-
-         pointG.x = 1.05;
-         pointG.y = 0.5;
-         points.push_back(pointG);
-
-         pointH.x = 1.55;
-         pointH.y = 0.5;
-         points.push_back(pointH);
-
-         pointI.x = 0.05;
-         pointI.y = 0.75;
-         points.push_back(pointI);
-
-         pointK.x = 0.55;
-         pointK.y = 0.75;
-         points.push_back(pointK);
-
-         pointL.x = 1.05;
-         pointL.y = 0.75;
-         points.push_back(pointL);
-
-         pointM.x = 1.55;
-         pointM.y = 0.75;
-         points.push_back(pointM);
-
-         std::vector&lt;int&gt; data;
-         for (int i=0; i&lt;M; ++i)
-           data.push_back(i);
-
-         std::random_shuffle ( data.begin(), data.end(), myrandom);
-
-         std::cout &lt;&lt; "data contains:";
-         for (std::vector&lt;int&gt;::iterator it=data.begin(); it!=data.end(); ++it)
-           std::cout &lt;&lt; ' ' &lt;&lt; *it;
-         std::cout &lt;&lt; '\n';
-
-
-         int p = rand() % N;
-         std::cout &lt;&lt; " p = "&lt;&lt; p &lt;&lt; "\n";
-         auto resHeatFluid = runApplicationHeatFluid( heatFluid, SN[p] );
-         auto u_true = heatFluid-&gt;heatModel()-&gt;fieldTemperature();
-         std::vector&lt; double &gt; y_obs;
-
-         auto phi = heat-&gt;spaceTemperature()-&gt;element( );
-         auto capteur = heat-&gt;spaceTemperature()-&gt;element( );
-
-         std::vector&lt; element_temperature_type &gt; UM( M,heat-&gt;spaceTemperature()-&gt;element() );
-         for(int i=0; i&lt; M; i++)
-         {
-           int index = data[i];
-           auto sensor = points[index];
-           std::cout &lt;&lt; "xm="&lt;&lt; sensor.x&lt;&lt; "; ym="&lt;&lt;sensor.y&lt;&lt; "\n";
-           auto phiExpr = exp( - (pow(Px()-sensor.x,2) + pow(Py()-sensor.y,2))/(2*r*r) )*chi( (pow(Px()-sensor.x,2) + pow(Py()-sensor.y,2))&lt;r*r );
-
-
-           phi.on( _range=elements( heat-&gt;mesh()),_expr=phiExpr);
-           capteur += phi;
-
-           double c = integrate(_range=elements( heat-&gt;mesh()), _expr= phiExpr).evaluate()(0,0);
-           std::cout &lt;&lt; " Is that c = 1 ? " &lt;&lt; c &lt;&lt; "\n";
-
-           double y = integrate(_range=elements( heat-&gt;mesh()), _expr= phiExpr * idv(u_true)).evaluate()(0,0);
-           y_obs.push_back(y);
-
-           auto qm = heat-&gt;spaceTemperature()-&gt;element("qm" );
-           auto v = heat-&gt;spaceTemperature()-&gt;element( );
-
-           auto l = form1( _test= heat-&gt;spaceTemperature());
-           l = integrate(_range=elements( heat-&gt;mesh()), _expr= phiExpr * id(v));
-
-           auto a = form2( _trial=heat-&gt;spaceTemperature(), _test=heat-&gt;spaceTemperature());
-           a = integrate(_range=elements( heat-&gt;mesh()), _expr= inner(gradt(qm),grad(v)));
-           a += integrate(_range=elements( heat-&gt;mesh()), _expr= inner(idt(qm),id(v)));
-
-
-           a.solve(_rhs=l,_solution=qm);
-           UM[i] = qm;
-           std::cout &lt;&lt; " UM " &lt;&lt; UM[i].size() &lt;&lt; " vs " &lt;&lt; qm.size() &lt;&lt; "\n";
-           std::cout &lt;&lt; " UM " &lt;&lt; UM[i].sum() &lt;&lt; " vs " &lt;&lt; qm.sum() &lt;&lt; "\n";
-         }
-
-
-         //Build matrice PBDW//////////////////////////////////////////////////////////////////////////
-         //int M = coords.size();
-         //int N = ZN_orthn.size();
-         using Eigen::MatrixXd;
-         MatrixXd A(M,M);
-         for(int i=0; i&lt;M; i++)
-         {
-           for(int j=0; j&lt;M; j++)
-               A(i,j) = produitscalair(heat,UM[j], UM[i]);
-         }
-         std::cout &lt;&lt; "A = \n" &lt;&lt; A &lt;&lt; "\n";
-
-         MatrixXd B(M,N);
-         for(int i=0; i&lt;M; i++)
-         {
-           for(int j=0; j&lt;N; j++)
-             B(i,j) = produitscalair(heat,ZN_orthn[j], UM[i]);
-         }
-         std::cout &lt;&lt; "B = \n"  &lt;&lt; B &lt;&lt; "\n";
-
-
-         MatrixXd K(M+N,M+N);
-         K.setZero();
-         K.block(0,0,M,M) = A;
-         K.block(0,M,M,N) = B;
-         K.block(M,0,N,M) = B.transpose();
-         std::cout &lt;&lt; "K = \n"  &lt;&lt; K &lt;&lt; "\n";
-
-
-         //Solve PBDW//////////////////////////////////////////////////////////////////////////
-         MatrixXd Y(M+N,1);
-         Y.setZero();
-         for(int i=0; i&lt;M; i++)
-           Y(i,0)=y_obs[i];
-         std::cout &lt;&lt; "Y = \n"  &lt;&lt; Y &lt;&lt; "\n";
-
-
-         toc("offline");
-
-         Eigen::EigenSolver&lt;MatrixXd&gt; esK(K);
-         std::cout &lt;&lt; "The eigenvalues of K are:" &lt;&lt; endl &lt;&lt; esK.eigenvalues() &lt;&lt; endl;
-         std::cout &lt;&lt; "The matrix of eigenvectors, V, is:" &lt;&lt; endl &lt;&lt; esK.eigenvectors() &lt;&lt; endl &lt;&lt; endl;
-
-         std::vector&lt; double &gt; lambdaK;
-         for(int i=0; i&lt; N+M; i++   )
-         {
-           lambdaK.push_back(esK.eigenvalues()[i].real());
-           std::cout &lt;&lt; "lambda_K = \n"  &lt;&lt; lambdaK.back() &lt;&lt; "\n";
-         }
-
-         double lambdaK_min = *std::min_element(lambdaK.begin(), lambdaK.end());
-         double lambdaK_max = *std::max_element(lambdaK.begin(), lambdaK.end());
-         double cond_K = std::abs(lambdaK_max)/std::abs(lambdaK_min);
-         std::cout &lt;&lt; "Cond(K) = "  &lt;&lt; cond_K &lt;&lt; "\n";
-
-         tic();
-         MatrixXd S(M+N,1);
-         S = K.inverse()*Y;
-         std::cout &lt;&lt; "S = \n"  &lt;&lt; S &lt;&lt; "\n";
-
-         //Output//////////////////////////////////////////////////////////////////////////
-         MatrixXd eta(M,1);
-         //eta = S.block(0,0,M,0);
-         for (int i=0; i&lt;M; i++)
-           eta(i,0)=S(i,0);
-         MatrixXd z(N,1);
-         //z = S.block(M,0,N,0);
-         for (int i=0; i&lt;N; i++)
-           z(i,0)=S(i+M,0);
-
-         std::cout &lt;&lt; "z = \n"  &lt;&lt; z &lt;&lt; "\n";
-         std::cout &lt;&lt; "eta = \n"  &lt;&lt; eta &lt;&lt; "\n";
-
-
-       auto u_MN = heat-&gt;spaceTemperature()-&gt;element();
-       for(int i=0; i&lt;M; i++)
-           u_MN += heat-&gt;spaceTemperature()-&gt;element(eta(i,0)*idv(UM[i]));
-
-       for(int i=0; i&lt;N; i++)
-           u_MN += heat-&gt;spaceTemperature()-&gt;element(z(i,0)*idv(ZN_orthn[i]));
-
-       toc("online");
-       ////Stability coefficient//////////////////////////////////////////
-       tic();
-       MatrixXd C(N,N);
-       for(int i=0; i&lt;N; i++)
-       {
-         for(int j=0; j&lt;N; j++)
-           C(i,j) = produitscalair(heat,ZN_orthn[i], ZN_orthn[j]);
-       }
-       std::cout &lt;&lt; "C = \n"  &lt;&lt; C &lt;&lt; "\n";
-
-       MatrixXd K1(N,N);
-       K1 = (B.transpose() * A.inverse() * B ) * C.inverse();
-       std::cout &lt;&lt; "K1 = \n"  &lt;&lt; K1 &lt;&lt; "\n";
-
-       Eigen::EigenSolver&lt;MatrixXd&gt; es(K1);
-       std::cout &lt;&lt; "The eigenvalues of K1 are:" &lt;&lt; endl &lt;&lt; es.eigenvalues() &lt;&lt; endl;
-       std::cout &lt;&lt; "The matrix of eigenvectors, V, is:" &lt;&lt; endl &lt;&lt; es.eigenvectors() &lt;&lt; endl &lt;&lt; endl;
-
-       std::vector&lt; double &gt; lambda;
-       for(int i=0; i&lt; N; i++   )
-       {
-         lambda.push_back(es.eigenvalues()[i].real());
-         //std::cout &lt;&lt; "lambda = \n"  &lt;&lt; lambda.back() &lt;&lt; "\n";
-       }
-
-       double lambda_min = *std::min_element(lambda.begin(), lambda.end());
-       double beta = std::sqrt(lambda_min);
-       //std::cout &lt;&lt; "lambda_min = "  &lt;&lt; lambda_min &lt;&lt; "\n";
-       std::cout &lt;&lt; "beta = "  &lt;&lt; beta &lt;&lt; "\n";
-
-
-         /////priori error/////////////////////////////////////////////////////////
-         double l2 = normL2(_range=elements(heat-&gt;mesh()), _expr=idv(u_true)-idv(u_MN) );
-         double h1 = normH1(_range=elements(heat-&gt;mesh()), _expr=idv(u_true)-idv(u_MN), _grad_expr=gradv(u_true)-gradv(u_MN));
-         //std::cout &lt;&lt; "h1 = "  &lt;&lt; h1 &lt;&lt; "\n";
-         double c_l2 = normL2(_range=elements(heat-&gt;mesh()), _expr=idv(u_true) );
-         //std::cout &lt;&lt; "c_l2 = "  &lt;&lt; c_l2 &lt;&lt; "\n";
-         double e_l2 = (1./c_l2) * l2;
-         std::cout &lt;&lt; "err_l2 = "  &lt;&lt; e_l2 &lt;&lt; "\n";
-         double c_h1 = normH1(_range=elements(heat-&gt;mesh()), _expr=idv(u_true), _grad_expr=gradv(u_true) );
-         //std::cout &lt;&lt; "c_h1 = "  &lt;&lt; c_h1 &lt;&lt; "\n";
-         double e_h1 = (1./c_h1) * h1;
-         std::cout &lt;&lt; "err_h1 = "  &lt;&lt; e_h1 &lt;&lt; "\n";
-
-
-         ///boundary error///////////////////////////////////////////////////////
-         std::vector&lt; double &gt; err_h1;
-         std::vector&lt; double &gt; err_l2;
-         for(int i=0; i&lt;N; i++)
-         {
-           for(int j=0; j&lt;M; j++)
-           {
-             err_h1.push_back(normH1(_range=elements(heat-&gt;mesh()),
-             _expr=idv(u_true)-idv(ZN_orthn[i]) - idv(UM[j]), _grad_expr=gradv(u_true)-gradv(ZN_orthn[i]) - gradv(UM[j])));
-
-             err_l2.push_back(normL2(_range=elements(heat-&gt;mesh()), _expr=idv(u_true)-idv(ZN_orthn[i]) - idv(UM[j]) ));
-           }
-         }
-         double min_h1 = *std::min_element(err_h1.begin(), err_h1.end());
-         double min_l2 = *std::min_element(err_l2.begin(), err_l2.end());
-
-         double best_fit_l2 = (1./c_l2) * min_l2;
-         std::cout &lt;&lt; "best_fit_l2 = "  &lt;&lt; best_fit_l2 &lt;&lt; "\n";
-         double bound_l2 = (1 + 1./beta) * best_fit_l2;
-         std::cout &lt;&lt; "bound_l2 = "  &lt;&lt; bound_l2 &lt;&lt; "\n";
-
-         double best_fit_h1 = (1./c_h1) * min_h1;
-         std::cout &lt;&lt; "best_fit_h1 = "  &lt;&lt; best_fit_h1 &lt;&lt; "\n";
-         double bound_h1 = (1 + 1./beta) * best_fit_h1;
-         std::cout &lt;&lt; "bound_h1 = "  &lt;&lt; bound_h1 &lt;&lt; "\n";
-
-
-         toc("beta");
-         ///save solution///////////////////////////////////////////////////////////////
-         auto g = exporter( _mesh=heat-&gt;mesh(),_name="u_true" );
-         g -&gt; add("u_true", u_true);
-         g-&gt;save();
-
-         auto u_err = heat-&gt;spaceTemperature()-&gt;element();
-         for(int i = 0; i&lt;u_true.size(); i++)
-           u_err[i] = std::log(std::abs(u_true[i] - u_MN[i]));
-         auto er = exporter( _mesh=heat-&gt;mesh(), _name="u_err");
-         er -&gt; add("u_err", u_err);
-         er-&gt;save();
-
-
-         auto d = exporter( _mesh=heat-&gt;mesh(),_name="u_h" );
-         for(int i = 0; i &lt; ZN.size(); i++)
-             d-&gt;add( (boost::format("Z_%1%")%i).str(), ZN[i] );
-         d-&gt;save();
-
-         auto q = exporter( _mesh=heat-&gt;mesh(),_name="qm" );
-         for(int i = 0; i &lt; UM.size(); i++)
-             q-&gt;add( (boost::format("q_%1%")%i).str(), UM[i] );
-         q-&gt;save();
-
-         auto n = exporter( _mesh=heat-&gt;mesh(),_name="Znorthn" );
-         for(int i = 0; i &lt; ZN_orthn.size(); i++)
-             n-&gt;add( (boost::format("Znorthn_%1%")%i).str(), ZN_orthn[i] );
-         n-&gt;save();
-
-         auto e = exporter( _mesh=heat-&gt;mesh(), _name="u_MN");
-         e -&gt; add("solution PBDW", u_MN);
-         e-&gt;save();
-
-         auto QM = heat-&gt;spaceTemperature()-&gt;element();
-         for(int i=0; i&lt;UM.size(); i++)
-             QM += UM[i];
-         auto f = exporter( _mesh=heat-&gt;mesh(),_name="qm_total" );
-         f-&gt;add("qm_total", QM);
-         f-&gt;save();
-
-
-         auto gg = exporter( _mesh=heat-&gt;mesh(),_name="sensor_location" );
-         gg-&gt;add("sensor", capteur);
-         gg-&gt;save();
-
-         auto u_velocity = heatFluid-&gt;fluidModel()-&gt;fieldVelocity();
-         auto h = exporter( _mesh=heat-&gt;mesh(),_name="u_velocity" );
-         h-&gt;add("u_velocity", u_velocity);
-         h-&gt;save();
-
-
-
-         std::cout &lt;&lt; "============================================================\n";
-
-         return 0;
-     }</code></pre>
+         double scar = produitscalair(heat, ZN_orth[i], ZN_orth[j]);
+         if ( Environment::isMasterRank() )
+           std::cout &lt;&lt; "i="&lt;&lt;i&lt;&lt;"; j="&lt;&lt;j&lt;&lt;"; scar=" &lt;&lt; scar &lt;&lt; "\n";
+     }
+   }
+
+
+   std::vector&lt; element_temperature_type &gt; ZN_orthn( ZN_orth.size(),heat-&gt;spaceTemperature()-&gt;element() );
+   ZN_orthn[0] = ZN_orth[0];
+   for(int i = 1; i &lt; N; i++)
+   {
+     auto s = heat-&gt;spaceTemperature()-&gt;element();
+     for(int j = 0; j &lt; i; j++)
+     {
+       s += proj(heat, ZN_orthn[j], ZN_orth[i]);
+     }
+     ZN_orthn[i] = ZN_orth[i] - s;
+   }
+   for(int i = 0; i &lt; ZN_orthn.size(); i++)
+   {
+     double norm = std::sqrt(produitscalair(heat, ZN_orthn[i], ZN_orthn[i]));
+     ZN_orthn[i].scale( 1./norm);
+   }
+
+
+   //check ZnOrthn?
+   for (int i = 0; i &lt; ZN_orthn.size(); i++)
+   {
+     for (int j = 0; j &lt; ZN_orthn.size(); j++)
+     {
+         double scar = produitscalair(heat, ZN_orthn[i], ZN_orthn[j]);
+         if ( Environment::isMasterRank() )
+           std::cout &lt;&lt; "i="&lt;&lt;i&lt;&lt;"; j="&lt;&lt;j&lt;&lt;"; scar=" &lt;&lt; scar &lt;&lt; "\n";
+     }
+   }
+
+
+
+   //Buil update space UM////////////////////////////////////////////////////////////////////////////////////////
+   //Creat List of points
+   std::vector&lt;Coordinate&gt; points;
+   pointA.x = 0.05;
+   pointA.y = 0.25;
+   points.push_back(pointA);
+
+   pointB.x = 0.55;
+   pointB.y = 0.25;
+   points.push_back(pointB);
+
+   pointC.x = 1.05;
+   pointC.y = 0.25;
+   points.push_back(pointC);
+
+   pointD.x = 1.55;
+   pointD.y = 0.25;
+   points.push_back(pointD);
+
+   pointE.x = 0.05;
+   pointE.y = 0.5;
+   points.push_back(pointE);
+
+   pointF.x = 0.55;
+   pointF.y = 0.5;
+   points.push_back(pointF);
+
+   pointG.x = 1.05;
+   pointG.y = 0.5;
+   points.push_back(pointG);
+
+   pointH.x = 1.55;
+   pointH.y = 0.5;
+   points.push_back(pointH);
+
+   pointI.x = 0.05;
+   pointI.y = 0.75;
+   points.push_back(pointI);
+
+   pointK.x = 0.55;
+   pointK.y = 0.75;
+   points.push_back(pointK);
+
+   pointL.x = 1.05;
+   pointL.y = 0.75;
+   points.push_back(pointL);
+
+   pointM.x = 1.55;
+   pointM.y = 0.75;
+   points.push_back(pointM);
+
+   std::vector&lt;int&gt; data;
+   for (int i=0; i&lt;M; ++i)
+     data.push_back(i);
+
+   std::random_shuffle ( data.begin(), data.end(), myrandom);
+
+   std::cout &lt;&lt; "data contains:";
+   for (std::vector&lt;int&gt;::iterator it=data.begin(); it!=data.end(); ++it)
+     std::cout &lt;&lt; ' ' &lt;&lt; *it;
+   std::cout &lt;&lt; '\n';
+
+
+   int p = rand() % N;
+   std::cout &lt;&lt; " p = "&lt;&lt; p &lt;&lt; "\n";
+   auto resHeatFluid = runApplicationHeatFluid( heatFluid, SN[p] );
+   auto u_true = heatFluid-&gt;heatModel()-&gt;fieldTemperature();
+   std::vector&lt; double &gt; y_obs;
+
+   auto phi = heat-&gt;spaceTemperature()-&gt;element( );
+   auto capteur = heat-&gt;spaceTemperature()-&gt;element( );
+
+   std::vector&lt; element_temperature_type &gt; UM( M,heat-&gt;spaceTemperature()-&gt;element() );
+   for(int i=0; i&lt; M; i++)
+   {
+     int index = data[i];
+     auto sensor = points[index];
+     std::cout &lt;&lt; "xm="&lt;&lt; sensor.x&lt;&lt; "; ym="&lt;&lt;sensor.y&lt;&lt; "\n";
+     auto phiExpr = exp( - (pow(Px()-sensor.x,2) + pow(Py()-sensor.y,2))/(2*r*r) )*chi( (pow(Px()-sensor.x,2) + pow(Py()-sensor.y,2))&lt;r*r );
+
+
+     phi.on( _range=elements( heat-&gt;mesh()),_expr=phiExpr);
+     capteur += phi;
+
+     double c = integrate(_range=elements( heat-&gt;mesh()), _expr= phiExpr).evaluate()(0,0);
+     std::cout &lt;&lt; " Is that c = 1 ? " &lt;&lt; c &lt;&lt; "\n";
+
+     double y = integrate(_range=elements( heat-&gt;mesh()), _expr= phiExpr * idv(u_true)).evaluate()(0,0);
+     y_obs.push_back(y);
+
+     auto qm = heat-&gt;spaceTemperature()-&gt;element("qm" );
+     auto v = heat-&gt;spaceTemperature()-&gt;element( );
+
+     auto l = form1( _test= heat-&gt;spaceTemperature());
+     l = integrate(_range=elements( heat-&gt;mesh()), _expr= phiExpr * id(v));
+
+     auto a = form2( _trial=heat-&gt;spaceTemperature(), _test=heat-&gt;spaceTemperature());
+     a = integrate(_range=elements( heat-&gt;mesh()), _expr= inner(gradt(qm),grad(v)));
+     a += integrate(_range=elements( heat-&gt;mesh()), _expr= inner(idt(qm),id(v)));
+
+
+     a.solve(_rhs=l,_solution=qm);
+     UM[i] = qm;
+     std::cout &lt;&lt; " UM " &lt;&lt; UM[i].size() &lt;&lt; " vs " &lt;&lt; qm.size() &lt;&lt; "\n";
+     std::cout &lt;&lt; " UM " &lt;&lt; UM[i].sum() &lt;&lt; " vs " &lt;&lt; qm.sum() &lt;&lt; "\n";
+   }
+
+
+   //Build matrice PBDW//////////////////////////////////////////////////////////////////////////
+   //int M = coords.size();
+   //int N = ZN_orthn.size();
+   using Eigen::MatrixXd;
+   MatrixXd A(M,M);
+   for(int i=0; i&lt;M; i++)
+   {
+     for(int j=0; j&lt;M; j++)
+         A(i,j) = produitscalair(heat,UM[j], UM[i]);
+   }
+   std::cout &lt;&lt; "A = \n" &lt;&lt; A &lt;&lt; "\n";
+
+   MatrixXd B(M,N);
+   for(int i=0; i&lt;M; i++)
+   {
+     for(int j=0; j&lt;N; j++)
+       B(i,j) = produitscalair(heat,ZN_orthn[j], UM[i]);
+   }
+   std::cout &lt;&lt; "B = \n"  &lt;&lt; B &lt;&lt; "\n";
+
+
+   MatrixXd K(M+N,M+N);
+   K.setZero();
+   K.block(0,0,M,M) = A;
+   K.block(0,M,M,N) = B;
+   K.block(M,0,N,M) = B.transpose();
+   std::cout &lt;&lt; "K = \n"  &lt;&lt; K &lt;&lt; "\n";
+
+
+   //Solve PBDW//////////////////////////////////////////////////////////////////////////
+   MatrixXd Y(M+N,1);
+   Y.setZero();
+   for(int i=0; i&lt;M; i++)
+     Y(i,0)=y_obs[i];
+   std::cout &lt;&lt; "Y = \n"  &lt;&lt; Y &lt;&lt; "\n";
+
+
+   toc("offline");
+
+   Eigen::EigenSolver&lt;MatrixXd&gt; esK(K);
+   std::cout &lt;&lt; "The eigenvalues of K are:" &lt;&lt; endl &lt;&lt; esK.eigenvalues() &lt;&lt; endl;
+   std::cout &lt;&lt; "The matrix of eigenvectors, V, is:" &lt;&lt; endl &lt;&lt; esK.eigenvectors() &lt;&lt; endl &lt;&lt; endl;
+
+   std::vector&lt; double &gt; lambdaK;
+   for(int i=0; i&lt; N+M; i++   )
+   {
+     lambdaK.push_back(esK.eigenvalues()[i].real());
+     std::cout &lt;&lt; "lambda_K = \n"  &lt;&lt; lambdaK.back() &lt;&lt; "\n";
+   }
+
+   double lambdaK_min = *std::min_element(lambdaK.begin(), lambdaK.end());
+   double lambdaK_max = *std::max_element(lambdaK.begin(), lambdaK.end());
+   double cond_K = std::abs(lambdaK_max)/std::abs(lambdaK_min);
+   std::cout &lt;&lt; "Cond(K) = "  &lt;&lt; cond_K &lt;&lt; "\n";
+
+   tic();
+   MatrixXd S(M+N,1);
+   S = K.inverse()*Y;
+   std::cout &lt;&lt; "S = \n"  &lt;&lt; S &lt;&lt; "\n";
+
+   //Output//////////////////////////////////////////////////////////////////////////
+   MatrixXd eta(M,1);
+   //eta = S.block(0,0,M,0);
+   for (int i=0; i&lt;M; i++)
+     eta(i,0)=S(i,0);
+   MatrixXd z(N,1);
+   //z = S.block(M,0,N,0);
+   for (int i=0; i&lt;N; i++)
+     z(i,0)=S(i+M,0);
+
+   std::cout &lt;&lt; "z = \n"  &lt;&lt; z &lt;&lt; "\n";
+   std::cout &lt;&lt; "eta = \n"  &lt;&lt; eta &lt;&lt; "\n";
+
+
+ auto u_MN = heat-&gt;spaceTemperature()-&gt;element();
+ for(int i=0; i&lt;M; i++)
+     u_MN += heat-&gt;spaceTemperature()-&gt;element(eta(i,0)*idv(UM[i]));
+
+ for(int i=0; i&lt;N; i++)
+     u_MN += heat-&gt;spaceTemperature()-&gt;element(z(i,0)*idv(ZN_orthn[i]));
+
+ toc("online");
+ ////Stability coefficient//////////////////////////////////////////
+ tic();
+ MatrixXd C(N,N);
+ for(int i=0; i&lt;N; i++)
+ {
+   for(int j=0; j&lt;N; j++)
+     C(i,j) = produitscalair(heat,ZN_orthn[i], ZN_orthn[j]);
+ }
+ std::cout &lt;&lt; "C = \n"  &lt;&lt; C &lt;&lt; "\n";
+
+ MatrixXd K1(N,N);
+ K1 = (B.transpose() * A.inverse() * B ) * C.inverse();
+ std::cout &lt;&lt; "K1 = \n"  &lt;&lt; K1 &lt;&lt; "\n";
+
+ Eigen::EigenSolver&lt;MatrixXd&gt; es(K1);
+ std::cout &lt;&lt; "The eigenvalues of K1 are:" &lt;&lt; endl &lt;&lt; es.eigenvalues() &lt;&lt; endl;
+ std::cout &lt;&lt; "The matrix of eigenvectors, V, is:" &lt;&lt; endl &lt;&lt; es.eigenvectors() &lt;&lt; endl &lt;&lt; endl;
+
+ std::vector&lt; double &gt; lambda;
+ for(int i=0; i&lt; N; i++   )
+ {
+   lambda.push_back(es.eigenvalues()[i].real());
+   //std::cout &lt;&lt; "lambda = \n"  &lt;&lt; lambda.back() &lt;&lt; "\n";
+ }
+
+ double lambda_min = *std::min_element(lambda.begin(), lambda.end());
+ double beta = std::sqrt(lambda_min);
+ //std::cout &lt;&lt; "lambda_min = "  &lt;&lt; lambda_min &lt;&lt; "\n";
+ std::cout &lt;&lt; "beta = "  &lt;&lt; beta &lt;&lt; "\n";
+
+
+   /////priori error/////////////////////////////////////////////////////////
+   double l2 = normL2(_range=elements(heat-&gt;mesh()), _expr=idv(u_true)-idv(u_MN) );
+   double h1 = normH1(_range=elements(heat-&gt;mesh()), _expr=idv(u_true)-idv(u_MN), _grad_expr=gradv(u_true)-gradv(u_MN));
+   //std::cout &lt;&lt; "h1 = "  &lt;&lt; h1 &lt;&lt; "\n";
+   double c_l2 = normL2(_range=elements(heat-&gt;mesh()), _expr=idv(u_true) );
+   //std::cout &lt;&lt; "c_l2 = "  &lt;&lt; c_l2 &lt;&lt; "\n";
+   double e_l2 = (1./c_l2) * l2;
+   std::cout &lt;&lt; "err_l2 = "  &lt;&lt; e_l2 &lt;&lt; "\n";
+   double c_h1 = normH1(_range=elements(heat-&gt;mesh()), _expr=idv(u_true), _grad_expr=gradv(u_true) );
+   //std::cout &lt;&lt; "c_h1 = "  &lt;&lt; c_h1 &lt;&lt; "\n";
+   double e_h1 = (1./c_h1) * h1;
+   std::cout &lt;&lt; "err_h1 = "  &lt;&lt; e_h1 &lt;&lt; "\n";
+
+
+   ///boundary error///////////////////////////////////////////////////////
+   std::vector&lt; double &gt; err_h1;
+   std::vector&lt; double &gt; err_l2;
+   for(int i=0; i&lt;N; i++)
+   {
+     for(int j=0; j&lt;M; j++)
+     {
+       err_h1.push_back(normH1(_range=elements(heat-&gt;mesh()),
+       _expr=idv(u_true)-idv(ZN_orthn[i]) - idv(UM[j]), _grad_expr=gradv(u_true)-gradv(ZN_orthn[i]) - gradv(UM[j])));
+
+       err_l2.push_back(normL2(_range=elements(heat-&gt;mesh()), _expr=idv(u_true)-idv(ZN_orthn[i]) - idv(UM[j]) ));
+     }
+   }
+   double min_h1 = *std::min_element(err_h1.begin(), err_h1.end());
+   double min_l2 = *std::min_element(err_l2.begin(), err_l2.end());
+
+   double best_fit_l2 = (1./c_l2) * min_l2;
+   std::cout &lt;&lt; "best_fit_l2 = "  &lt;&lt; best_fit_l2 &lt;&lt; "\n";
+   double bound_l2 = (1 + 1./beta) * best_fit_l2;
+   std::cout &lt;&lt; "bound_l2 = "  &lt;&lt; bound_l2 &lt;&lt; "\n";
+
+   double best_fit_h1 = (1./c_h1) * min_h1;
+   std::cout &lt;&lt; "best_fit_h1 = "  &lt;&lt; best_fit_h1 &lt;&lt; "\n";
+   double bound_h1 = (1 + 1./beta) * best_fit_h1;
+   std::cout &lt;&lt; "bound_h1 = "  &lt;&lt; bound_h1 &lt;&lt; "\n";
+
+
+   toc("beta");
+   ///save solution///////////////////////////////////////////////////////////////
+   auto g = exporter( _mesh=heat-&gt;mesh(),_name="u_true" );
+   g -&gt; add("u_true", u_true);
+   g-&gt;save();
+
+   auto u_err = heat-&gt;spaceTemperature()-&gt;element();
+   for(int i = 0; i&lt;u_true.size(); i++)
+     u_err[i] = std::log(std::abs(u_true[i] - u_MN[i]));
+   auto er = exporter( _mesh=heat-&gt;mesh(), _name="u_err");
+   er -&gt; add("u_err", u_err);
+   er-&gt;save();
+
+
+   auto d = exporter( _mesh=heat-&gt;mesh(),_name="u_h" );
+   for(int i = 0; i &lt; ZN.size(); i++)
+       d-&gt;add( (boost::format("Z_%1%")%i).str(), ZN[i] );
+   d-&gt;save();
+
+   auto q = exporter( _mesh=heat-&gt;mesh(),_name="qm" );
+   for(int i = 0; i &lt; UM.size(); i++)
+       q-&gt;add( (boost::format("q_%1%")%i).str(), UM[i] );
+   q-&gt;save();
+
+   auto n = exporter( _mesh=heat-&gt;mesh(),_name="Znorthn" );
+   for(int i = 0; i &lt; ZN_orthn.size(); i++)
+       n-&gt;add( (boost::format("Znorthn_%1%")%i).str(), ZN_orthn[i] );
+   n-&gt;save();
+
+   auto e = exporter( _mesh=heat-&gt;mesh(), _name="u_MN");
+   e -&gt; add("solution PBDW", u_MN);
+   e-&gt;save();
+
+   auto QM = heat-&gt;spaceTemperature()-&gt;element();
+   for(int i=0; i&lt;UM.size(); i++)
+       QM += UM[i];
+   auto f = exporter( _mesh=heat-&gt;mesh(),_name="qm_total" );
+   f-&gt;add("qm_total", QM);
+   f-&gt;save();
+
+
+   auto gg = exporter( _mesh=heat-&gt;mesh(),_name="sensor_location" );
+   gg-&gt;add("sensor", capteur);
+   gg-&gt;save();
+
+   auto u_velocity = heatFluid-&gt;fluidModel()-&gt;fieldVelocity();
+   auto h = exporter( _mesh=heat-&gt;mesh(),_name="u_velocity" );
+   h-&gt;add("u_velocity", u_velocity);
+   h-&gt;save();
+
+
+
+   std::cout &lt;&lt; "============================================================\n";
+
+   return 0;
+}</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">aero.json</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">     // -*- mode: javascript -*-
-     {
-         "Name": "Thermo dynamics",
-         "ShortName":"ThermoDyn",
-         "Parameters":
-         {
-     	"T_heater":310,
-     	"T_ext":280,
-       "h":0.1
-         },
-         "Models":
-         {
-     	"use-model-name":1,
-     	"fluid":
-     	{
-     	    "equations": "Navier-Stokes"
-     	}
-         },
-         "Materials":
-         {
-             "air":
-             {
-     	    "markers":["air"],
-                 "physics":["fluid","heat"],
-                 "rho":"1",
-                 "mu":"2.65e-2",
-                 "k":"0.03",
-                 "Cp":"1004",
-                 "beta":"0.003660" //0.00006900
-             }
-         },
-         "BoundaryConditions":
-         {
-             "velocity":
-             {
-                 "Dirichlet":
-                 {
-                     "exterior-walls": { "expr":"{0,0}" },
-                     "heater1": { "expr":"{0,0}" }
-                 }
-             },
-             "temperature":
-             {
-                 "Dirichlet":
-                 {
-                     "heater1": { "expr":"T_heater:T_heater" }
-                 },
-                 "Robin":
-                 {
-                     "exterior-walls":
-                     {
-                         "expr1":"h:h",// h coeff
-                         "expr2":"T_ext:T_ext"// temperature exterior
-                     }
-
-                 }
-             }
-         },
-         "PostProcess":
-         {
-     	"use-model-name":1,
-     	"heat-fluid":
-     	{
-     	    "Exports":
-     	    {
-     		"fields":["fluid.velocity","fluid.pressure","heat.temperature","fluid.pid"]
-     	    }
-     	},
-     	"fluid":
-     	{
-     	},
-     	"heat":
-     	{
-     	    "Measures":
-     	    {
-     		"Points":
-     		{
-     		    "pointA":
-     		    {
-     			"coord":"{0.05,0.25}",
-     			"fields":"temperature"
-     		    },
-     		    "pointB":
-     		    {
-     			"coord":"{0.55,0.25}",
-     			"fields":"temperature"
-     		    },
-     		    "pointC":
-     		    {
-       			"coord":"{1.05,0.25}",
-       			"fields":"temperature"
-     		    },
-     		    "pointD":
-     		    {
-       			"coord":"{1.55,0.25}",
-       			"fields":"temperature"
-     		    },
-     		    "pointE":
-     		    {
-       			"coord":"{0.05,0.5}",
-       			"fields":"temperature"
-     		    },
-     		    "pointF":
-     		    {
-       			"coord":"{0.55,0.5}",
-       			"fields":"temperature"
-     		    },
-     		    "pointG":
-     		    {
-       			"coord":"{1.05,0.5}",
-       			"fields":"temperature"
-     		    },
-     		    "pointH":
-     		    {
-       			"coord":"{1.55,0.5}",
-       			"fields":"temperature"
-     		    },
-     		    "pointI":
-     		    {
-       			"coord":"{0.05,0.75}",
-       			"fields":"temperature"
-     		    },
-     		    "pointK":
-     		    {
-       			"coord":"{0.55,0.75}",
-       			"fields":"temperature"
-     		    },
-     		    "pointL":
-     		    {
-       			"coord":"{1.05,0.75}",
-       			"fields":"temperature"
-     		    },
-     		    "pointM":
-     		    {
-       			"coord":"{1.55,0.75}",
-       			"fields":"temperature"
-     		    }
-     		}
-     	    }
-     	}
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// -*- mode: javascript -*-
+{
+  "Name": "Thermo dynamics",
+  "ShortName":"ThermoDyn",
+  "Parameters":
+  {
+    "T_heater":310,
+    "T_ext":280,
+    "h":0.1
+  },
+  "Models":
+  {
+    "use-model-name":1,
+    "fluid":
+    {
+      "equations": "Navier-Stokes"
+    }
+  },
+  "Materials":
+  {
+    "air":
+    {
+      "markers":["air"],
+      "physics":["fluid","heat"],
+      "rho":"1",
+      "mu":"2.65e-2",
+      "k":"0.03",
+      "Cp":"1004",
+      "beta":"0.003660" //0.00006900
+    }
+  },
+  "BoundaryConditions":
+  {
+    "velocity":
+    {
+      "Dirichlet":
+      {
+        "exterior-walls": { "expr":"{0,0}" },
+        "heater1": { "expr":"{0,0}" }
+      }
+    },
+    "temperature":
+    {
+      "Dirichlet":
+      {
+        "heater1": { "expr":"T_heater:T_heater" }
+      },
+      "Robin":
+      {
+        "exterior-walls":
+        {
+          "expr1":"h:h",// h coeff
+          "expr2":"T_ext:T_ext"// temperature exterior
          }
-     }</code></pre>
+      }
+    }
+  },
+  "PostProcess":
+  {
+    "use-model-name":1,
+    "heat-fluid":
+    {
+      "Exports":
+      {
+        "fields":["fluid.velocity","fluid.pressure","heat.temperature","fluid.pid"]
+      }
+    },
+    "fluid":
+    {
+    },
+    "heat":
+    {
+      "Measures":
+      {
+        "Points":
+        {
+          "pointA":
+          {
+            "coord":"{0.05,0.25}",
+            "fields":"temperature"
+          },
+          "pointB":
+          {
+            "coord":"{0.55,0.25}",
+            "fields":"temperature"
+          },
+          "pointC":
+          {
+            "coord":"{1.05,0.25}",
+            "fields":"temperature"
+          },
+          "pointD":
+          {
+            "coord":"{1.55,0.25}",
+            "fields":"temperature"
+          },
+          "pointE":
+          {
+            "coord":"{0.05,0.5}",
+            "fields":"temperature"
+          },
+          "pointF":
+          {
+            "coord":"{0.55,0.5}",
+            "fields":"temperature"
+          },
+          "pointG":
+          {
+            "coord":"{1.05,0.5}",
+            "fields":"temperature"
+          },
+          "pointH":
+          {
+            "coord":"{1.55,0.5}",
+            "fields":"temperature"
+          },
+          "pointI":
+          {
+            "coord":"{0.05,0.75}",
+            "fields":"temperature"
+          },
+          "pointK":
+          {
+            "coord":"{0.55,0.75}",
+            "fields":"temperature"
+          },
+          "pointL":
+          {
+            "coord":"{1.05,0.75}",
+            "fields":"temperature"
+          },
+          "pointM":
+          {
+            "coord":"{1.55,0.75}",
+            "fields":"temperature"
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1884,114 +1895,113 @@ u^{bk}_N(\textbf{p}) = \sum^{N}_{i=1}\beta_i(\textbf{p}) u^{bk}_N(\textbf{p}_i)
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// -*- mode: javascript -*-
 {
-    "Name": "Thermo dynamics",
-    "ShortName":"ThermoDyn",
-    "Parameters":
+  "Name": "Thermo dynamics",
+  "ShortName":"ThermoDyn",
+  "Parameters":
+  {
+    "T_heater":310,
+    "T_ext":280
+  },
+  "Materials":
+  {
+    "air":
     {
-	"T_heater":310,
-	"T_ext":280
-    },
-    "Materials":
+      "markers":["air"],
+      "physics":["fluid","heat"],
+      "rho":"1",
+      "mu":"2.65e-2",
+      "k":"0.03",
+      "Cp":"1004",
+      "beta":"0.003660" //0.00006900
+    }
+  },
+  "BoundaryConditions":
+  {
+    "temperature":
     {
-        "air":
+      "Dirichlet":
+      {
+        "heater1": { "expr":"T_heater:T_heater" }
+      },
+      "Robin":
+      {
+        "exterior-walls":
         {
-	    "markers":["air"],
-            "physics":["fluid","heat"],
-            "rho":"1",
-            "mu":"2.65e-2",
-            "k":"0.03",
-            "Cp":"1004",
-            "beta":"0.003660" //0.00006900
+          "expr1":"1.0/(0.06+0.01/0.5 + 0.3/0.8 + 0.20/0.032 +0.016/0.313 +0.14)",// h coeff
+          "expr2":"T_ext:T_ext"// temperature exterior
         }
-    },
-    "BoundaryConditions":
+      }
+    }
+  },
+  "PostProcess":
+  {
+    "Measures":
     {
-        "temperature":
-        {
-            "Dirichlet":
-            {
-                "heater1": { "expr":"T_heater:T_heater" }
-            },
-            "Robin":
-            {
-                "exterior-walls":
-                {
-                    "expr1":"1.0/(0.06+0.01/0.5 + 0.3/0.8 + 0.20/0.032 +0.016/0.313 +0.14)",// h coeff
-                    "expr2":"T_ext:T_ext"// temperature exterior
-                }
-
-            }
-        }
-    },
-    "PostProcess":
-    {
-	"Measures":
-	{
-	    "Points":
-	    {
+      "Points":
+      {
         "pointA":
         {
-        "coord":"{0.05,0.25}",
-        "fields":"temperature"
+          "coord":"{0.05,0.25}",
+          "fields":"temperature"
         },
         "pointB":
         {
-        "coord":"{0.55,0.25}",
-        "fields":"temperature"
+          "coord":"{0.55,0.25}",
+          "fields":"temperature"
         },
         "pointC":
         {
-        "coord":"{1.05,0.25}",
-        "fields":"temperature"
+          "coord":"{1.05,0.25}",
+          "fields":"temperature"
         },
         "pointD":
         {
-        "coord":"{1.55,0.25}",
-        "fields":"temperature"
+          "coord":"{1.55,0.25}",
+          "fields":"temperature"
         },
         "pointE":
         {
-        "coord":"{0.05,0.5}",
-        "fields":"temperature"
+          "coord":"{0.05,0.5}",
+          "fields":"temperature"
         },
         "pointF":
         {
-        "coord":"{0.55,0.5}",
-        "fields":"temperature"
+          "coord":"{0.55,0.5}",
+          "fields":"temperature"
         },
         "pointG":
         {
-        "coord":"{1.05,0.5}",
-        "fields":"temperature"
+          "coord":"{1.05,0.5}",
+          "fields":"temperature"
         },
         "pointH":
         {
-        "coord":"{1.55,0.5}",
-        "fields":"temperature"
+          "coord":"{1.55,0.5}",
+          "fields":"temperature"
         },
         "pointI":
         {
-        "coord":"{0.05,0.75}",
-        "fields":"temperature"
+          "coord":"{0.05,0.75}",
+          "fields":"temperature"
         },
         "pointK":
         {
-        "coord":"{0.55,0.75}",
-        "fields":"temperature"
+          "coord":"{0.55,0.75}",
+          "fields":"temperature"
         },
         "pointL":
         {
-        "coord":"{1.05,0.75}",
-        "fields":"temperature"
+          "coord":"{1.05,0.75}",
+          "fields":"temperature"
         },
         "pointM":
         {
-        "coord":"{1.55,0.75}",
-        "fields":"temperature"
+          "coord":"{1.55,0.75}",
+          "fields":"temperature"
         }
-	    }
-	}
+      }
     }
+  }
 }</code></pre>
 </div>
 </div>

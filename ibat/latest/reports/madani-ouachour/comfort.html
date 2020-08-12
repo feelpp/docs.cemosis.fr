@@ -148,7 +148,7 @@ MathJax.Hub.Config({
                   
               <a class="navbar-item" href="/holo3/latest/index.html"> Holo3 </a>
                     
-              <a class="navbar-item" href="/ibat/latest/index.html"> IBat </a>
+              <a class="navbar-item" href="/ibat/latest/index.html"> IBat Docs </a>
                   
               <a class="navbar-item" href="/msqab/0.1/index.html"> msqab </a>
                   
@@ -202,8 +202,15 @@ MathJax.Hub.Config({
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
   <nav class="nav-menu">
-    <h3 class="title"><a href="../../index.html">IBat</a></h3>
+    <h3 class="title"><a href="../../index.html">IBat Docs</a></h3>
 <ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../index.html">Introduction</a>
+  </li>
+</ul>
+  </li>
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
@@ -460,10 +467,16 @@ MathJax.Hub.Config({
     <a class="nav-link" href="../romain-vallet/geometry.html">Geometry tools</a>
   </li>
   <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../romain-vallet/random.html">Probability tools</a>
+  </li>
+  <li class="nav-item" data-depth="3">
     <a class="nav-link" href="../romain-vallet/moose.html">Details of MOOSE</a>
   </li>
   <li class="nav-item" data-depth="3">
     <a class="nav-link" href="../romain-vallet/visonaray.html">Detail of Visonaray</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../romain-vallet/implementation.html">Implementation of Monte Carlo</a>
   </li>
   <li class="nav-item" data-depth="3">
     <a class="nav-link" href="../romain-vallet/benchmarks.html">Benchmarks</a>
@@ -503,7 +516,7 @@ MathJax.Hub.Config({
 </div>
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
-    <span class="title">IBat</span>
+    <span class="title">IBat Docs</span>
     <span class="version">latest</span>
   </div>
   <ul class="components">
@@ -575,7 +588,7 @@ MathJax.Hub.Config({
       </ul>
     </li>
     <li class="component is-current">
-      <span class="title">IBat</span>
+      <span class="title">IBat Docs</span>
       <ul class="versions">
         <li class="version is-current is-latest">
           <a href="../../index.html">latest</a>
@@ -609,7 +622,7 @@ MathJax.Hub.Config({
   <a href="../../../../cemosis/latest/index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
-    <li><a href="../../index.html">IBat</a></li>
+    <li><a href="../../index.html">IBat Docs</a></li>
     <li><a href="../index.html">Reports</a></li>
     <li><a href="index.html">Sarra and Hanane&#8217;s Report</a></li>
     <li><a href="comfort.html">Comfort and discomfort criteria</a></li>
@@ -629,7 +642,9 @@ MathJax.Hub.Config({
 <p>Energy optimization in buildings is considered a major area of interest in the modern era of scientific research. Energy consumption in buildings has increased from \(24\%\) to \(40\%\) in developed countries. A significant amount of this energy is used to provide a sufficient level of comfort for the building&#8217;s occupants. Moreover, given recent increases in global temperatures due to climate change and the associated decrease in comfort levels, it is increasingly important to provide adequate levels of comfort in indoor spaces. However, finding a balance between reducing the energy consumption of buildings and providing adequate levels of comfort is a major challenge (cf.<a href="#Gilani2015">[Gilani2015]</a>)</p>
 </div>
 <div class="paragraph">
-<p>According to ASHRAE Standard 55, thermal comfort is defined as the condition of mind that expresses satisfaction with the thermal environment and is estimated by subjective evaluation. The World Health Organization (WHO) also defines thermal comfort as the condition when people are satisfied with the thermal environment. There are two well-known thermal comfort models that are used internationally to establish the thermal comfort conditions in a building(cf.<a href="#Sarah2015">[Sarah2015]</a>):</p>
+<p>According to <a href="#ASHRAE2004">ASHRAE Standard 55</a>, thermal comfort is defined as the condition of mind that expresses satisfaction with the thermal environment and is estimated by subjective evaluation.
+The World Health Organization (WHO) also defines thermal comfort as the condition when people are satisfied with the thermal environment.
+There are two well-known thermal comfort models that are used internationally to establish the thermal comfort conditions in a building(cf.<a href="#Sarah2015">[Sarah2015]</a>):</p>
 </div>
 <div class="ulist">
 <ul>
@@ -981,16 +996,36 @@ use the values obtained by the captors installed in the building and for the par
 </div>
 </div>
 <div class="sect1">
-<h2 id="_reference"><a class="anchor" href="#_reference"></a>Reference</h2>
+<h2 id="_references"><a class="anchor" href="#_references"></a>References</h2>
 <div class="sectionbody">
 <div class="ulist bibliography">
 <ul class="bibliography">
 <li>
-<p><a id="Gilani2015"></a>[Gilani2015]Syed Ihtsham ul Haq Gilani, Muhammad Hammad Khan and William Pao, Thermal comfort analysis of PMV model Prediction in Air
-conditioned and Naturally Ventilated Buildings,2015.</p>
+<p><a id="Allab17"></a>[Allab17] Allab, Yacine. <em>Building ventilation performance assessement : ventilation efficiency and thermal comforT</em>. PhD thesis, École nationale supérieure d&#8217;arts et métiers, 2017</p>
 </li>
 <li>
-<p><a id="Sarah2015"></a>[Sarah2015]Sarah Benharkat and Djamila Rouag-Saffidine, Approche adaptative du confort thermique dans les espaces d’enseignement universitaire à Constantine,2015</p>
+<p><a id="ASHRAE2004"></a>[ASHRAE2004] <em>ANSI/ASHRAE Standard 55. Thermal Environment Conditions for Human Occupancy</em>, 2004.</p>
+</li>
+<li>
+<p><a id="Candas2000"></a>[Candas2000] Candas, V., <em>Traité Génie énergeétique</em>, Techniques de l&#8217;Ingénieur, Doc. BE 9 085, 2000.</p>
+</li>
+<li>
+<p><a id="Cannistraro1992"></a>[Cannistraro1992] Cannistraro, G., Franzitta, G., and Giaconia, C., <em>Algorithms for the calculation of the view factors between human body and rectangular surfaces in parallelepiped environments</em>, Energy and Buildings, 19(1992) 51-60</p>
+</li>
+<li>
+<p><a id="Djongyang2010"></a>[Djongyang2010] Djongyang, N., Tchinda, R., and Njomo, D. <em>Thermal comfort: A review paper</em>, Renewable and Sustainable Energy Reviews 14 (2010) 2626–2640.</p>
+</li>
+<li>
+<p><a id="Gilani2015"></a>[Gilani2015] Syed Ihtsham ul Haq Gilani, Muhammad Hammad Khan and William Pao, Thermal comfort analysis of PMV model Prediction in Air conditioned and Naturally Ventilated Buildings,2015.</p>
+</li>
+<li>
+<p><a id="Hensen1991"></a>[Hensen1991] Hensen J. L. M., <em>On the thermal interaction of building structure and heating and ventilating system</em>, PhD thesis, Technische Universiteit Eindhoven; 1991. <a href="../_attachments/hensen_thesis.pdf">Download PDF</a></p>
+</li>
+<li>
+<p><a id="ISO-7730"></a>[ISO-7730] <em>Ergonomics of the thermal environment — Analytical determination and interpretation of thermal comfort using calculation of the PMV and PPD indices and local thermal comfort criteria</em></p>
+</li>
+<li>
+<p><a id="Sarah2015"></a>[Sarah2015] Sarah Benharkat and Djamila Rouag-Saffidine, Approche adaptative du confort thermique dans les espaces d’enseignement universitaire à Constantine,2015</p>
 </li>
 </ul>
 </div>
