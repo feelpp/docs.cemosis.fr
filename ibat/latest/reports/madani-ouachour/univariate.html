@@ -150,7 +150,7 @@ MathJax.Hub.Config({
                     
               <a class="navbar-item" href="/ibat/latest/index.html"> IBat Docs </a>
                   
-              <a class="navbar-item" href="/msqab/0.1/index.html"> msqab </a>
+              <a class="navbar-item" href="/msqab/latest/index.html"> msqab </a>
                   
               <a class="navbar-item" href="/swimmer/latest/index.html"> Swimmer Docs </a>
                
@@ -599,7 +599,7 @@ MathJax.Hub.Config({
       <span class="title">msqab</span>
       <ul class="versions">
         <li class="version is-latest">
-          <a href="../../../../msqab/0.1/index.html">0.1</a>
+          <a href="../../../../msqab/latest/index.html">latest</a>
         </li>
       </ul>
     </li>
@@ -774,18 +774,18 @@ x_val_uni, y_val_uni = univariate_data(uni_data, TRAIN_SPLIT, None,
 <h2 id="_baseline"><a class="anchor" href="#_baseline"></a>2. Baseline</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Before proceeding to train a model, a simple baseline was first established. Given an input point, the baseline method looks at all the history (the information given to the network is given in pink, and it must predict the value at the red cross) and predicts the next point to be the average of the last 20 observations ():</p>
+<p>Before proceeding to train a model, a simple baseline was first established. Given an input point, the baseline method looks at all the history (the information given to the network is given in pink, and it must predict the value at the red cross) and predicts the next point to be the average of the last 20 observations :</p>
 </div>
 <div id="baseline"></div>
 <script type="text/javascript">
-    Plotly.d3.csv("https://girder.math.unistra.fr/api/v1/file/5f31407bb0e95704a75f8621/download",
+    Plotly.d3.csv("https://girder.math.unistra.fr/api/v1/file/5f33ffc0b0e95704a75f8689/download",
     function(err,rows) {
             var data = [{
                 name: 'History',
                 type: 'scatter',
                 mode: 'lines+markers',
-                x: feelpp_unpack(rows,'Time Step'),
-                y: feelpp_unpack(rows,'Temperature'),
+                x: feelpp_unpack(rows,'date_format'),
+                y: feelpp_unpack(rows,'Temperature history'),
                 showlegend: true,
                 line: { color: '#FF99BB' }
             },{
@@ -794,9 +794,9 @@ x_val_uni, y_val_uni = univariate_data(uni_data, TRAIN_SPLIT, None,
                 mode: 'markers',
                 marker : {
                   color: 'red',
-                  symbol: 'x' },
-                x: [0],
-                y: [26.79553992336018],
+                  symbol: 'o' },
+                x: feelpp_unpack(rows,'Future'),
+                y: feelpp_unpack(rows,'True future'),
                 showlegend: true,
             },{
                 name: 'Model Prediction',
@@ -805,19 +805,19 @@ x_val_uni, y_val_uni = univariate_data(uni_data, TRAIN_SPLIT, None,
                 marker : {
                   color: 'blue',
                   symbol: 'x' },
-                x: [0],
-                y: [27.363905662804875],
+                x: feelpp_unpack(rows,'Future'),
+                y: feelpp_unpack(rows,'Predicition'),
                 showlegend: true,
             }];
             var layout =
                     {
                     xaxis:
                     { showgrid: true,
-                      zeroline: false,
+                      zeroline: true,
                       showline: true,
                       automargin: true,
                       title: {
-                              text: "Time Step",
+                              text: "Date",
                               standoff: 20
                               }
                     },
@@ -850,7 +850,7 @@ x_val_uni, y_val_uni = univariate_data(uni_data, TRAIN_SPLIT, None,
 <div class="sect2">
 <h3 id="_shuffling_batching_and_caching_data"><a class="anchor" href="#_shuffling_batching_and_caching_data"></a>3.1. Shuffling , batching and caching data</h3>
 <div class="paragraph">
-<p>We used \(tf.data\) to shuffle, batch, and cache the dataset:</p>
+<p>We used <strong>tf.data</strong> to shuffle, batch, and cache the dataset:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -947,7 +947,7 @@ history=simple_lstm_model.fit(train_univariate, epochs=EPOCHS, steps_per_epoch=T
 </div>
 <div id="uni_loss"></div>
 <script type="text/javascript">
-    Plotly.d3.csv("https://girder.math.unistra.fr/api/v1/file/5f31c670b0e95704a75f863c/download",
+    Plotly.d3.csv("https://girder.math.unistra.fr/api/v1/file/5f3408eab0e95704a75f868b/download",
     function(err,rows) {
             var data = [{
                 name: 'Training loss',
@@ -970,7 +970,7 @@ history=simple_lstm_model.fit(train_univariate, epochs=EPOCHS, steps_per_epoch=T
                     {
                     xaxis:
                     { showgrid: true,
-                      zeroline: false,
+                      zeroline: true,
                       showline: true,
                       automargin: true,
                       title: {
@@ -993,6 +993,214 @@ history=simple_lstm_model.fit(train_univariate, epochs=EPOCHS, steps_per_epoch=T
     Plotly.plot("uni_loss",data,layout,{ showLink: false });
 
     feelpp_add_redimensionable_plot("uni_loss");
+    }
+    );
+</script>
+<div class="paragraph">
+<p>We notice that the two graphs have the same behavior:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>a strong decrease in the value of the <strong>loss</strong> (which represents the root mean square error <strong>RMSE</strong>) from the 1st epoch with a value of \(0.2657\) for the training space and a value of \(0.2057\) for the validation space, to the 4th epoch with a value of \(0.0769\) for the training space and a value of \(0.0868\) for the validation space.</p>
+</li>
+<li>
+<p>a slight decrease in the value of the loss over the course of the epochs from the 5th epoch onwards, converging to a value of \(0.06\).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Having obtained a low loss value, we then conclude that the model created is well and will be able to efficiently predict the value of the temperature at time \(t\) based on the last \(20\) observations.</p>
+</div>
+<div class="paragraph">
+<p>After inputting our simple LSTM model, we confirm the last observation by making some predictions :</p>
+</div>
+<div id="sample_example_1"></div>
+<script type="text/javascript">
+    Plotly.d3.csv("https://girder.math.unistra.fr/api/v1/file/5f33ff62b0e95704a75f8681/download",
+    function(err,rows) {
+            var data = [{
+                name: 'History',
+                type: 'scatter',
+                mode: 'lines+markers',
+                x: feelpp_unpack(rows,'date_format'),
+                y: feelpp_unpack(rows,'Temperature history'),
+                showlegend: true,
+                line: { color: '#FF99BB' }
+            },{
+                name: 'True future',
+                type: 'scatter',
+                mode: 'markers',
+                marker : {
+                  color: 'red',
+                  symbol: 'o' },
+                x: feelpp_unpack(rows,'Future'),
+                y: feelpp_unpack(rows,'True future'),
+                showlegend: true,
+            },{
+                name: 'Model Prediction',
+                type: 'scatter',
+                mode: 'markers',
+                marker : {
+                  color: 'blue',
+                  symbol: 'x' },
+                x: feelpp_unpack(rows,'Future'),
+                y: feelpp_unpack(rows,'Predicition'),
+                showlegend: true,
+            }];
+            var layout =
+                    {
+                    xaxis:
+                    { showgrid: true,
+                      zeroline: true,
+                      showline: true,
+                      automargin: true,
+                      title: {
+                              text: "Date",
+                              standoff: 20
+                              }
+                    },
+                    yaxis:
+                    {  showgrid: true,
+                       zeroline: true,
+                       showline: true,
+                       automargin: true,
+                       title: {
+                               text: "Temperature(°C)",
+                               standoff: 20
+                               }
+                    },
+                    title: 'Prediction of temperature with the LSTM model'
+    };
+    Plotly.plot("sample_example_1",data,layout,{ showLink: false });
+
+    feelpp_add_redimensionable_plot("sample_example_1");
+    }
+    );
+</script>
+<div id="sample_example_2"></div>
+<script type="text/javascript">
+    Plotly.d3.csv("https://girder.math.unistra.fr/api/v1/file/5f33ff62b0e95704a75f8684/download",
+    function(err,rows) {
+            var data = [{
+                name: 'History',
+                type: 'scatter',
+                mode: 'lines+markers',
+                x: feelpp_unpack(rows,'date_format'),
+                y: feelpp_unpack(rows,'Temperature history'),
+                showlegend: true,
+                line: { color: '#FF99BB' }
+            },{
+                name: 'True future',
+                type: 'scatter',
+                mode: 'markers',
+                marker : {
+                  color: 'red',
+                  symbol: 'o' },
+                x: feelpp_unpack(rows,'Future'),
+                y: feelpp_unpack(rows,'True future'),
+                showlegend: true,
+            },{
+                name: 'Model Prediction',
+                type: 'scatter',
+                mode: 'markers',
+                marker : {
+                  color: 'blue',
+                  symbol: 'x' },
+                x: feelpp_unpack(rows,'Future'),
+                y: feelpp_unpack(rows,'Predicition'),
+                showlegend: true,
+            }];
+            var layout =
+                    {
+                    xaxis:
+                    { showgrid: true,
+                      zeroline: true,
+                      showline: true,
+                      automargin: true,
+                      title: {
+                              text: "Date",
+                              standoff: 20
+                              }
+                    },
+                    yaxis:
+                    {  showgrid: true,
+                       zeroline: true,
+                       showline: true,
+                       automargin: true,
+                       title: {
+                               text: "Temperature(°C)",
+                               standoff: 20
+                               }
+                    },
+                    title: 'Prediction of temperature with the LSTM model'
+    };
+    Plotly.plot("sample_example_2",data,layout,{ showLink: false });
+
+    feelpp_add_redimensionable_plot("sample_example_2");
+    }
+    );
+</script>
+<div id="sample_example_3"></div>
+<script type="text/javascript">
+    Plotly.d3.csv("https://girder.math.unistra.fr/api/v1/file/5f33ff62b0e95704a75f8687/download",
+    function(err,rows) {
+            var data = [{
+                name: 'History',
+                type: 'scatter',
+                mode: 'lines+markers',
+                x: feelpp_unpack(rows,'date_format'),
+                y: feelpp_unpack(rows,'Temperature history'),
+                showlegend: true,
+                line: { color: '#FF99BB' }
+            },{
+                name: 'True future',
+                type: 'scatter',
+                mode: 'markers',
+                marker : {
+                  color: 'red',
+                  symbol: 'o' },
+                x: feelpp_unpack(rows,'Future'),
+                y: feelpp_unpack(rows,'True future'),
+                showlegend: true,
+            },{
+                name: 'Model Prediction',
+                type: 'scatter',
+                mode: 'markers',
+                marker : {
+                  color: 'blue',
+                  symbol: 'x' },
+                x: feelpp_unpack(rows,'Future'),
+                y: feelpp_unpack(rows,'Predicition'),
+                showlegend: true,
+            }];
+            var layout =
+                    {
+                    xaxis:
+                    { showgrid: true,
+                      zeroline: true,
+                      showline: true,
+                      automargin: true,
+                      title: {
+                              text: "Date",
+                              standoff: 20
+                              }
+                    },
+                    yaxis:
+                    {  showgrid: true,
+                       zeroline: true,
+                       showline: true,
+                       automargin: true,
+                       title: {
+                               text: "Temperature(°C)",
+                               standoff: 20
+                               }
+                    },
+                    title: 'Prediction of temperature with the LSTM model'
+    };
+    Plotly.plot("sample_example_3",data,layout,{ showLink: false });
+
+    feelpp_add_redimensionable_plot("sample_example_3");
     }
     );
 </script>

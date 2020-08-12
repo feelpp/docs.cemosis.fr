@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Flow around three ssquares side by side :: Cemosis Docs</title>
+    <title>Flow around three squares side by side :: Cemosis Docs</title>
     <link rel="canonical" href="https://docs.cemosis.fr/feelpp-cfd/latest/3-squares-side-by-side/index.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../../../_/css/site.css">
@@ -14,6 +14,20 @@
 
 
 
+    <script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script type="text/javascript">
+        function feelpp_unpack(rows, key) {
+           return rows.map(function(row) { return row[key] });
+        }
+          function feelpp_add_redimensionable_plot(plot) {
+            var oldResize = window.onresize;
+            window.onresize = function() {
+              if(typeof oldResize === 'function')
+                oldResize();
+              Plotly.Plots.resize(plot);
+            };
+          }
+      </script>
 
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -136,7 +150,7 @@ MathJax.Hub.Config({
                     
               <a class="navbar-item" href="/ibat/latest/index.html"> IBat Docs </a>
                   
-              <a class="navbar-item" href="/msqab/0.1/index.html"> msqab </a>
+              <a class="navbar-item" href="/msqab/latest/index.html"> msqab </a>
                   
               <a class="navbar-item" href="/swimmer/latest/index.html"> Swimmer Docs </a>
                
@@ -312,7 +326,7 @@ MathJax.Hub.Config({
       <span class="title">msqab</span>
       <ul class="versions">
         <li class="version is-latest">
-          <a href="../../../msqab/0.1/index.html">0.1</a>
+          <a href="../../../msqab/latest/index.html">latest</a>
         </li>
       </ul>
     </li>
@@ -344,20 +358,480 @@ MathJax.Hub.Config({
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">Flow around three ssquares side by side</h1>
-<div id="preamble">
+<h1 class="page">Flow around three squares side by side</h1>
+<div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_presentation_of_the_test_case">1. Presentation of the test case</a>
+<ul class="sectlevel2">
+<li><a href="#_presentation">1.1. Presentation</a></li>
+<li><a href="#_geometry_setting">1.2. Geometry setting</a></li>
+<li><a href="#_physical_setting">1.3. Physical setting</a></li>
+<li><a href="#_boundary_conditions">1.4. Boundary conditions</a></li>
+<li><a href="#_mesh">1.5. Mesh</a></li>
+</ul>
+</li>
+<li><a href="#_configuration_files">2. Configuration files</a>
+<ul class="sectlevel2">
+<li><a href="#_cfg_file">2.1. cfg file</a></li>
+<li><a href="#_json_file">2.2. json file</a></li>
+</ul>
+</li>
+<li><a href="#_bibliography">Bibliography</a></li>
+</ul>
+</div>
+<div class="sect1">
+<h2 id="_presentation_of_the_test_case"><a class="anchor" href="#_presentation_of_the_test_case"></a>1. Presentation of the test case</h2>
 <div class="sectionbody">
-<div class="admonitionblock note">
-<table>
+<div class="sect2">
+<h3 id="_presentation"><a class="anchor" href="#_presentation"></a>1.1. Presentation</h3>
+<div class="paragraph">
+<p>This study is based on the flow of a fluid in front of three side-by-side square cylinders.
+The cylinders are arranged side by side, the center of the central cylinder represents the origin of the coordinate system, one of the two other cylinders is placed below the central cylinder and the other above.</p>
+</div>
+<div class="paragraph">
+<p>In this test case, we are particularly interested in the effect of the spacing ratio L/W on the flow, where L is the center-to-center spacing of the cylinder and W is the cylinder side width.</p>
+</div>
+<div class="paragraph">
+<p>The numerical results obtained in this study will be compared with those found in the literature, for different gaps
+\(L/W &lt; 1.4\) and \(L/W \in [1.4,9\)] with a Reynolds number equal to \(Re=150\).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_geometry_setting"><a class="anchor" href="#_geometry_setting"></a>1.2. Geometry setting</h3>
+<div class="paragraph">
+<p>The arrangement of the cylinders in the calculation area \(\Omega\) is shown in the figure below :</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../_images/3-squares-side-by-side/geo_caree.png" alt="geo caree">
+</div>
+<div class="title">Figure 1. The geometric setting for the 3 cylinder with central cylinder represents the origin of the coordinate system</div>
+</div>
+<div class="paragraph">
+<p>We provide here the basic geometry used in Gmsh to describe \(\Omega\).</p>
+</div>
+<div class="listingblock">
+<div class="title">Geo file</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-cpp hljs" data-lang="cpp">// Gmsh project created on Sat Aug  8 13:20:47 2020
+w=2;
+l_sur_w=1.5;
+l=w*(l_sur_w);
+Lt=w/(5.26/100);
+Ld=29.5*w;
+Lu=13.5*w;
+h=0.5;
+//+grand caree (domaine)
+Point(1) = {0, 0, 0, h};
+//+
+Point(2) = {Ld, Lt/2, 0, h};
+//+
+Point(3) = {Ld, -Lt/2, 0, h};
+//+
+Point(4) = {- Lu, Lt/2, 0, h};
+//+
+Point(5) = {- Lu, -Lt/2, 0, h};
+//+
+Line(1) = {4, 5};
+//+
+Line(2) = {5, 3};
+//+
+Line(3) = {3, 2};
+//+
+Line(4) = {2, 4};
+//+zone des caree
+//Point(6) = {5, Lt/2, 0, 1.0};
+//+
+//Point(7) = {-5, Lt/2, 0, 1.0};
+//+
+//Point(8) = {5, -Lt/2, 0, 1.0};
+//+
+//Point(9) = {-5, -Lt/2, 0, 1.0};
+//+
+//Line(5) = {7, 9};
+//+
+//Line(6) = {6, 8};
+//caree milieu
+Point(10) = {w/2,w/2, 0, h};
+Point(11) = {-w/2,w/2, 0, h};
+Point(12) = {w/2,-w/2, 0, h};
+Point(13) = {-w/2,-w/2, 0, h};
+Line(7) = {10, 11};
+Line(8) = {11, 13};
+Line(9) = {13, 12};
+Line(10) = {12, 10};
+//caree haut
+Point(14) = {0,l, 0, h};
+Point(15) = {w/2,l+w/2, 0, h};
+Point(16) = {-w/2,l+w/2, 0, h};
+Point(17) = {w/2,l-w/2, 0, h};
+Point(18) = {-w/2,l-w/2, 0, h};
+Line(11) = {17, 18};
+Line(12) = {18, 16};
+Line(13) = {16, 15};
+Line(14) = {15, 17};
+//caree bas
+Point(19) = {0,-l, 0, h};
+Point(20) = {w/2,-l+w/2, 0, h};
+Point(21) = {-w/2,-l+w/2, 0, h};
+Point(22) = {w/2,-l-w/2, 0, h};
+Point(23) = {-w/2,-l-w/2, 0, h};
+
+//+
+Line(15) = {20, 21};
+//+
+Line(16) = {21, 23};
+//+
+Line(17) = {23, 22};
+//+
+Line(18) = {22, 20};
+//+
+Line Loop(1) = {4, 1, 2, 3};
+//+
+Line Loop(2) = {13, 14, 11, 12};
+//+
+Line Loop(3) = {7, 8, 9, 10};
+//+
+Line Loop(4) = {15, 16, 17, 18};
+//+
+Plane Surface(1) = {1, 2, 3, 4};
+//+
+Physical Line("inlet") = {1};
+//+
+Physical Line("outlet") = {3};
+//+
+Physical Line("wall1") = {4};
+//+
+Physical Line("wall2") = {2};
+//+
+Physical Surface("omega") = {1};</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The Data provided on the whole \(\Omega\) domain allows us to have conditions at the specified limits, the table below summarize these data.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Geometric data table</caption>
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
 <tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-this benchmark is based on <a href="#zheng-2019">[zheng-2019]</a>.
-</td>
+<th class="tableblock halign-left valign-top">Notation</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Value</th>
+<th class="tableblock halign-left valign-top">Unit</th>
 </tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">\(W\)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">cylinder width</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">\(m\)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">\(L\)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the center-to-center spacing of the cylinder</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">\(m\)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">\(L_t\)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">side of the domain</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">\(W\frac{1}{5.26\%}\)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">\(m\)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">\(L_u\)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">upstream boundary separations from the coordinate origin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">\(13.5W\)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">\(m\)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">\(L_d\)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">downstream boundary separations from the coordinate origin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">\(29.5W\)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">\(m\)</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">\(U\)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Inlet velocity</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">\(m/s\)</p></td>
+</tr>
+</tfoot>
 </table>
+</div>
+<div class="sect2">
+<h3 id="_physical_setting"><a class="anchor" href="#_physical_setting"></a>1.3. Physical setting</h3>
+<div class="paragraph">
+<p>The Physical parameters are:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. Physical data table</caption>
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Notation</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Value</th>
+<th class="tableblock halign-left valign-top">Unit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">\(\rho\)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Density</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">\(Kg/m^3\)</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">\(\mu\)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dynamic viscosity</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">\(Pa.s\)</p></td>
+</tr>
+</tfoot>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_boundary_conditions"><a class="anchor" href="#_boundary_conditions"></a>1.4. Boundary conditions</h3>
+<div class="paragraph">
+<p>In this study 3 boundary conditions are imposed: Inlet condition, Outlet condition and the Wall condition.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Inlet condition</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>On boundary (1) a Dirichlet-type condition is imposed and a <span class="bleu"><em>Poiseuille</em></span> <span class="bleu"><em>profile</em></span> is placed as an entry condition, it&#8217;s defined by:</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[u = U \\
+v = 0\]
+</div>
+</div>
+<div class="listingblock">
+<div class="title">json configuration for the inlet boundary condition</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">"Dirichlet":
+{
+    "inlet":
+    {
+       "expr":"{1,0}"
+    }
+ },</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Wall conditions</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>On the limits (3), i.e. on the upper and lower wall we have :</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\frac{\partial{u}}{\partial{y}}=0\\
+\frac{\partial{p}}{\partial{y}}=0\\
+v=0\]
+</div>
+</div>
+<div class="listingblock">
+<div class="title">json configuration for the wall boundary condition</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">"outlet":
+{
+     "wall1":
+     {
+         "expr":"0"
+     },
+     "wall2":
+     {
+         "expr":"0"
+     }
+}</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Outlet condition</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>On boundary (2) (i.e the exit boundary condition) a Neumann-type condition is imposed</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\frac{\partial{u}}{\partial{x}}=0\\
+\frac{\partial{v}}{\partial{x}}=0\\
+\frac{\partial{p}}{\partial{x}}=0\]
+</div>
+</div>
+<div class="listingblock">
+<div class="title">json configuration for the outlet boundary condition</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">"Neumann_scalar":
+ {
+     "outlet":
+      {
+          "expr":"0"
+      }
+ }</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_mesh"><a class="anchor" href="#_mesh"></a>1.5. Mesh</h3>
+<div class="paragraph">
+<p>We move on to meshing to generate fully structured uniform triangular cells, the figure below shows a part of the generated mesh:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../_images/3-squares-side-by-side/mesh1.png" alt="mesh1">
+</div>
+<div class="title">Figure 2. generated mesh for case \(L/W = 1.5\)</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../_images/3-squares-side-by-side/mesh2.png" alt="mesh2">
+</div>
+<div class="title">Figure 3. represents a zoom-in view of the previous mesh</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configuration_files"><a class="anchor" href="#_configuration_files"></a>2. Configuration files</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_cfg_file"><a class="anchor" href="#_cfg_file"></a>2.1. cfg file</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-ini hljs" data-lang="ini">directory=resulats/caree/P1
+
+[case]
+discretization= P2P1G1
+dimension=2
+
+[fluid]
+filename=$cfgdir/caree.json
+mesh.filename=$cfgdir/caree.geo
+gmsh.hsize=0.5
+
+solver= Newton #Oseen #Newton #Picard,Newton
+linearsystem-cst-update=false
+jacobian-linear-update=false
+
+snes-monitor=true
+pc-type= gams #gasm,lu
+
+[fluid.bdf]
+order=2
+
+[ts]
+time-step=0.1
+time-final=5</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_json_file"><a class="anchor" href="#_json_file"></a>2.2. json file</h3>
+<div class="paragraph">
+<p>Here the full json configuration file</p>
+</div>
+<div class="listingblock">
+<div class="title">Json file</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+    "Name": "three squares side by side",
+    "ShortName":"flow past",
+    "Models":
+    {
+         "equations": "Navier-Stokes"
+    },
+    "Materials":
+    {
+        "omega":
+        {
+            "rho":"1",
+            "mu":"1"
+        }
+    },
+    "BoundaryConditions":
+    {
+        "velocity":
+        {
+            // tag::inlet[]
+            "Dirichlet":
+            {
+                "inlet":
+                {
+                   "expr":"{1,0}"
+                }
+             },
+            // end::inlet[]
+
+            // tag::walls[]
+            "outlet":
+            {
+                 "wall1":
+                 {
+                     "expr":"0"
+                 },
+                 "wall2":
+                 {
+                     "expr":"0"
+                 }
+            }
+           // end::walls[]
+        },
+        "fluid":
+        {
+          // tag::outlet[]
+          "Neumann_scalar":
+           {
+               "outlet":
+                {
+                    "expr":"0"
+                }
+           }
+          // end::outlet[]
+        }
+    },
+    "PostProcess":
+    {
+        "Exports":
+        {
+            "fields":["velocity","pressure"]
+        }
+    }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
