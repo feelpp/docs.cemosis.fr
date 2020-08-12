@@ -37,9 +37,19 @@ jobs:
         ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
         ALGOLIA_INDEX_NAME: ${{ secrets.ALGOLIA_INDEX_NAME }}
         ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
-    - name: Deploy
+    - name: Deploy GH Pages
       uses: JamesIves/github-pages-deploy-action@3.5.9
       with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages # The branch the action should deploy to.
           FOLDER: build/site # The folder the action should deploy.
+    - name: Deploy SiteGround
+      uses: burnett01/rsync-deployments@4.1
+      with:
+        switches: -avzr --delete
+        path: build/site
+        remote_path: /home/cemosis4/public_html/docs.cemosis.fr/
+        remote_host: ${{ secrets.DEPLOY_SG_HOST }}
+        remote_port: ${{ secrets.DEPLOY_SG_PORT }}
+        remote_user: ${{ secrets.DEPLOY_SG_USER }}
+        remote_key: ${{ secrets.DEPLOY_SG_KEY }}
