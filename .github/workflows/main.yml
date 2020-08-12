@@ -43,13 +43,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages # The branch the action should deploy to.
           FOLDER: build/site # The folder the action should deploy.
-    - name: Deploy SiteGround
-      uses: burnett01/rsync-deployments@4.1
-      with:
-        switches: -avzr --delete
-        path: build/site
-        remote_path: /home/cemosis4/public_html/docs.cemosis.fr/
-        remote_host: es15.siteground.eu ##${{ secrets.DEPLOY_SG_HOST }}
-        remote_port: 18765 #${{ secrets.DEPLOY_SG_PORT }}
-        remote_user: cemosis4 # ${{ secrets.DEPLOY_SG_USER }}
-        remote_key: ${{ secrets.DEPLOY_SG_KEY }}
+#    - name: Deploy SiteGround
+#      uses: burnett01/rsync-deployments@4.1
+#      with:
+#        switches: -avzr --delete
+#        path: build/site
+#        remote_path: /home/cemosis4/public_html/docs.cemosis.fr/
+#        remote_host: es15.siteground.eu ##${{ secrets.DEPLOY_SG_HOST }}
+#        remote_port: 18765 #${{ secrets.DEPLOY_SG_PORT }}
+#        remote_user: cemosis4 # ${{ secrets.DEPLOY_SG_USER }}
+#        remote_key: ${{ secrets.DEPLOY_SG_KEY }}
