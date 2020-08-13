@@ -76,6 +76,8 @@ asciidoc:
     amies: https://www.agence-maths-entreprises.fr/[AMIES]
     eumathsin: https://www.eu-maths-in.eu[EU-MATHS-IN]
   extensions:
-    - ./lib/remote-include-processor
+    - "@feelpp/asciidoctor-remote-include-processor"
     - asciidoctor-kroki
+    - asciidoctor-emoji    
+
 
