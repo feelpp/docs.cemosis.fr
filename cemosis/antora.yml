@@ -1,5 +1,5 @@
 name: cemosis
 title: Cemosis Documentation
-version: latest
+version: master
 nav:
 - modules/ROOT/nav.adoc

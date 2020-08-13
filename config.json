@@ -19,6 +19,15 @@
               "latest"
         ]
       }
+    },
+    {
+      "url": "https://docs.cemosis.fr/(?P<component>.*?)/",
+      "variables": {
+        "component": [
+            "cemosis"
+        ]
+      },
+      "selectors_key": "versionless"
     }
   ],
   "sitemap_urls": [
