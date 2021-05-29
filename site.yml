@@ -18,9 +18,9 @@ content:
   - url: https://github.com/feelpp/hemotumpp.docs.git
     branches: master
     start_path: 'hemotumpp'
-  - url: https://github.com/feelpp/ibat.docs.git
+  - url: https://github.com/feelpp/ibat.git
     branches: master
-    start_path: 'ibat'
+    start_path: 'docs/ibat'
   - url: https://github.com/feelpp/msqab.docs.git
     branches: master
     start_path: 'msqab'
