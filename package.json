@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "@antora/cli": "^2.3.4",
-    "@antora/site-generator-default": "^2.3.4",
+    "@antora/site-generator-default": "^3.1.2",
     "@feelpp/asciidoctor-remote-include-processor": "^0.0.6",
     "asciidoctor-kroki": "^0.12.0",
     "@asciidoctor/core": "^2.2.4",
